@@ -1,16 +1,21 @@
 ---
 title: "Student/Tutor Database"
 author: "Rupert Simpson"
-date: "4/5/2023"
+date: "4/23/2024"
 output: html_notebook
 ---
 
+## Establish Database:
+The R code below loads the RSQLite library and establishes a connection with a locally saved database named "tutor.db". If no such database is found in the working directory, R will create one.
+
+The subsequent SQL statements drop any tables created during previous run sessions and create new tables for students, tutors, tutor level preferences, and schedules. These tables are then populated with example data.
+
 ```{r}
 library(RSQLite)
+library(glue)
+
 dbcon <- dbConnect(RSQLite::SQLite(), "tutor.db")
 ```
-
-## Drop Previous Tables:
 
 ```{sql DropSchedulesTable, connection=dbcon}
 DROP TABLE IF EXISTS Schedules;
@@ -29,9 +34,9 @@ DROP TABLE IF EXISTS Students;
 ```
 
 ```{sql CreateStudentTable, connection=dbcon}
-CREATE TABLE Students (
+CREATE TABLE IF NOT EXISTS Students (
   Student_ID INT PRIMARY KEY,
-  Name INT,
+  Name TEXT,
   Phone INT,
   Email TEXT,
   Level TEXT
@@ -39,10 +44,10 @@ CREATE TABLE Students (
 ```
 
 ```{sql CreateTutorsTable, connection=dbcon}
-CREATE TABLE Tutors (
+CREATE TABLE IF NOT EXISTS Tutors (
   Tutor_ID INT PRIMARY KEY,
   Student_ID INT,
-  Name INT,
+  Name TEXT,
   Phone INT,
   Email TEXT,
   FOREIGN KEY (Student_ID) REFERENCES Students(Student_ID)
@@ -50,7 +55,7 @@ CREATE TABLE Tutors (
 ```
 
 ```{sql CreateSchedulesTable, connection=dbcon}
-CREATE TABLE Schedules (
+CREATE TABLE IF NOT EXISTS Schedules (
   Schedule_ID INT PRIMARY KEY,
   Tutor_ID INT,
   Student_ID INT,
@@ -63,7 +68,7 @@ CREATE TABLE Schedules (
 ```
 
 ```{sql CreatePreferencesTable, connection=dbcon}
-CREATE TABLE Preferences (
+CREATE TABLE IF NOT EXISTS Preferences (
   Preference_ID INT PRIMARY KEY,
   Tutor_ID INT,
   ESL BOOL,
@@ -80,8 +85,6 @@ CREATE TABLE Preferences (
 );
 ```
 
-## Populate Database Tables
-
 ```{sql StudentsTableInsert, connection=dbcon}
 INSERT INTO Students (Student_ID, Name, Phone, Email, Level)
 VALUES
@@ -94,7 +97,7 @@ VALUES
 INSERT INTO Tutors (Tutor_ID, Student_ID, Name, Phone, Email)
 VALUES
   (1, NULL, 'Rupert Simpson', 4444444444, 'email@email.com'),
-  (2, NULL, 'Karen Gale', 5555555555, 'email@email.com'),
+  (2, 1, 'Karen Gale', 5555555555, 'email@email.com'),
   (3, NULL, 'Kristen Enos', 7777777777, 'email@email.com');
 ```
 
@@ -116,32 +119,148 @@ VALUES
 ```{sql PreferencesTableInsert, connection=dbcon}
 INSERT INTO Preferences (Preference_ID, Tutor_ID, ESL, Conversation, Citizenship, HiSET, Elementary_Math, Secondary_Math, Elementary_Reading, Secondary_Reading, Elementary_Writing, Secondary_Writing)
 VALUES
-  (1, 1, true, true, true, false, true, true, false, true, true, false),
+  (1, 1, true, true, true, false, false, true, false, true, true, false),
   (2, 2, false, true, false, false, false, false, true, true, false, true),
   (3, 3, true, false, false, true, true, true, false, false, false, false);
 ```
 
 ## Display Tables
+The contents of each table are displayed below. 
+
+### Students Table
 
 ```{sql DisplayStudentTable, connection=dbcon}
 SELECT * FROM Students
 ```
 
+### Tutors Table
+
 ```{sql DisplayTutorsTable, connection=dbcon}
 SELECT * FROM Tutors
 ```
 
+### Schedules Table
+
 ```{sql DisplaySchedulesTable, connection=dbcon}
 SELECT * FROM Schedules
 ```
+
+### Preferences Table
 
 ```{sql DisplayPreferencesTable, connection=dbcon}
 SELECT * FROM Preferences
 ```
 
 ## Match Students With Tutors
+The following SQL statements query to find tutors who match the preferences of the provided student.
 
-```{sql FindTutors, connection=dbcon}
+### Tutors for Sally Shoo
+Tutors who have a preference for 'ESL'.
+
+```{sql FindTutorsForSally, connection=dbcon}
+  SELECT DISTINCT Tutors.Name
+  FROM Tutors
+  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
+  JOIN Students ON Students.Name = 'Sally Shoo'
+  WHERE
+      CASE 
+          WHEN Students.Level = 'ESL' THEN Preferences.ESL
+          WHEN Students.Level = 'Conversation' THEN Preferences.Conversation
+          WHEN Students.Level = 'Citizenship' THEN Preferences.Citizenship
+          WHEN Students.Level = 'HiSET' THEN Preferences.HiSET
+          WHEN Students.Level = 'Elementary_Math' THEN Preferences.Elementary_Math
+          WHEN Students.Level = 'Secondary_Math' THEN Preferences.Secondary_Math
+          WHEN Students.Level = 'Elementary_Reading' THEN Preferences.Elementary_Reading
+          WHEN Students.Level = 'Secondary_Reading' THEN Preferences.Secondary_Reading
+          WHEN Students.Level = 'Elementary_Writing' THEN Preferences.Elementary_Writing
+          WHEN Students.Level = 'Secondary_Writing' THEN Preferences.Secondary_Writing
+      END = true
+  AND Tutors.Student_ID IS NULL;
+```
+
+### Tutors for Danny Dogg
+Tutors who have a preference for 'Citizenship'.
+
+```{sql FindTutorsForDanny, connection=dbcon}
+  SELECT DISTINCT Tutors.Name
+  FROM Tutors
+  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
+  JOIN Students ON Students.Name = 'Danny Dogg'
+  WHERE
+      CASE 
+          WHEN Students.Level = 'ESL' THEN Preferences.ESL
+          WHEN Students.Level = 'Conversation' THEN Preferences.Conversation
+          WHEN Students.Level = 'Citizenship' THEN Preferences.Citizenship
+          WHEN Students.Level = 'HiSET' THEN Preferences.HiSET
+          WHEN Students.Level = 'Elementary_Math' THEN Preferences.Elementary_Math
+          WHEN Students.Level = 'Secondary_Math' THEN Preferences.Secondary_Math
+          WHEN Students.Level = 'Elementary_Reading' THEN Preferences.Elementary_Reading
+          WHEN Students.Level = 'Secondary_Reading' THEN Preferences.Secondary_Reading
+          WHEN Students.Level = 'Elementary_Writing' THEN Preferences.Elementary_Writing
+          WHEN Students.Level = 'Secondary_Writing' THEN Preferences.Secondary_Writing
+      END = true
+  AND Tutors.Student_ID IS NULL;
+```
+
+### Tutor for Lilly Lady
+Tutors who have a preference for 'Elementary_Math'.
+
+```{sql FindTutorsForLilly, connection=dbcon}
+  SELECT DISTINCT Tutors.Name
+  FROM Tutors
+  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
+  JOIN Students ON Students.Name = 'Lilly Lady'
+  WHERE
+      CASE 
+          WHEN Students.Level = 'ESL' THEN Preferences.ESL
+          WHEN Students.Level = 'Conversation' THEN Preferences.Conversation
+          WHEN Students.Level = 'Citizenship' THEN Preferences.Citizenship
+          WHEN Students.Level = 'HiSET' THEN Preferences.HiSET
+          WHEN Students.Level = 'Elementary_Math' THEN Preferences.Elementary_Math
+          WHEN Students.Level = 'Secondary_Math' THEN Preferences.Secondary_Math
+          WHEN Students.Level = 'Elementary_Reading' THEN Preferences.Elementary_Reading
+          WHEN Students.Level = 'Secondary_Reading' THEN Preferences.Secondary_Reading
+          WHEN Students.Level = 'Elementary_Writing' THEN Preferences.Elementary_Writing
+          WHEN Students.Level = 'Secondary_Writing' THEN Preferences.Secondary_Writing
+      END = true
+  AND Tutors.Student_ID IS NULL;
+```
+
+## Compare Tutor and Student Schedules
+The following R scripts query to find a tutor with a preference that matches the level of the target student, then compares student and tutor schedules to find which tutors are working when the student is available.
+
+```{r}
+name <- 'Sally Shoo'
+
+query_tutors <- glue("
+  SELECT DISTINCT Tutors.Name
+  FROM Tutors
+  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
+  JOIN Students ON Students.Name = '{name}'
+  WHERE 
+      CASE 
+          WHEN Students.Level = 'ESL' THEN Preferences.ESL
+          WHEN Students.Level = 'Conversation' THEN Preferences.Conversation
+          WHEN Students.Level = 'Citizenship' THEN Preferences.Citizenship
+          WHEN Students.Level = 'HiSET' THEN Preferences.HiSET
+          WHEN Students.Level = 'Elementary_Math' THEN Preferences.Elementary_Math
+          WHEN Students.Level = 'Secondary_Math' THEN Preferences.Secondary_Math
+          WHEN Students.Level = 'Elementary_Reading' THEN Preferences.Elementary_Reading
+          WHEN Students.Level = 'Secondary_Reading' THEN Preferences.Secondary_Reading
+          WHEN Students.Level = 'Elementary_Writing' THEN Preferences.Elementary_Writing
+          WHEN Students.Level = 'Secondary_Writing' THEN Preferences.Secondary_Writing
+      END = true
+  AND Tutors.Student_ID IS NULL;
+")
+
+tutors <- dbGetQuery(dbcon, query_tutors)
+
+print(tutors)
+
+for (i in 1:nrow(tutors)) {
+  tutor_name <- tutors$Name[i]
+  cat("Tutor:", tutor_name, "\n")
+}
 ```
 
 ```{r}
