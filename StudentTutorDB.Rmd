@@ -1,0 +1,149 @@
+---
+title: "Student/Tutor Database"
+author: "Rupert Simpson"
+date: "4/5/2023"
+output: html_notebook
+---
+
+```{r}
+library(RSQLite)
+dbcon <- dbConnect(RSQLite::SQLite(), "tutor.db")
+```
+
+## Drop Previous Tables:
+
+```{sql DropSchedulesTable, connection=dbcon}
+DROP TABLE IF EXISTS Schedules;
+```
+
+```{sql DropPreferencesTable, connection=dbcon}
+DROP TABLE IF EXISTS Preferences;
+```
+
+```{sql DropTutorsTable, connection=dbcon}
+DROP TABLE IF EXISTS Tutors;
+```
+
+```{sql DropStudentsTable, connection=dbcon}
+DROP TABLE IF EXISTS Students;
+```
+
+```{sql CreateStudentTable, connection=dbcon}
+CREATE TABLE Students (
+  Student_ID INT PRIMARY KEY,
+  Name INT,
+  Phone INT,
+  Email TEXT,
+  Level TEXT
+);
+```
+
+```{sql CreateTutorsTable, connection=dbcon}
+CREATE TABLE Tutors (
+  Tutor_ID INT PRIMARY KEY,
+  Student_ID INT,
+  Name INT,
+  Phone INT,
+  Email TEXT,
+  FOREIGN KEY (Student_ID) REFERENCES Students(Student_ID)
+);
+```
+
+```{sql CreateSchedulesTable, connection=dbcon}
+CREATE TABLE Schedules (
+  Schedule_ID INT PRIMARY KEY,
+  Tutor_ID INT,
+  Student_ID INT,
+  Day TEXT,
+  Start_Time TIME,
+  End_Time TIME,
+  FOREIGN KEY (Tutor_ID) REFERENCES Tutors(Tutor_ID),
+  FOREIGN KEY (Student_ID) REFERENCES Students(Student_ID)
+);
+```
+
+```{sql CreatePreferencesTable, connection=dbcon}
+CREATE TABLE Preferences (
+  Preference_ID INT PRIMARY KEY,
+  Tutor_ID INT,
+  ESL BOOL,
+  Conversation BOOL,
+  Citizenship BOOL,
+  HiSET BOOL,
+  Elementary_Math BOOL,
+  Secondary_Math BOOL,
+  Elementary_Reading BOOL,
+  Secondary_Reading BOOL,
+  Elementary_Writing BOOL,
+  Secondary_Writing BOOL,
+  FOREIGN KEY (Tutor_ID) REFERENCES Tutors(Tutor_ID)
+);
+```
+
+## Populate Database Tables
+
+```{sql StudentsTableInsert, connection=dbcon}
+INSERT INTO Students (Student_ID, Name, Phone, Email, Level)
+VALUES
+  (1, 'Sally Shoo', 1111111111, 'email@email.com', 'ESL'),
+  (2, 'Danny Dogg', 2222222222, 'email@email.com', 'Citizenship'),
+  (3, 'Lilly Lady', 3333333333, 'email@email.com', 'Elementary_Math');
+```
+
+```{sql TutorsTableInsert, connection=dbcon}
+INSERT INTO Tutors (Tutor_ID, Student_ID, Name, Phone, Email)
+VALUES
+  (1, NULL, 'Rupert Simpson', 4444444444, 'email@email.com'),
+  (2, NULL, 'Karen Gale', 5555555555, 'email@email.com'),
+  (3, NULL, 'Kristen Enos', 7777777777, 'email@email.com');
+```
+
+```{sql SchedulesTableInsert, connection=dbcon}
+INSERT INTO Schedules (Schedule_ID, Tutor_ID, Student_ID, Day, Start_Time, End_Time)
+VALUES
+  (1, 1, NULL, 'Monday', '16:00', '20:00'),
+  (2, 1, NULL, 'Tuesday', '12:00', '17:00'),
+  (3, 1, NULL, 'Wednesday', '16:00', '20:00'),
+  (4, 1, NULL, 'Thursday', '12:00', '17:00'),
+  (5, 2, NULL, 'Monday', '9:00', '17:00'),
+  (6, 2, NULL, 'Tuesday', '9:00', '17:00'),
+  (7, 3, NULL, 'Wednesday', '9:00', '17:00'),
+  (8, NULL, 1, 'Wednesday', '10:00', '12:00'),
+  (9, NULL, 2, 'Monday', '17:00', '19:00'),
+  (10, NULL, 3, 'Wednesday', '10:00', '12:00');
+```
+
+```{sql PreferencesTableInsert, connection=dbcon}
+INSERT INTO Preferences (Preference_ID, Tutor_ID, ESL, Conversation, Citizenship, HiSET, Elementary_Math, Secondary_Math, Elementary_Reading, Secondary_Reading, Elementary_Writing, Secondary_Writing)
+VALUES
+  (1, 1, true, true, true, false, true, true, false, true, true, false),
+  (2, 2, false, true, false, false, false, false, true, true, false, true),
+  (3, 3, true, false, false, true, true, true, false, false, false, false);
+```
+
+## Display Tables
+
+```{sql DisplayStudentTable, connection=dbcon}
+SELECT * FROM Students
+```
+
+```{sql DisplayTutorsTable, connection=dbcon}
+SELECT * FROM Tutors
+```
+
+```{sql DisplaySchedulesTable, connection=dbcon}
+SELECT * FROM Schedules
+```
+
+```{sql DisplayPreferencesTable, connection=dbcon}
+SELECT * FROM Preferences
+```
+
+## Match Students With Tutors
+
+```{sql FindTutors, connection=dbcon}
+```
+
+```{r}
+dbDisconnect(dbcon)
+```
