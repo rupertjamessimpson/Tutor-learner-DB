@@ -1,7 +1,6 @@
 ---
 title: "Student/Tutor Database"
 author: "Rupert Simpson"
-date: "4/23/2024"
 output: html_notebook
 ---
 
@@ -127,25 +126,25 @@ VALUES
 ## Display Tables
 The contents of each table are displayed below. 
 
-### Students Table
+#### Students Table
 
 ```{sql DisplayStudentTable, connection=dbcon}
 SELECT * FROM Students
 ```
 
-### Tutors Table
+#### Tutors Table
 
 ```{sql DisplayTutorsTable, connection=dbcon}
 SELECT * FROM Tutors
 ```
 
-### Schedules Table
+#### Schedules Table
 
 ```{sql DisplaySchedulesTable, connection=dbcon}
 SELECT * FROM Schedules
 ```
 
-### Preferences Table
+#### Preferences Table
 
 ```{sql DisplayPreferencesTable, connection=dbcon}
 SELECT * FROM Preferences
@@ -154,7 +153,7 @@ SELECT * FROM Preferences
 ## Match Students With Tutors
 The following SQL statements query to find tutors who match the preferences of the provided student.
 
-### Tutors for Sally Shoo
+#### Tutors for Sally Shoo
 Tutors who have a preference for 'ESL'.
 
 ```{sql FindTutorsForSally, connection=dbcon}
@@ -178,7 +177,7 @@ Tutors who have a preference for 'ESL'.
   AND Tutors.Student_ID IS NULL;
 ```
 
-### Tutors for Danny Dogg
+#### Tutors for Danny Dogg
 Tutors who have a preference for 'Citizenship'.
 
 ```{sql FindTutorsForDanny, connection=dbcon}
@@ -202,7 +201,7 @@ Tutors who have a preference for 'Citizenship'.
   AND Tutors.Student_ID IS NULL;
 ```
 
-### Tutor for Lilly Lady
+#### Tutor for Lilly Lady
 Tutors who have a preference for 'Elementary_Math'.
 
 ```{sql FindTutorsForLilly, connection=dbcon}
@@ -224,43 +223,6 @@ Tutors who have a preference for 'Elementary_Math'.
           WHEN Students.Level = 'Secondary_Writing' THEN Preferences.Secondary_Writing
       END = true
   AND Tutors.Student_ID IS NULL;
-```
-
-## Compare Tutor and Student Schedules
-The following R scripts query to find a tutor with a preference that matches the level of the target student, then compares student and tutor schedules to find which tutors are working when the student is available.
-
-```{r}
-name <- 'Sally Shoo'
-
-query_tutors <- glue("
-  SELECT DISTINCT Tutors.Name
-  FROM Tutors
-  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
-  JOIN Students ON Students.Name = '{name}'
-  WHERE 
-      CASE 
-          WHEN Students.Level = 'ESL' THEN Preferences.ESL
-          WHEN Students.Level = 'Conversation' THEN Preferences.Conversation
-          WHEN Students.Level = 'Citizenship' THEN Preferences.Citizenship
-          WHEN Students.Level = 'HiSET' THEN Preferences.HiSET
-          WHEN Students.Level = 'Elementary_Math' THEN Preferences.Elementary_Math
-          WHEN Students.Level = 'Secondary_Math' THEN Preferences.Secondary_Math
-          WHEN Students.Level = 'Elementary_Reading' THEN Preferences.Elementary_Reading
-          WHEN Students.Level = 'Secondary_Reading' THEN Preferences.Secondary_Reading
-          WHEN Students.Level = 'Elementary_Writing' THEN Preferences.Elementary_Writing
-          WHEN Students.Level = 'Secondary_Writing' THEN Preferences.Secondary_Writing
-      END = true
-  AND Tutors.Student_ID IS NULL;
-")
-
-tutors <- dbGetQuery(dbcon, query_tutors)
-
-print(tutors)
-
-for (i in 1:nrow(tutors)) {
-  tutor_name <- tutors$Name[i]
-  cat("Tutor:", tutor_name, "\n")
-}
 ```
 
 ```{r}
