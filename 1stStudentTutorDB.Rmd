@@ -1,5 +1,5 @@
 ---
-title: "Student/Tutor Database"
+title: "First Student/Tutor Database"
 author: "Rupert Simpson"
 output: html_notebook
 ---
@@ -13,7 +13,7 @@ The subsequent SQL statements drop any tables created during previous run sessio
 library(RSQLite)
 library(glue)
 
-dbcon <- dbConnect(RSQLite::SQLite(), "tutor.db")
+dbcon <- dbConnect(RSQLite::SQLite(), "1stTutor.db")
 ```
 
 ```{sql DropSchedulesTable, connection=dbcon}
