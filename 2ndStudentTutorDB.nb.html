@@ -12,7 +12,7 @@
 <meta name="author" content="Rupert Simpson" />
 
 
-<title>Second Student/Tutor Database</title>
+<title>Second Learner/Tutor Database</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1747,7 +1747,7 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Second Student/Tutor Database</h1>
+<h1 class="title toc-ignore">Second Learner/Tutor Database</h1>
 <h4 class="author">Rupert Simpson</h4>
 
 </div>
@@ -1757,7 +1757,7 @@ display: none;
 <div id="establish-database" class="section level2">
 <h2>Establish Database:</h2>
 <p>The R code below loads the RSQLite library and establishes a
-connection with a locally saved database named “tutor.db”. If no such
+connection with a locally saved database named “2ndTutor.db”. If no such
 database is found in the working directory, R will create one.</p>
 <p>The subsequent SQL statements drop any tables created during previous
 run sessions and create new tables for students, tutors, tutor level
@@ -1775,277 +1775,650 @@ dbcon &lt;- dbConnect(RSQLite::SQLite(), &quot;2ndTutor.db&quot;)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBTY2hlZHVsZXM7XG5gYGAifQ== -->
-<pre class="sql"><code>DROP TABLE IF EXISTS Schedules;</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBsZWFybmVycztcbmBgYCJ9 -->
+<pre class="sql"><code>DROP TABLE IF EXISTS learners;</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBQcmVmZXJlbmNlcztcbmBgYCJ9 -->
-<pre class="sql"><code>DROP TABLE IF EXISTS Preferences;</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyB0dXRvcnM7XG5gYGAifQ== -->
+<pre class="sql"><code>DROP TABLE IF EXISTS tutors;</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBUdXRvcnM7XG5gYGAifQ== -->
-<pre class="sql"><code>DROP TABLE IF EXISTS Tutors;</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBwcmVmZXJlbmNlcztcbmBgYCJ9 -->
+<pre class="sql"><code>DROP TABLE IF EXISTS preferences;</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBTdHVkZW50cztcbmBgYCJ9 -->
-<pre class="sql"><code>DROP TABLE IF EXISTS Students;</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBob3VycztcbmBgYCJ9 -->
+<pre class="sql"><code>DROP TABLE IF EXISTS hours;</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBTdHVkZW50cyAoXG4gIFN0dWRlbnRfSUQgSU5UIFBSSU1BUlkgS0VZLFxuICBOYW1lIFRFWFQsXG4gIFBob25lIElOVCxcbiAgRW1haWwgVEVYVCxcbiAgTGV2ZWwgVEVYVFxuKTtcbmBgYCJ9 -->
-<pre class="sql"><code>CREATE TABLE IF NOT EXISTS Students (
-  Student_ID INT PRIMARY KEY,
-  Name TEXT,
-  Phone INT,
-  Email TEXT,
-  Level TEXT
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyBsZWFybmVyX2F2YWlsYWJpbGl0eTtcbmBgYCJ9 -->
+<pre class="sql"><code>DROP TABLE IF EXISTS learner_availability;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyB0dXRvcl9hdmFpbGFiaWxpdHk7XG5gYGAifQ== -->
+<pre class="sql"><code>DROP TABLE IF EXISTS tutor_availability;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5EUk9QIFRBQkxFIElGIEVYSVNUUyB1c2VycztcbmBgYCJ9 -->
+<pre class="sql"><code>DROP TABLE IF EXISTS users;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyB1c2VycyAoXG4gIHVzZXJfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULFxuICBmaXJzdF9uYW1lIFRFWFQsXG4gIGxhc3RfbmFtZSBURVhULFxuICBlbWFpbCBURVhULFxuICBwYXNzd29yZCBURVhUXG4pO1xuYGBgIn0= -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS users (
+  user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name TEXT,
+  last_name TEXT,
+  email TEXT,
+  password TEXT
 );</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBUdXRvcnMgKFxuICBUdXRvcl9JRCBJTlQgUFJJTUFSWSBLRVksXG4gIFN0dWRlbnRfSUQgSU5ULFxuICBOYW1lIFRFWFQsXG4gIFBob25lIElOVCxcbiAgRW1haWwgVEVYVCxcbiAgRk9SRUlHTiBLRVkgKFN0dWRlbnRfSUQpIFJFRkVSRU5DRVMgU3R1ZGVudHMoU3R1ZGVudF9JRClcbik7XG5gYGAifQ== -->
-<pre class="sql"><code>CREATE TABLE IF NOT EXISTS Tutors (
-  Tutor_ID INT PRIMARY KEY,
-  Student_ID INT,
-  Name TEXT,
-  Phone INT,
-  Email TEXT,
-  FOREIGN KEY (Student_ID) REFERENCES Students(Student_ID)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBsZWFybmVycyAoXG4gIGxlYXJuZXJfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULFxuICBmaXJzdF9uYW1lIFRFWFQsXG4gIGxhc3RfbmFtZSBURVhULFxuICBwaG9uZSBJTlQsXG4gIGVtYWlsIFRFWFQsXG4gIGxldmVsIFRFWFQsXG4gIGF2YWlsYWJsZSBCT09MXG4pO1xuYGBgIn0= -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS learners (
+  learner_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name TEXT,
+  last_name TEXT,
+  phone INT,
+  email TEXT,
+  level TEXT,
+  available BOOL
 );</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBTY2hlZHVsZXMgKFxuICBTY2hlZHVsZV9JRCBJTlQgUFJJTUFSWSBLRVksXG4gIFR1dG9yX0lEIElOVCxcbiAgU3R1ZGVudF9JRCBJTlQsXG4gIERheSBURVhULFxuICBTdGFydF9UaW1lIFRJTUUsXG4gIEVuZF9UaW1lIFRJTUUsXG4gIEZPUkVJR04gS0VZIChUdXRvcl9JRCkgUkVGRVJFTkNFUyBUdXRvcnMoVHV0b3JfSUQpLFxuICBGT1JFSUdOIEtFWSAoU3R1ZGVudF9JRCkgUkVGRVJFTkNFUyBTdHVkZW50cyhTdHVkZW50X0lEKVxuKTtcbmBgYCJ9 -->
-<pre class="sql"><code>CREATE TABLE IF NOT EXISTS Schedules (
-  Schedule_ID INT PRIMARY KEY,
-  Tutor_ID INT,
-  Student_ID INT,
-  Day TEXT,
-  Start_Time TIME,
-  End_Time TIME,
-  FOREIGN KEY (Tutor_ID) REFERENCES Tutors(Tutor_ID),
-  FOREIGN KEY (Student_ID) REFERENCES Students(Student_ID)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyB0dXRvcnMgKFxuICB0dXRvcl9pZCBJTlRFR0VSIFBSSU1BUlkgS0VZIEFVVE9JTkNSRU1FTlQsXG4gIGxlYXJuZXJfaWQgSU5ULFxuICBmaXJzdF9uYW1lIFRFWFQsXG4gIGxhc3RfbmFtZSBURVhULFxuICBwaG9uZSBJTlQsXG4gIGVtYWlsIFRFWFQsXG4gIGF2YWlsYWJsZSBCT09MLFxuICBGT1JFSUdOIEtFWSAobGVhcm5lcl9pZCkgUkVGRVJFTkNFUyBsZWFybmVycyhsZWFybmVyX2lkKVxuKTtcbmBgYCJ9 -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS tutors (
+  tutor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  learner_id INT,
+  first_name TEXT,
+  last_name TEXT,
+  phone INT,
+  email TEXT,
+  available BOOL,
+  FOREIGN KEY (learner_id) REFERENCES learners(learner_id)
 );</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBQcmVmZXJlbmNlcyAoXG4gIFByZWZlcmVuY2VfSUQgSU5UIFBSSU1BUlkgS0VZLFxuICBUdXRvcl9JRCBJTlQsXG4gIEVTTCBCT09MLFxuICBDb252ZXJzYXRpb24gQk9PTCxcbiAgQ2l0aXplbnNoaXAgQk9PTCxcbiAgSGlTRVQgQk9PTCxcbiAgRWxlbWVudGFyeV9NYXRoIEJPT0wsXG4gIFNlY29uZGFyeV9NYXRoIEJPT0wsXG4gIEVsZW1lbnRhcnlfUmVhZGluZyBCT09MLFxuICBTZWNvbmRhcnlfUmVhZGluZyBCT09MLFxuICBFbGVtZW50YXJ5X1dyaXRpbmcgQk9PTCxcbiAgU2Vjb25kYXJ5X1dyaXRpbmcgQk9PTCxcbiAgRk9SRUlHTiBLRVkgKFR1dG9yX0lEKSBSRUZFUkVOQ0VTIFR1dG9ycyhUdXRvcl9JRClcbik7XG5gYGAifQ== -->
-<pre class="sql"><code>CREATE TABLE IF NOT EXISTS Preferences (
-  Preference_ID INT PRIMARY KEY,
-  Tutor_ID INT,
-  ESL BOOL,
-  Conversation BOOL,
-  Citizenship BOOL,
-  HiSET BOOL,
-  Elementary_Math BOOL,
-  Secondary_Math BOOL,
-  Elementary_Reading BOOL,
-  Secondary_Reading BOOL,
-  Elementary_Writing BOOL,
-  Secondary_Writing BOOL,
-  FOREIGN KEY (Tutor_ID) REFERENCES Tutors(Tutor_ID)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBwcmVmZXJlbmNlcyAoXG4gIHByZWZlcmVuY2VfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULFxuICB0dXRvcl9pZCBJTlQsXG4gIGNvbnZlcnNhdGlvbiBCT09MLFxuICBlc2xfbm92aWNlIEJPT0wsXG4gIGVzbF9iZWdpbm5lciBCT09MLFxuICBlc2xfaW50ZXJtZWRpYXRlIEJPT0wsXG4gIGNpdGl6ZW5zaGlwIEJPT0wsXG4gIHNwZWRfZWxhIEJPT0wsXG4gIGJhc2ljX21hdGggQk9PTCxcbiAgaGlzZXRfbWF0aCBCT09MLFxuICBiYXNpY19yZWFkaW5nIEJPT0wsXG4gIGhpc2V0X3JlYWRpbmcgQk9PTCxcbiAgYmFzaWNfd3JpdGluZyBCT09MLFxuICBoaXNldF93cml0aW5nIEJPT0wsXG4gIEZPUkVJR04gS0VZICh0dXRvcl9pZCkgUkVGRVJFTkNFUyB0dXRvcnModHV0b3JfaWQpXG4pO1xuYGBgIn0= -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS preferences (
+  preference_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tutor_id INT,
+  conversation BOOL,
+  esl_novice BOOL,
+  esl_beginner BOOL,
+  esl_intermediate BOOL,
+  citizenship BOOL,
+  sped_ela BOOL,
+  basic_math BOOL,
+  hiset_math BOOL,
+  basic_reading BOOL,
+  hiset_reading BOOL,
+  basic_writing BOOL,
+  hiset_writing BOOL,
+  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id)
 );</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBTdHVkZW50cyAoU3R1ZGVudF9JRCwgTmFtZSwgUGhvbmUsIEVtYWlsLCBMZXZlbClcblZBTFVFU1xuICAoMSwgJ1NhbGx5IFNob28nLCAxMTExMTExMTExLCAnZW1haWxAZW1haWwuY29tJywgJ0VTTCcpLFxuICAoMiwgJ0Rhbm55IERvZ2cnLCAyMjIyMjIyMjIyLCAnZW1haWxAZW1haWwuY29tJywgJ0NpdGl6ZW5zaGlwJyksXG4gICgzLCAnTGlsbHkgTGFkeScsIDMzMzMzMzMzMzMsICdlbWFpbEBlbWFpbC5jb20nLCAnRWxlbWVudGFyeV9NYXRoJyk7XG5gYGAifQ== -->
-<pre class="sql"><code>INSERT INTO Students (Student_ID, Name, Phone, Email, Level)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBob3VycyAoXG4gIGhvdXJzX2lkIElOVEVHRVIgUFJJTUFSWSBLRVkgQVVUT0lOQ1JFTUVOVCxcbiAgbGVhcm5lcl9pZCBJTlQsXG4gIHR1dG9yX2lkIElOVCxcbiAgZGF5IFRFWFQsXG4gIG1vbnRoIElOVCxcbiAgeWVhciBJTlQsXG4gIHN0YXJ0X3RpbWUgVEVYVCxcbiAgZW5kX3RpbWUgVEVYVCxcbiAgRk9SRUlHTiBLRVkgKGxlYXJuZXJfaWQpIFJFRkVSRU5DRVMgbGVhcm5lcnMobGVhcm5lcl9pZCksXG4gIEZPUkVJR04gS0VZICh0dXRvcl9pZCkgUkVGRVJFTkNFUyB0dXRvcnModHV0b3JfaWQpXG4pO1xuYGBgIn0= -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS hours (
+  hours_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  learner_id INT,
+  tutor_id INT,
+  day TEXT,
+  month INT,
+  year INT,
+  start_time TEXT,
+  end_time TEXT,
+  FOREIGN KEY (learner_id) REFERENCES learners(learner_id),
+  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id)
+);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyBsZWFybmVyX2F2YWlsYWJpbGl0eSAoXG4gIGxlYXJuZXJfYXZhaWxhYmlsaXR5X2lkIElOVEVHRVIgUFJJTUFSWSBLRVkgQVVUT0lOQ1JFTUVOVCxcbiAgbGVhcm5lcl9pZCBJTlQsXG4gIGRheSBURVhULFxuICBzdGFydF90aW1lIFRJTUUsXG4gIGVuZF90aW1lIFRJTUUsXG4gIEZPUkVJR04gS0VZIChsZWFybmVyX2lkKSBSRUZFUkVOQ0VTIGxlYXJuZXJzKGxlYXJuZXJfaWQpXG4pO1xuYGBgIn0= -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS learner_availability (
+  learner_availability_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  learner_id INT,
+  day TEXT,
+  start_time TIME,
+  end_time TIME,
+  FOREIGN KEY (learner_id) REFERENCES learners(learner_id)
+);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5DUkVBVEUgVEFCTEUgSUYgTk9UIEVYSVNUUyB0dXRvcl9hdmFpbGFiaWxpdHkgKFxuICB0dXRvcl9hdmFpbGFiaWxpdHlfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULFxuICB0dXRvcl9pZCBJTlQsXG4gIGRheSBURVhULFxuICBzdGFydF90aW1lIFRJTUUsXG4gIGVuZF90aW1lIFRJTUUsXG4gIEZPUkVJR04gS0VZICh0dXRvcl9pZCkgUkVGRVJFTkNFUyB0dXRvcnModHV0b3JfaWQpXG4pO1xuYGBgIn0= -->
+<pre class="sql"><code>CREATE TABLE IF NOT EXISTS tutor_availability (
+  tutor_availability_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tutor_id INT,
+  day TEXT,
+  start_time TIME,
+  end_time TIME,
+  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id)
+);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="populate-database-tables" class="section level2">
+<h2>Populate Database Tables</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyB1c2VycyAoZmlyc3RfbmFtZSwgbGFzdF9uYW1lLCBlbWFpbCwgcGFzc3dvcmQpXG5WQUxVRVNcbiAgKCdSdXBlcnQnLCAnU2ltcHNvbicsICdydXBlcnRzaW1wc29uQHBseW1vdXRobGl0ZXJhY3kub3JnJywgJ1JTYmx1ZSFAIycpLFxuICAoJ0thcmVuJywgJ0dhbGUnLCAna2FyZW5nYWxlQHBseW1vdXRobGl0ZXJhY3kub3JnJywgJ1JTYmx1ZSFAIycpLFxuICAoJ0tyaXN0ZW4nLCAnRW5vcycsICdrcmlzdGVuZW5vc0BwbHltb3V0aGxpdGVyYWN5Lm9yZycsICdLRWJsdWUhQCMnKTtcbmBgYCJ9 -->
+<pre class="sql"><code>INSERT INTO users (first_name, last_name, email, password)
 VALUES
-  (1, &#39;Sally Shoo&#39;, 1111111111, &#39;email@email.com&#39;, &#39;ESL&#39;),
-  (2, &#39;Danny Dogg&#39;, 2222222222, &#39;email@email.com&#39;, &#39;Citizenship&#39;),
-  (3, &#39;Lilly Lady&#39;, 3333333333, &#39;email@email.com&#39;, &#39;Elementary_Math&#39;);</code></pre>
+  (&#39;Rupert&#39;, &#39;Simpson&#39;, &#39;rupertsimpson@plymouthliteracy.org&#39;, &#39;RSblue!@#&#39;),
+  (&#39;Karen&#39;, &#39;Gale&#39;, &#39;karengale@plymouthliteracy.org&#39;, &#39;RSblue!@#&#39;),
+  (&#39;Kristen&#39;, &#39;Enos&#39;, &#39;kristenenos@plymouthliteracy.org&#39;, &#39;KEblue!@#&#39;);</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBUdXRvcnMgKFR1dG9yX0lELCBTdHVkZW50X0lELCBOYW1lLCBQaG9uZSwgRW1haWwpXG5WQUxVRVNcbiAgKDEsIE5VTEwsICdSdXBlcnQgU2ltcHNvbicsIDQ0NDQ0NDQ0NDQsICdlbWFpbEBlbWFpbC5jb20nKSxcbiAgKDIsIDEsICdLYXJlbiBHYWxlJywgNTU1NTU1NTU1NSwgJ2VtYWlsQGVtYWlsLmNvbScpLFxuICAoMywgTlVMTCwgJ0tyaXN0ZW4gRW5vcycsIDc3Nzc3Nzc3NzcsICdlbWFpbEBlbWFpbC5jb20nKTtcbmBgYCJ9 -->
-<pre class="sql"><code>INSERT INTO Tutors (Tutor_ID, Student_ID, Name, Phone, Email)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBsZWFybmVycyAoZmlyc3RfbmFtZSwgbGFzdF9uYW1lLCBwaG9uZSwgZW1haWwsIGxldmVsLCBhdmFpbGFibGUpXG5WQUxVRVNcbiAgKCdTYWxseScsICdTaG9vJywgMTExMTExMTExMSwgJ2VtYWlsMUBlbWFpbC5jb20nLCAnZXNsX25vdmljZScsIHRydWUpLFxuICAoJ0Rhbm55JywgJ0RvZ2cnLCAyMjIyMjIyMjIyLCAnZW1haWwyQGVtYWlsLmNvbScsICdlc2xfYmVnaW5uZXInLCB0cnVlKSxcbiAgKCdFZGR5JywgJ0V2ZXJldHQnLCAzMzMzMzMzMzMzLCAnZW1haWwzQGVtYWlsLmNvbScsICdlc2xfaW50ZXJtZWRpYXRlJywgdHJ1ZSksXG4gICgnUGF0dHknLCAnUGF0cmlja3MnLCA0NDQ0NDQ0NDQ0LCAnZW1haWw0QGVtYWlsLmNvbScsICdjaXRpemVuc2hpcCcsIHRydWUpLFxuICAoJ1Rob21hcycsICdUaG9tcHNvbicsIDU1NTU1NTU1NTUsICdlbWFpbDVAZW1haWwuY29tJywgJ3NwZWRfZWxhJywgdHJ1ZSksXG4gICgnV2VuZHknLCAnV2lsYnVyZycsIDY2NjY2NjY2NjYsICdlbWFpbDZAZW1haWwuY29tJywgJ2Jhc2ljX21hdGgnLCB0cnVlKSxcbiAgKCdGcmVkZHknLCAnRnJhbmtzJywgNzc3Nzc3Nzc3NywgJ2VtYWlsN0BlbWFpbC5jb20nLCAnaGlzZXRfbWF0aCcsIHRydWUpLFxuICAoJ0JvYmJ5JywgJ0Jyb3duJywgODg4ODg4ODg4OCwgJ2VtYWlsOEBlbWFpbC5jb20nLCAnYmFzaWNfcmVhZGluZycsIHRydWUpLFxuICAoJ1Zpbm55JywgJ1ZhdWdobicsIDk5OTk5OTk5OTksICdlbWFpbDlAZW1haWwuY29tJywgJ2hpc2V0X3JlYWRpbmcnLCB0cnVlKSxcbiAgKCdNYXRoZXcnLCAnTWF0dGVycycsIDEwMTAxMDEwMTAsICdlbWFpbDEwQGVtYWlsLmNvbScsICdiYXNpY193cml0aW5nJywgdHJ1ZSk7XG5gYGAifQ== -->
+<pre class="sql"><code>INSERT INTO learners (first_name, last_name, phone, email, level, available)
 VALUES
-  (1, NULL, &#39;Rupert Simpson&#39;, 4444444444, &#39;email@email.com&#39;),
-  (2, 1, &#39;Karen Gale&#39;, 5555555555, &#39;email@email.com&#39;),
-  (3, NULL, &#39;Kristen Enos&#39;, 7777777777, &#39;email@email.com&#39;);</code></pre>
+  (&#39;Sally&#39;, &#39;Shoo&#39;, 1111111111, &#39;email1@email.com&#39;, &#39;esl_novice&#39;, true),
+  (&#39;Danny&#39;, &#39;Dogg&#39;, 2222222222, &#39;email2@email.com&#39;, &#39;esl_beginner&#39;, true),
+  (&#39;Eddy&#39;, &#39;Everett&#39;, 3333333333, &#39;email3@email.com&#39;, &#39;esl_intermediate&#39;, true),
+  (&#39;Patty&#39;, &#39;Patricks&#39;, 4444444444, &#39;email4@email.com&#39;, &#39;citizenship&#39;, true),
+  (&#39;Thomas&#39;, &#39;Thompson&#39;, 5555555555, &#39;email5@email.com&#39;, &#39;sped_ela&#39;, true),
+  (&#39;Wendy&#39;, &#39;Wilburg&#39;, 6666666666, &#39;email6@email.com&#39;, &#39;basic_math&#39;, true),
+  (&#39;Freddy&#39;, &#39;Franks&#39;, 7777777777, &#39;email7@email.com&#39;, &#39;hiset_math&#39;, true),
+  (&#39;Bobby&#39;, &#39;Brown&#39;, 8888888888, &#39;email8@email.com&#39;, &#39;basic_reading&#39;, true),
+  (&#39;Vinny&#39;, &#39;Vaughn&#39;, 9999999999, &#39;email9@email.com&#39;, &#39;hiset_reading&#39;, true),
+  (&#39;Mathew&#39;, &#39;Matters&#39;, 1010101010, &#39;email10@email.com&#39;, &#39;basic_writing&#39;, true);</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBTY2hlZHVsZXMgKFNjaGVkdWxlX0lELCBUdXRvcl9JRCwgU3R1ZGVudF9JRCwgRGF5LCBTdGFydF9UaW1lLCBFbmRfVGltZSlcblZBTFVFU1xuICAoMSwgMSwgTlVMTCwgJ01vbmRheScsICcxNjowMCcsICcyMDowMCcpLFxuICAoMiwgMSwgTlVMTCwgJ1R1ZXNkYXknLCAnMTI6MDAnLCAnMTc6MDAnKSxcbiAgKDMsIDEsIE5VTEwsICdXZWRuZXNkYXknLCAnMTY6MDAnLCAnMjA6MDAnKSxcbiAgKDQsIDEsIE5VTEwsICdUaHVyc2RheScsICcxMjowMCcsICcxNzowMCcpLFxuICAoNSwgMiwgTlVMTCwgJ01vbmRheScsICc5OjAwJywgJzE3OjAwJyksXG4gICg2LCAyLCBOVUxMLCAnVHVlc2RheScsICc5OjAwJywgJzE3OjAwJyksXG4gICg3LCAzLCBOVUxMLCAnV2VkbmVzZGF5JywgJzk6MDAnLCAnMTc6MDAnKSxcbiAgKDgsIE5VTEwsIDEsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMTI6MDAnKSxcbiAgKDksIE5VTEwsIDIsICdNb25kYXknLCAnMTc6MDAnLCAnMTk6MDAnKSxcbiAgKDEwLCBOVUxMLCAzLCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzEyOjAwJyk7XG5gYGAifQ== -->
-<pre class="sql"><code>INSERT INTO Schedules (Schedule_ID, Tutor_ID, Student_ID, Day, Start_Time, End_Time)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyB0dXRvcnMgKGZpcnN0X25hbWUsIGxhc3RfbmFtZSwgcGhvbmUsIGVtYWlsLCBhdmFpbGFibGUpXG5WQUxVRVNcbiAgKCdRdWlubnknLCAnUXVpZ2x5JywgMTExMTExMTExMSwgJ2VtYWlsMTFAZW1haWwuY29tJywgdHJ1ZSksXG4gICgnV2FsbHknLCAnV2FsdGVyJywgMjIyMjIyMjIyMiwgJ2VtYWlsMTJAZW1haWwuY29tJywgdHJ1ZSksXG4gICgnRWFybCcsICdFdmFucycsIDMzMzMzMzMzMzMsICdlbWFpbDEzQGVtYWlsLmNvbScsIHRydWUpLFxuICAoJ1J1YnknLCAnUm9nZXJzJywgNDQ0NDQ0NDQ0NCwgJ2VtYWlsMTRAZW1haWwuY29tJywgZmFsc2UpLFxuICAoJ1RpbW15JywgJ1RpbWJlcicsIDU1NTU1NTU1NTUsICdlbWFpbDE1QGVtYWlsLmNvbScsIHRydWUpLFxuICAoJ093ZW4nLCAnT3J3ZWxsJywgNjY2NjY2NjY2NiwgJ2VtYWlsMTZAZW1haWwuY29tJywgdHJ1ZSksXG4gICgnQXNoZWx5JywgJ0FkYW1zJywgNzc3Nzc3Nzc3NywgJ2VtYWlsMTdAZW1haWwuY29tJywgZmFsc2UpLFxuICAoJ1NvcGhpZScsICdTdW1tZXJzJywgODg4ODg4ODg4OCwgJ2VtYWlsMThAZW1haWwuY29tJywgdHJ1ZSksXG4gICgnRGF2aWQnLCAnRGVtb250JywgOTk5OTk5OTk5OSwgJ2VtYWlsMTlAZW1haWwuY29tJywgdHJ1ZSksXG4gICgnSmlsbCcsICdKYW1lcycsIDEwMTAxMDEwMTAsICdlbWFpbDIwQGVtYWlsLmNvbScsIHRydWUpO1xuYGBgIn0= -->
+<pre class="sql"><code>INSERT INTO tutors (first_name, last_name, phone, email, available)
 VALUES
-  (1, 1, NULL, &#39;Monday&#39;, &#39;16:00&#39;, &#39;20:00&#39;),
-  (2, 1, NULL, &#39;Tuesday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
-  (3, 1, NULL, &#39;Wednesday&#39;, &#39;16:00&#39;, &#39;20:00&#39;),
-  (4, 1, NULL, &#39;Thursday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
-  (5, 2, NULL, &#39;Monday&#39;, &#39;9:00&#39;, &#39;17:00&#39;),
-  (6, 2, NULL, &#39;Tuesday&#39;, &#39;9:00&#39;, &#39;17:00&#39;),
-  (7, 3, NULL, &#39;Wednesday&#39;, &#39;9:00&#39;, &#39;17:00&#39;),
-  (8, NULL, 1, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
-  (9, NULL, 2, &#39;Monday&#39;, &#39;17:00&#39;, &#39;19:00&#39;),
-  (10, NULL, 3, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;);</code></pre>
+  (&#39;Quinny&#39;, &#39;Quigly&#39;, 1111111111, &#39;email11@email.com&#39;, true),
+  (&#39;Wally&#39;, &#39;Walter&#39;, 2222222222, &#39;email12@email.com&#39;, true),
+  (&#39;Earl&#39;, &#39;Evans&#39;, 3333333333, &#39;email13@email.com&#39;, true),
+  (&#39;Ruby&#39;, &#39;Rogers&#39;, 4444444444, &#39;email14@email.com&#39;, false),
+  (&#39;Timmy&#39;, &#39;Timber&#39;, 5555555555, &#39;email15@email.com&#39;, true),
+  (&#39;Owen&#39;, &#39;Orwell&#39;, 6666666666, &#39;email16@email.com&#39;, true),
+  (&#39;Ashely&#39;, &#39;Adams&#39;, 7777777777, &#39;email17@email.com&#39;, false),
+  (&#39;Sophie&#39;, &#39;Summers&#39;, 8888888888, &#39;email18@email.com&#39;, true),
+  (&#39;David&#39;, &#39;Demont&#39;, 9999999999, &#39;email19@email.com&#39;, true),
+  (&#39;Jill&#39;, &#39;James&#39;, 1010101010, &#39;email20@email.com&#39;, true);</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBQcmVmZXJlbmNlcyAoUHJlZmVyZW5jZV9JRCwgVHV0b3JfSUQsIEVTTCwgQ29udmVyc2F0aW9uLCBDaXRpemVuc2hpcCwgSGlTRVQsIEVsZW1lbnRhcnlfTWF0aCwgU2Vjb25kYXJ5X01hdGgsIEVsZW1lbnRhcnlfUmVhZGluZywgU2Vjb25kYXJ5X1JlYWRpbmcsIEVsZW1lbnRhcnlfV3JpdGluZywgU2Vjb25kYXJ5X1dyaXRpbmcpXG5WQUxVRVNcbiAgKDEsIDEsIHRydWUsIHRydWUsIHRydWUsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIHRydWUsIGZhbHNlKSxcbiAgKDIsIDIsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUpLFxuICAoMywgMywgdHJ1ZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSk7XG5gYGAifQ== -->
-<pre class="sql"><code>INSERT INTO Preferences (Preference_ID, Tutor_ID, ESL, Conversation, Citizenship, HiSET, Elementary_Math, Secondary_Math, Elementary_Reading, Secondary_Reading, Elementary_Writing, Secondary_Writing)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBwcmVmZXJlbmNlcyAodHV0b3JfaWQsIGNvbnZlcnNhdGlvbiwgZXNsX25vdmljZSwgZXNsX2JlZ2lubmVyLCBlc2xfaW50ZXJtZWRpYXRlLCBjaXRpemVuc2hpcCwgc3BlZF9lbGEsIGJhc2ljX21hdGgsIGhpc2V0X21hdGgsIGJhc2ljX3JlYWRpbmcsIGhpc2V0X3JlYWRpbmcsIGJhc2ljX3dyaXRpbmcsIGhpc2V0X3dyaXRpbmcpXG5WQUxVRVNcbiAgKDEsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UpLFxuICAoMiwgZmFsc2UsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUpLFxuICAoMywgdHJ1ZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSksXG4gICg0LCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIGZhbHNlLCB0cnVlLCBmYWxzZSwgdHJ1ZSksXG4gICg1LCB0cnVlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlKSxcbiAgKDYsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlKSxcbiAgKDcsIHRydWUsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlKSxcbiAgKDgsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlKSxcbiAgKDksIHRydWUsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUpLFxuICAoMTAsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlKTtcbmBgYCJ9 -->
+<pre class="sql"><code>INSERT INTO preferences (tutor_id, conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing)
 VALUES
-  (1, 1, true, true, true, false, false, true, false, true, true, false),
-  (2, 2, false, true, false, false, false, false, true, true, false, true),
-  (3, 3, true, false, false, true, true, true, false, false, false, false);</code></pre>
+  (1, false, true, true, false, false, true, false, true, true, false, true, false),
+  (2, false, true, false, false, false, false, true, true, false, true, false, true),
+  (3, true, false, false, true, true, true, false, false, false, false, true, true),
+  (4, false, true, false, false, false, false, true, true, false, true, false, true),
+  (5, true, false, false, true, true, true, false, false, false, false, true, true),
+  (6, false, true, false, false, false, false, true, true, false, true, false, true),
+  (7, true, false, false, true, true, false, false, false, false, false, true, true),
+  (8, false, true, false, false, false, false, true, true, false, true, false, true),
+  (9, true, false, false, true, true, true, false, false, false, false, true, true),
+  (10, false, true, false, false, false, false, true, true, false, true, false, true);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBsZWFybmVyX2F2YWlsYWJpbGl0eSAobGVhcm5lcl9pZCwgZGF5LCBzdGFydF90aW1lLCBlbmRfdGltZSlcblZBTFVFU1xuICAoMSwgJ01vbmRheScsICcxMDowMCcsICcyMDowMCcpLFxuICAoMSwgJ1R1ZXNkYXknLCAnMTI6MDAnLCAnMjA6MDAnKSxcbiAgKDEsICdXZWRuZXNkYXknLCAnMTE6MDAnLCAnMjA6MDAnKSxcbiAgKDIsICdUaHVyc2RheScsICcxMjowMCcsICcxNzowMCcpLFxuICAoMiwgJ0ZyaWRheScsICcxMDowMCcsICcxNzowMCcpLFxuICAoMiwgJ01vbmRheScsICcxOTowMCcsICcyMTowMCcpLFxuICAoMywgJ1R1ZXNkYXknLCAnMTA6MDAnLCAnMjA6MDAnKSxcbiAgKDMsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMTU6MDAnKSxcbiAgKDMsICdGcmlkYXknLCAnMTY6MDAnLCAnMjA6MDAnKSxcbiAgKDQsICdUaHVyc2RheScsICcxMDowMCcsICcxNzowMCcpLFxuICAoNCwgJ01vbmRheScsICcxMjowMCcsICcxNzowMCcpLFxuICAoNCwgJ1R1ZXNkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSxcbiAgKDUsICdNb25kYXknLCAnMTA6MDAnLCAnMjA6MDAnKSxcbiAgKDUsICdGcmlkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSxcbiAgKDUsICdUdWVzZGF5JywgJzExOjAwJywgJzE3OjAwJyksXG4gICg2LCAnVHVlc2RheScsICcxMDowMCcsICcxNzowMCcpLFxuICAoNiwgJ1dlZG5lc2RheScsICcxMDowMCcsICcxNzowMCcpLFxuICAoNiwgJ1RodXJzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg3LCAnRnJpZGF5JywgJzEyOjAwJywgJzE3OjAwJyksXG4gICg3LCAnV2VkbmVzZGF5JywgJzE1OjAwJywgJzE3OjAwJyksXG4gICg3LCAnTW9uZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg4LCAnTW9uZGF5JywgJzEyOjAwJywgJzE0OjAwJyksXG4gICg4LCAnVHVlc2RheScsICcxMDowMCcsICcxMjowMCcpLFxuICAoOCwgJ1dlZG5lc2RheScsICcxMDowMCcsICcxMjowMCcpLFxuICAoOSwgJ01vbmRheScsICcxNzowMCcsICcxOTowMCcpLFxuICAoOSwgJ1dlZG5lc2RheScsICcxMDowMCcsICcxOTowMCcpLFxuICAoOSwgJ0ZyaWRheScsICcxMTowMCcsICcxOTowMCcpLFxuICAoMTAsICdNb25kYXknLCAnMTA6MDAnLCAnMTQ6MDAnKSxcbiAgKDEwLCAnVHVlc2RheScsICcxMDowMCcsICcxMjowMCcpLFxuICAoMTAsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMjA6MDAnKTtcbmBgYCJ9 -->
+<pre class="sql"><code>INSERT INTO learner_availability (learner_id, day, start_time, end_time)
+VALUES
+  (1, &#39;Monday&#39;, &#39;10:00&#39;, &#39;20:00&#39;),
+  (1, &#39;Tuesday&#39;, &#39;12:00&#39;, &#39;20:00&#39;),
+  (1, &#39;Wednesday&#39;, &#39;11:00&#39;, &#39;20:00&#39;),
+  (2, &#39;Thursday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (2, &#39;Friday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (2, &#39;Monday&#39;, &#39;19:00&#39;, &#39;21:00&#39;),
+  (3, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;20:00&#39;),
+  (3, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;15:00&#39;),
+  (3, &#39;Friday&#39;, &#39;16:00&#39;, &#39;20:00&#39;),
+  (4, &#39;Thursday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (4, &#39;Monday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (4, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (5, &#39;Monday&#39;, &#39;10:00&#39;, &#39;20:00&#39;),
+  (5, &#39;Friday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (5, &#39;Tuesday&#39;, &#39;11:00&#39;, &#39;17:00&#39;),
+  (6, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (6, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (6, &#39;Thursday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (7, &#39;Friday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (7, &#39;Wednesday&#39;, &#39;15:00&#39;, &#39;17:00&#39;),
+  (7, &#39;Monday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (8, &#39;Monday&#39;, &#39;12:00&#39;, &#39;14:00&#39;),
+  (8, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
+  (8, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
+  (9, &#39;Monday&#39;, &#39;17:00&#39;, &#39;19:00&#39;),
+  (9, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;19:00&#39;),
+  (9, &#39;Friday&#39;, &#39;11:00&#39;, &#39;19:00&#39;),
+  (10, &#39;Monday&#39;, &#39;10:00&#39;, &#39;14:00&#39;),
+  (10, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
+  (10, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;20:00&#39;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyB0dXRvcl9hdmFpbGFiaWxpdHkgKHR1dG9yX2lkLCBkYXksIHN0YXJ0X3RpbWUsIGVuZF90aW1lKVxuVkFMVUVTXG4gICgxLCAnVHVlc2RheScsICcxMDowMCcsICcxNzowMCcpLFxuICAoMSwgJ1dlZG5lc2RheScsICcxMTowMCcsICcyMDowMCcpLFxuICAoMSwgJ1RodXJzZGF5JywgJzEyOjAwJywgJzE3OjAwJyksXG4gICgyLCAnTW9uZGF5JywgJzEyOjAwJywgJzE3OjAwJyksXG4gICgyLCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICgyLCAnRnJpZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICgzLCAnTW9uZGF5JywgJzEwOjAwJywgJzIwOjAwJyksXG4gICgzLCAnVGh1cnNkYXknLCAnMTA6MDAnLCAnMTU6MDAnKSxcbiAgKDMsICdGcmlkYXknLCAnMTY6MDAnLCAnMjA6MDAnKSxcbiAgKDQsICdNb25kYXknLCAnMTI6MDAnLCAnMTc6MDAnKSxcbiAgKDQsICdUdWVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg0LCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg1LCAnVHVlc2RheScsICcxMTowMCcsICcxNzowMCcpLFxuICAoNSwgJ1RodXJzZGF5JywgJzEwOjAwJywgJzIwOjAwJyksXG4gICg1LCAnRnJpZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg2LCAnTW9uZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg2LCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksXG4gICg2LCAnVGh1cnNkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSxcbiAgKDcsICdNb25kYXknLCAnMTA6MDAnLCAnMTc6MDAnKSxcbiAgKDcsICdXZWRuZXNkYXknLCAnMTU6MDAnLCAnMTc6MDAnKSxcbiAgKDcsICdGcmlkYXknLCAnMTI6MDAnLCAnMTc6MDAnKSxcbiAgKDgsICdUdWVzZGF5JywgJzEwOjAwJywgJzEyOjAwJyksXG4gICg4LCAnVGh1cnNkYXknLCAnMTI6MDAnLCAnMTQ6MDAnKSxcbiAgKDgsICdGcmlkYXknLCAnMTA6MDAnLCAnMTI6MDAnKSxcbiAgKDksICdNb25kYXknLCAnMTc6MDAnLCAnMTk6MDAnKSxcbiAgKDksICdUaHVyc2RheScsICcxMDowMCcsICcxOTowMCcpLFxuICAoOSwgJ0ZyaWRheScsICcxMTowMCcsICcxOTowMCcpLFxuICAoMTAsICdNb25kYXknLCAnMTA6MDAnLCAnMTQ6MDAnKSxcbiAgKDEwLCAnVHVlc2RheScsICcxMDowMCcsICcxMjowMCcpLFxuICAoMTAsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMjA6MDAnKTtcbmBgYCJ9 -->
+<pre class="sql"><code>INSERT INTO tutor_availability (tutor_id, day, start_time, end_time)
+VALUES
+  (1, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (1, &#39;Wednesday&#39;, &#39;11:00&#39;, &#39;20:00&#39;),
+  (1, &#39;Thursday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (2, &#39;Monday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (2, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (2, &#39;Friday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (3, &#39;Monday&#39;, &#39;10:00&#39;, &#39;20:00&#39;),
+  (3, &#39;Thursday&#39;, &#39;10:00&#39;, &#39;15:00&#39;),
+  (3, &#39;Friday&#39;, &#39;16:00&#39;, &#39;20:00&#39;),
+  (4, &#39;Monday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (4, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (4, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (5, &#39;Tuesday&#39;, &#39;11:00&#39;, &#39;17:00&#39;),
+  (5, &#39;Thursday&#39;, &#39;10:00&#39;, &#39;20:00&#39;),
+  (5, &#39;Friday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (6, &#39;Monday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (6, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (6, &#39;Thursday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (7, &#39;Monday&#39;, &#39;10:00&#39;, &#39;17:00&#39;),
+  (7, &#39;Wednesday&#39;, &#39;15:00&#39;, &#39;17:00&#39;),
+  (7, &#39;Friday&#39;, &#39;12:00&#39;, &#39;17:00&#39;),
+  (8, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
+  (8, &#39;Thursday&#39;, &#39;12:00&#39;, &#39;14:00&#39;),
+  (8, &#39;Friday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
+  (9, &#39;Monday&#39;, &#39;17:00&#39;, &#39;19:00&#39;),
+  (9, &#39;Thursday&#39;, &#39;10:00&#39;, &#39;19:00&#39;),
+  (9, &#39;Friday&#39;, &#39;11:00&#39;, &#39;19:00&#39;),
+  (10, &#39;Monday&#39;, &#39;10:00&#39;, &#39;14:00&#39;),
+  (10, &#39;Tuesday&#39;, &#39;10:00&#39;, &#39;12:00&#39;),
+  (10, &#39;Wednesday&#39;, &#39;10:00&#39;, &#39;20:00&#39;);</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5JTlNFUlQgSU5UTyBob3VycyAodHV0b3JfaWQsIGxlYXJuZXJfaWQsIGRheSwgbW9udGgsIHllYXIsIHN0YXJ0X3RpbWUsIGVuZF90aW1lKVxuVkFMVUVTXG4gICgxLCAxLCAnTW9uZGF5JywgMTAsIDIwMjQsICcxMDowMCcsICcxMTowMCcpLFxuICAoMiwgMiwgJ1R1ZXNkYXknLCAxMCwgMjAyNCwgJzEwOjAwJywgJzEyOjAwJyksXG4gICgzLCAzLCAnV2VkbmVzZGF5JywgMTAsIDIwMjQsICcxMDowMCcsICcxMTowMCcpLFxuICAoNCwgNCwgJ1RodXJzZGF5JywgMTAsIDIwMjQsICcxMDowMCcsICcxMjowMCcpLFxuICAoNSwgNSwgJ0ZyaWRheScsIDEwLCAyMDI0LCAnMTA6MDAnLCAnMTE6MDAnKSxcbiAgKDYsIDYsICdNb25kYXknLCAxMCwgMjAyNCwgJzEwOjAwJywgJzEyOjAwJyksXG4gICg3LCA3LCAnVHVlc2RheScsIDEwLCAyMDI0LCAnMTA6MDAnLCAnMTE6MDAnKSxcbiAgKDgsIDgsICdXZWRuZXNkYXknLCAxMSwgMjAyNCwgJzEwOjAwJywgJzEyOjAwJyksXG4gICg5LCA5LCAnVGh1cnNkYXknLCAxMSwgMjAyNCwgJzEwOjAwJywgJzExOjAwJyksXG4gICgxMCwgMTAsICdGcmlkYXknLCAxMSwgMjAyNCwgJzEwOjAwJywgJzEyOjAwJyk7XG5gYGAifQ== -->
+<pre class="sql"><code>INSERT INTO hours (tutor_id, learner_id, day, month, year, start_time, end_time)
+VALUES
+  (1, 1, &#39;Monday&#39;, 10, 2024, &#39;10:00&#39;, &#39;11:00&#39;),
+  (2, 2, &#39;Tuesday&#39;, 10, 2024, &#39;10:00&#39;, &#39;12:00&#39;),
+  (3, 3, &#39;Wednesday&#39;, 10, 2024, &#39;10:00&#39;, &#39;11:00&#39;),
+  (4, 4, &#39;Thursday&#39;, 10, 2024, &#39;10:00&#39;, &#39;12:00&#39;),
+  (5, 5, &#39;Friday&#39;, 10, 2024, &#39;10:00&#39;, &#39;11:00&#39;),
+  (6, 6, &#39;Monday&#39;, 10, 2024, &#39;10:00&#39;, &#39;12:00&#39;),
+  (7, 7, &#39;Tuesday&#39;, 10, 2024, &#39;10:00&#39;, &#39;11:00&#39;),
+  (8, 8, &#39;Wednesday&#39;, 11, 2024, &#39;10:00&#39;, &#39;12:00&#39;),
+  (9, 9, &#39;Thursday&#39;, 11, 2024, &#39;10:00&#39;, &#39;11:00&#39;),
+  (10, 10, &#39;Friday&#39;, 11, 2024, &#39;10:00&#39;, &#39;12:00&#39;);</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="display-tables" class="section level2">
-<h2>Display Tables</h2>
-<p>The contents of each table are displayed below.</p>
-<div id="students-table" class="section level4">
-<h4>Students Table</h4>
+<div id="queries" class="section level2">
+<h2>Queries</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgKiBGUk9NIFN0dWRlbnRzXG5gYGAifQ== -->
-<pre class="sql"><code>SELECT * FROM Students</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5cdFx0XHRTRUxFQ1Rcblx0XHRcdFx0bC4qLFxuXHRcdFx0XHRNQVgoQ0FTRSBXSEVOIGEuZGF5ID0gJ01vbmRheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIG1vbmRheSxcblx0XHRcdFx0TUFYKENBU0UgV0hFTiBhLmRheSA9ICdUdWVzZGF5JyBUSEVOIDEgRUxTRSAwIEVORCkgQVMgdHVlc2RheSxcblx0XHRcdFx0TUFYKENBU0UgV0hFTiBhLmRheSA9ICdXZWRuZXNkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyB3ZWRuZXNkYXksXG5cdFx0XHRcdE1BWChDQVNFIFdIRU4gYS5kYXkgPSAnVGh1cnNkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyB0aHVyc2RheSxcblx0XHRcdFx0TUFYKENBU0UgV0hFTiBhLmRheSA9ICdGcmlkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyBmcmlkYXlcblx0XHRcdEZST00gbGVhcm5lcnMgbFxuXHRcdFx0TEVGVCBKT0lOIGxlYXJuZXJfYXZhaWxhYmlsaXR5IGEgT04gbC5sZWFybmVyX2lkID0gYS5sZWFybmVyX2lkXG5cdFx0XHRHUk9VUCBCWSBsLmxlYXJuZXJfaWQ7XG5gYGAifQ== -->
+<pre class="sql"><code>            SELECT
+                l.*,
+                MAX(CASE WHEN a.day = &#39;Monday&#39; THEN 1 ELSE 0 END) AS monday,
+                MAX(CASE WHEN a.day = &#39;Tuesday&#39; THEN 1 ELSE 0 END) AS tuesday,
+                MAX(CASE WHEN a.day = &#39;Wednesday&#39; THEN 1 ELSE 0 END) AS wednesday,
+                MAX(CASE WHEN a.day = &#39;Thursday&#39; THEN 1 ELSE 0 END) AS thursday,
+                MAX(CASE WHEN a.day = &#39;Friday&#39; THEN 1 ELSE 0 END) AS friday
+            FROM learners l
+            LEFT JOIN learner_availability a ON l.learner_id = a.learner_id
+            GROUP BY l.learner_id;</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6W10sInJkZiI6Ikg0c0lBQUFBQUFBQUE0MVV2Mi9UUUJRKzB0aUowd1Mxc0xJeEV3Rk5TNG9ZVUpSMlFVaUlwajhXRkozdEYvdFUreHpPbDZRd01iREN5c3pLMEQ4RFJzVEVIOUFGaVoyeDRWM3NjMklUUzFoNmZ2ZDk3M3ZuZCsvdS9MSi90dE00YXhCQ05raDFBOThHRG9seFBEaTgxeVdrV2tGd2cxU0pwZndGaG0vam9JbldRbXNzZ29SVUZ0bW9WcGxvSmxvTnJZNW1wYnF0aFU4bU1vNW9FTHpSb0U4NTE2QjY0THBaNEFXVlVnTno0RWNoalhYb0ZIaW1NdzhGckdUMUl0dk93QWxiem0wK3A5S0hXYUdXNnBFZlJYcmNqend2SGRjT3BpQkF5aFRXc1JqQm5ITmRRVjNWTTQ0anJ1V25MTEFud2x2V1JIa21Obm9pbW1tbGVVSW5ucC9sWVZFU1JJd052SmwyaXZRZTczNVQvcjA4LzZqODE4dlB4NnJUOVY4Lzd5ai83Rzd6U3ZrUHIzcGZsUC8rNmVLMTJvWHRINWRkNVFlYlYzT1Y5NlR6KzFaaEN3MG5vSEdjdGtDVEZ1TVNQQkI3SFFUWGhmNXNRVWhaOE9EcHdyV2RLTXp4RDB2NG5SSytVOEx2bHZCN0pmeWpFcjVid3UvL3cyOG42N3EvRXNndnZBRnhNT1RSbERtUU1rM0YyT0RobVFLUlRZK2M2cDhJd1dWVWF1Mm13eVI3Q3p6MjJWZ2ZtWGdNN2hBQ3FqOWcwNWc1d3hCUHBXWjhGb05jWlZxSlJnQjFHZGVIcTVYSUNtU2luQW44THBMNUMvby9WdFNUa3ZFNi9ibzRLZmgxZWxLU3U2b3Z6bFBNMVU5Ulg1YVQrdnkxNERRRWZTMmFlamNDb0FKM2VzaGN6WXlZaU9WUWlmWFZ3ZXVVSTR5eEgvRU1MTTZXQmdGTVFRT0xUakZDN1VCTHpURGlMdFcvcXBxY1FMeUUxZ3hjdmtyVXBUOFJLOWdjQ2FiUVlsV1ZPY25mNzRaTEpXMlBoS295djI0TC8wdHR2WGJWd01vN2ZNM244ejhrK1JOYy93VWRVRTRTSHdZQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["learner_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["first_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["phone"],"name":[4],"type":["S3: integer64"],"align":["right"]},{"label":["email"],"name":[5],"type":["chr"],"align":["left"]},{"label":["level"],"name":[6],"type":["chr"],"align":["left"]},{"label":["available"],"name":[7],"type":["int"],"align":["right"]},{"label":["monday"],"name":[8],"type":["int"],"align":["right"]},{"label":["tuesday"],"name":[9],"type":["int"],"align":["right"]},{"label":["wednesday"],"name":[10],"type":["int"],"align":["right"]},{"label":["thursday"],"name":[11],"type":["int"],"align":["right"]},{"label":["friday"],"name":[12],"type":["int"],"align":["right"]}],"data":[{"1":"1","2":"Sally","3":"Shoo","4":"1111111111","5":"email1@email.com","6":"esl_novice","7":"1","8":"1","9":"1","10":"1","11":"0","12":"0"},{"1":"2","2":"Danny","3":"Dogg","4":"2222222222","5":"email2@email.com","6":"esl_beginner","7":"1","8":"1","9":"0","10":"0","11":"1","12":"1"},{"1":"3","2":"Eddy","3":"Everett","4":"3333333333","5":"email3@email.com","6":"esl_intermediate","7":"1","8":"0","9":"1","10":"1","11":"0","12":"1"},{"1":"4","2":"Patty","3":"Patricks","4":"4444444444","5":"email4@email.com","6":"citizenship","7":"1","8":"1","9":"1","10":"0","11":"1","12":"0"},{"1":"5","2":"Thomas","3":"Thompson","4":"5555555555","5":"email5@email.com","6":"sped_ela","7":"1","8":"1","9":"1","10":"0","11":"0","12":"1"},{"1":"6","2":"Wendy","3":"Wilburg","4":"6666666666","5":"email6@email.com","6":"basic_math","7":"1","8":"0","9":"1","10":"1","11":"1","12":"0"},{"1":"7","2":"Freddy","3":"Franks","4":"7777777777","5":"email7@email.com","6":"hiset_math","7":"1","8":"1","9":"0","10":"1","11":"0","12":"1"},{"1":"8","2":"Bobby","3":"Brown","4":"8888888888","5":"email8@email.com","6":"basic_reading","7":"1","8":"1","9":"1","10":"1","11":"0","12":"0"},{"1":"9","2":"Vinny","3":"Vaughn","4":"9999999999","5":"email9@email.com","6":"hiset_reading","7":"1","8":"1","9":"0","10":"1","11":"0","12":"1"},{"1":"10","2":"Mathew","3":"Matters","4":"1010101010","5":"email10@email.com","6":"basic_writing","7":"1","8":"1","9":"1","10":"1","11":"0","12":"0"}],"options":{"columns":{"min":{},"max":[10],"total":{}},"rows":{"min":[10],"max":[10],"total":{}},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="tutors-table" class="section level4">
-<h4>Tutors Table</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgKiBGUk9NIFR1dG9yc1xuYGBgIn0= -->
-<pre class="sql"><code>SELECT * FROM Tutors</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgZmlyc3RfbmFtZSwgc3Vic3RyKGxhc3RfbmFtZSwgMSwgMSkgQVMgbGFzdF9pbml0aWFsIEZST00gdHV0b3JzO1xuYGBgIn0= -->
+<pre class="sql"><code>SELECT first_name, substr(last_name, 1, 1) AS last_initial FROM tutors;</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6W10sInJkZiI6Ikg0c0lBQUFBQUFBQUExMlFQWXZDUUJDR1IwMkVMQXJDL1E1dHJyRVZvb1dOR0NQYXlYcEdITmlza3NTUDYrNVhYM201V2RnM1lJcVplZWFkcjJXVGVQK3A5b3FJZWhUMHhJZUNGRzdUeFhoS0ZIUWw2VkJBa1lzdktYOElPSEVrcG55aHY3Nnp0ZDgrQzNmYUdDVEJYQmNHbk55UFRWUEtlZDQwclo2WnhhNVplY21hOGY3bWVydHdocUZZUC9pRW9TVWIwM3BJWnczWUFlYUFCSkFDVm9BWllBT0lBY3ZXSDRSVzUxbnB6M2E5cU01Y2xOWEJsYnd5TUZvRXRseXhOdTBWWDFMRUNvanFwQ3M5T1JkdXhYdDdWRnlmRTF3ZHVxcy80dXE2L3BYdzUrd2Z0QmxqSXNNQkFBQT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["first_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["last_initial"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"Quinny","2":"Q"},{"1":"Wally","2":"W"},{"1":"Earl","2":"E"},{"1":"Ruby","2":"R"},{"1":"Timmy","2":"T"},{"1":"Owen","2":"O"},{"1":"Ashely","2":"A"},{"1":"Sophie","2":"S"},{"1":"David","2":"D"},{"1":"Jill","2":"J"}],"options":{"columns":{"min":{},"max":[10],"total":{}},"rows":{"min":[10],"max":[10],"total":{}},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="schedules-table" class="section level4">
-<h4>Schedules Table</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgKiBGUk9NIFNjaGVkdWxlc1xuYGBgIn0= -->
-<pre class="sql"><code>SELECT * FROM Schedules</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgZmlyc3RfbmFtZSBmaXJzdF9uYW1lLCBzdWJzdHIobGFzdF9uYW1lLCAxLCAxKSBBUyBsYXN0X2luaXRpYWwgRlJPTSB0dXRvcnNcbldIRVJFIGF2YWlsYWJsZTtcbmBgYCJ9 -->
+<pre class="sql"><code>SELECT first_name first_name, substr(last_name, 1, 1) AS last_initial FROM tutors
+WHERE available;</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6W10sInJkZiI6Ikg0c0lBQUFBQUFBQUExMlBzUXJDUUF5R28yM0ZGZ1hCNTdDTGl3L1FPcmhJdGFLYkhMYkZ3UFVxWjdXNitkaE8xaHhjQkRzaytmTC91WVRiUklkNWNBZ0F3QUhYb2V3UmdyZExsN01GZ051bnBnY3UrS1kreUo0U0dIRkNNYlRHSUxtaFVrL2JlWHNoSlRkdUxMUmtJOFd5L0JuckpsZjhmbHRkenBqeldDVHVtUEhZQ3FYc25Pc2xESHVHbUNGbFdETnNHU0tHVmVkZm5oSmxmclZIK2xZTUN0VFgrbWdzcTR5a0lBRVYxaWhrZDhXSlRGN0JZcENKV29TRk5pdit4MzFkTlNGZkhadXJMMHB0Mjc2cGZFeDhBZWI3UERDWEFRQUEifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["first_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["last_initial"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"Quinny","2":"Q"},{"1":"Wally","2":"W"},{"1":"Earl","2":"E"},{"1":"Timmy","2":"T"},{"1":"Owen","2":"O"},{"1":"Sophie","2":"S"},{"1":"David","2":"D"},{"1":"Jill","2":"J"}],"options":{"columns":{"min":{},"max":[10],"total":{}},"rows":{"min":[10],"max":[10],"total":{}},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="preferences-table" class="section level4">
-<h4>Preferences Table</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgKiBGUk9NIFByZWZlcmVuY2VzXG5gYGAifQ== -->
-<pre class="sql"><code>SELECT * FROM Preferences</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgZW1haWwgRlJPTSBsZWFybmVyc1xuVU5JT05cblNFTEVDVCBlbWFpbCBGUk9NIHR1dG9ycztcbmBgYCJ9 -->
+<pre class="sql"><code>SELECT email FROM learners
+UNION
+SELECT email FROM tutors;</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6W10sInJkZiI6Ikg0c0lBQUFBQUFBQUF3dHlpVERtaXVCaVlHQmdabUJoQnBLc1FDWURhMmlJbTY0RkF3TUxFNUREeU1EQ3dBbWlLNERTd21BQkJnWUJJQmFCU2dpbTVpWm01aGdhT0lCcHZlVDhYRlFKUTF3U1JyZ2tqSEZKbU9DU01NVWxZWVpMd2h5WGhBVXVDVXNNQ1FHSUJBNE5ScGdoQXRHQTZXK0lPS2EzSWVLWXZvYUlZM29hSW83cFo0ZzRwcGNoNHBnK2hvZ2pleGcxTGJEbUplYW1Ga1BUQVZ3UXJCcGRaWEpPWWpHNlNxNlV4SkpFdmJRaW9DRm95am1MOHN2MVlJYnpBakZUQTVENC8vLy9HeUQxRDRRQkIvZjZNYklDQUFBPSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["email"],"name":[1],"type":["chr"],"align":["left"]}],"data":[{"1":"email10@email.com"},{"1":"email11@email.com"},{"1":"email12@email.com"},{"1":"email13@email.com"},{"1":"email14@email.com"},{"1":"email15@email.com"},{"1":"email16@email.com"},{"1":"email17@email.com"},{"1":"email18@email.com"},{"1":"email19@email.com"},{"1":"email1@email.com"},{"1":"email20@email.com"},{"1":"email2@email.com"},{"1":"email3@email.com"},{"1":"email4@email.com"},{"1":"email5@email.com"},{"1":"email6@email.com"},{"1":"email7@email.com"},{"1":"email8@email.com"},{"1":"email9@email.com"}],"options":{"columns":{"min":{},"max":[10],"total":{}},"rows":{"min":[10],"max":[10],"total":{}},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-</div>
-<div id="match-students-with-tutors" class="section level2">
-<h2>Match Students With Tutors</h2>
-<p>The following SQL statements query to find tutors who match the
-preferences of the provided student.</p>
-<div id="tutors-for-sally-shoo" class="section level4">
-<h4>Tutors for Sally Shoo</h4>
-<p>Tutors who have a preference for ‘ESL’.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG4gIFNFTEVDVCBESVNUSU5DVCBUdXRvcnMuTmFtZVxuICBGUk9NIFR1dG9yc1xuICBKT0lOIFByZWZlcmVuY2VzIE9OIFR1dG9ycy5UdXRvcl9JRCA9IFByZWZlcmVuY2VzLlR1dG9yX0lEXG4gIEpPSU4gU3R1ZGVudHMgT04gU3R1ZGVudHMuTmFtZSA9ICdTYWxseSBTaG9vJ1xuICBXSEVSRVxuICAgICAgQ0FTRSBcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VTTCcgVEhFTiBQcmVmZXJlbmNlcy5FU0xcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NvbnZlcnNhdGlvbicgVEhFTiBQcmVmZXJlbmNlcy5Db252ZXJzYXRpb25cbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NpdGl6ZW5zaGlwJyBUSEVOIFByZWZlcmVuY2VzLkNpdGl6ZW5zaGlwXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdIaVNFVCcgVEhFTiBQcmVmZXJlbmNlcy5IaVNFVFxuICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnRWxlbWVudGFyeV9NYXRoJyBUSEVOIFByZWZlcmVuY2VzLkVsZW1lbnRhcnlfTWF0aFxuICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnU2Vjb25kYXJ5X01hdGgnIFRIRU4gUHJlZmVyZW5jZXMuU2Vjb25kYXJ5X01hdGhcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VsZW1lbnRhcnlfUmVhZGluZycgVEhFTiBQcmVmZXJlbmNlcy5FbGVtZW50YXJ5X1JlYWRpbmdcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ1NlY29uZGFyeV9SZWFkaW5nJyBUSEVOIFByZWZlcmVuY2VzLlNlY29uZGFyeV9SZWFkaW5nXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFbGVtZW50YXJ5X1dyaXRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuRWxlbWVudGFyeV9Xcml0aW5nXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdTZWNvbmRhcnlfV3JpdGluZycgVEhFTiBQcmVmZXJlbmNlcy5TZWNvbmRhcnlfV3JpdGluZ1xuICAgICAgRU5EID0gdHJ1ZVxuICBBTkQgVHV0b3JzLlN0dWRlbnRfSUQgSVMgTlVMTDtcbmBgYCJ9 -->
-<pre class="sql"><code>  SELECT DISTINCT Tutors.Name
-  FROM Tutors
-  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
-  JOIN Students ON Students.Name = &#39;Sally Shoo&#39;
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1RcbiAgICBTVU0oU1RSRlRJTUUoJyVIJywgZW5kX3RpbWUpIC0gU1RSRlRJTUUoJyVIJywgc3RhcnRfdGltZSkpIEFTIG9jdG9iZXJfaG91cnMsXG4gICAgQ09VTlQoRElTVElOQ1QgdHV0b3JfaWQpIEFTIHR1dG9yc1xuRlJPTVxuICAgIGhvdXJzXG5XSEVSRVxuICAgIG1vbnRoID0gMTA7XG5gYGAifQ== -->
+<pre class="sql"><code>SELECT
+    SUM(STRFTIME(&#39;%H&#39;, end_time) - STRFTIME(&#39;%H&#39;, start_time)) AS october_hours,
+    COUNT(DISTINCT tutor_id) AS tutors
+FROM
+    hours
+WHERE
+    month = 10;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6W10sInJkZiI6Ikg0c0lBQUFBQUFBQUF3dHlpVERtaXVCaVlHQmdabUJoQnBLc1FDWURhMmlJbTY0RkF3TUxFNUREeU1EQ3dBbWlLNERTd2tBR1NKQVhMTUhBd0lYRVprZlR3SnFYbUp0YURHUUlnRFZCQkhuemswdnlrMUtMNGpQeVM0dUtvWUpzSmFVbCtVQWVtdjdrbk1SaW1INllJRmRLWWttaVhsb1IwR2cwNVp4RitlVjZNQ3RCYm1KcUFCTC9nUUJJL1FOaEFJWTlyMzd0QUFBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["october_hours"],"name":[1],"type":["int"],"align":["right"]},{"label":["tutors"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"10","2":"7"}],"options":{"columns":{"min":{},"max":[10],"total":{}},"rows":{"min":[10],"max":[10],"total":{}},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG5TRUxFQ1QgXG5cdHQuKiwgcC4qLFxuXHRNQVgoQ0FTRSBXSEVOIGEuZGF5ID0gJ01vbmRheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIG1vbmRheSxcblx0TUFYKENBU0UgV0hFTiBhLmRheSA9ICdUdWVzZGF5JyBUSEVOIDEgRUxTRSAwIEVORCkgQVMgdHVlc2RheSxcblx0TUFYKENBU0UgV0hFTiBhLmRheSA9ICdXZWRuZXNkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyB3ZWRuZXNkYXksXG5cdE1BWChDQVNFIFdIRU4gYS5kYXkgPSAnVGh1cnNkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyB0aHVyc2RheSxcblx0TUFYKENBU0UgV0hFTiBhLmRheSA9ICdGcmlkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyBmcmlkYXlcbkZST00gdHV0b3JzIHRcbkxFRlQgSk9JTiBwcmVmZXJlbmNlcyBwIE9OIHQudHV0b3JfaWQgPSBwLnR1dG9yX2lkXG5MRUZUIEpPSU4gdHV0b3JfYXZhaWxhYmlsaXR5IGEgT04gdC50dXRvcl9pZCA9IGEudHV0b3JfaWRcbkdST1VQIEJZIHQudHV0b3JfaWQsIHAucHJlZmVyZW5jZV9pZDtcbmBgYCJ9 -->
+<pre class="sql"><code>SELECT 
+    t.*, p.*,
+    MAX(CASE WHEN a.day = &#39;Monday&#39; THEN 1 ELSE 0 END) AS monday,
+    MAX(CASE WHEN a.day = &#39;Tuesday&#39; THEN 1 ELSE 0 END) AS tuesday,
+    MAX(CASE WHEN a.day = &#39;Wednesday&#39; THEN 1 ELSE 0 END) AS wednesday,
+    MAX(CASE WHEN a.day = &#39;Thursday&#39; THEN 1 ELSE 0 END) AS thursday,
+    MAX(CASE WHEN a.day = &#39;Friday&#39; THEN 1 ELSE 0 END) AS friday
+FROM tutors t
+LEFT JOIN preferences p ON t.tutor_id = p.tutor_id
+LEFT JOIN tutor_availability a ON t.tutor_id = a.tutor_id
+GROUP BY t.tutor_id, p.preference_id;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6W10sInJkZiI6Ikg0c0lBQUFBQUFBQUE3VlZ2Vy9UUUJTL3BFbWFwQzFxWWF2WW1Lbm9Kd0V4MEtwbEtFTkZQMFFYRkYzc2wvaUVmUTduUzFLWU9yREN5c3pLMEQ4RFJzVEVIOUFGaVoyeDRaMlQ1OXFXVGR0SVdIcCs5OTd2OSs3ZTNkbnY3VzhmcjlhUDY0eXhLVmFhd25jWmg2eDhkUGpzZm9PeFVoR05BaXV4bXRFbkNOL0J3U0xLSEVvOUJCa3JodEhJTnBFb0ZaUnBsQ3BLYmN3TCthZjR1bzdnTXgvR2pSYXV2T2dKS2QrT3JmSkw3cnBrbEhhNGNtbTgzMnRGcEVQaGVSRnBid0NTNXRvTUhJakNLd2QrMXhGQVFkdThMMndLMmhXdW01Rkk1eklZRTlHZ0tIaW56MlZBMEw3ZkFSVlptRXdySWxiMjFBQmNTcnE4YVhPUGlOTUhQYytMeFcyRDUwdE56RjN1UVlBbmZXdDhwR3pyOGZvM285L3IxeCtOL25yMitjaGNTZlhYejd0R1A3ODNlMjcwaDFkYlg0eisvdW5ramJtdWhSOW5EYU1QWjg2SEp1N0oydS9icWJzdVd5NFBndkgyeVZrVFVnUHVhMk1Oall2VTJTeUF4NFc3dlB3MDFFdVc3eVdCbFR4Z05ROVl5d1BXODRDTlBPQmhIdERJQXg3bEFDc1BZa0R5TnlCaE9lUENwTC9OQkh4NkNsZm9kUDVYeGNUNTEza216V2VTL0xQdzlEengrVys2My85OVBwUE1mNVB6TEZ4RDh2Z3NaNXkxMzBLR25aVi9WczdwdUgvdE4ydWNsWDlXM05oTzFqdzVLckJoV1ZzY082dTZwMzNWak5wQzNRV3VKTVE5YmFFQzNUVEJWQ2V4ZGlZYzVhN2p5OGdJNndkUmVSOE4zbklKbmVzcWFJTUNhY0hsRXVra1ppMWY5ckZQY0MxOGFteDFDTnltOVB2Q29xbG1qYWNGSGV5ZFVmT1pOejVUeHBVSHR1Q2F1RE9XME9JZHlNQVJYVm8wNklMZEJKZlRBaTBlQ0t2cGNlMlF4eEVCNkxobmJzUlJ3RzBoTytRYzBWTE9FWE9nY04wME0rbXNZQSswT1RYZGFkMkQ0TktzRGNDV2NVZFZPejBWc3l0dEpZd1ZYblZ4eUpJZHJXNXp6WmZheWx4VjhtT29LWCt3UkIrRSthcUtwL2dhRG9kLzJLajNYZndGSCtVbldqb0pBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["tutor_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["learner_id"],"name":[2],"type":["int"],"align":["right"]},{"label":["first_name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["last_name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["phone"],"name":[5],"type":["S3: integer64"],"align":["right"]},{"label":["email"],"name":[6],"type":["chr"],"align":["left"]},{"label":["available"],"name":[7],"type":["int"],"align":["right"]},{"label":["preference_id"],"name":[8],"type":["int"],"align":["right"]},{"label":["tutor_id"],"name":[9],"type":["int"],"align":["right"]},{"label":["conversation"],"name":[10],"type":["int"],"align":["right"]},{"label":["esl_novice"],"name":[11],"type":["int"],"align":["right"]},{"label":["esl_beginner"],"name":[12],"type":["int"],"align":["right"]},{"label":["esl_intermediate"],"name":[13],"type":["int"],"align":["right"]},{"label":["citizenship"],"name":[14],"type":["int"],"align":["right"]},{"label":["sped_ela"],"name":[15],"type":["int"],"align":["right"]},{"label":["basic_math"],"name":[16],"type":["int"],"align":["right"]},{"label":["hiset_math"],"name":[17],"type":["int"],"align":["right"]},{"label":["basic_reading"],"name":[18],"type":["int"],"align":["right"]},{"label":["hiset_reading"],"name":[19],"type":["int"],"align":["right"]},{"label":["basic_writing"],"name":[20],"type":["int"],"align":["right"]},{"label":["hiset_writing"],"name":[21],"type":["int"],"align":["right"]},{"label":["monday"],"name":[22],"type":["int"],"align":["right"]},{"label":["tuesday"],"name":[23],"type":["int"],"align":["right"]},{"label":["wednesday"],"name":[24],"type":["int"],"align":["right"]},{"label":["thursday"],"name":[25],"type":["int"],"align":["right"]},{"label":["friday"],"name":[26],"type":["int"],"align":["right"]}],"data":[{"1":"1","2":"NA","3":"Quinny","4":"Quigly","5":"1111111111","6":"email11@email.com","7":"1","8":"1","9":"1","10":"0","11":"1","12":"1","13":"0","14":"0","15":"1","16":"0","17":"1","18":"1","19":"0","20":"1","21":"0","22":"0","23":"1","24":"1","25":"1","26":"0"},{"1":"2","2":"NA","3":"Wally","4":"Walter","5":"2222222222","6":"email12@email.com","7":"1","8":"2","9":"2","10":"0","11":"1","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"1","22":"1","23":"0","24":"1","25":"0","26":"1"},{"1":"3","2":"NA","3":"Earl","4":"Evans","5":"3333333333","6":"email13@email.com","7":"1","8":"3","9":"3","10":"1","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"1","23":"0","24":"0","25":"1","26":"1"},{"1":"4","2":"NA","3":"Ruby","4":"Rogers","5":"4444444444","6":"email14@email.com","7":"0","8":"4","9":"4","10":"0","11":"1","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"1","22":"1","23":"1","24":"1","25":"0","26":"0"},{"1":"5","2":"NA","3":"Timmy","4":"Timber","5":"5555555555","6":"email15@email.com","7":"1","8":"5","9":"5","10":"1","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"0","23":"1","24":"0","25":"1","26":"1"},{"1":"6","2":"NA","3":"Owen","4":"Orwell","5":"6666666666","6":"email16@email.com","7":"1","8":"6","9":"6","10":"0","11":"1","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"1","22":"1","23":"0","24":"1","25":"1","26":"0"},{"1":"7","2":"NA","3":"Ashely","4":"Adams","5":"7777777777","6":"email17@email.com","7":"0","8":"7","9":"7","10":"1","11":"0","12":"0","13":"1","14":"1","15":"0","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"1","23":"0","24":"1","25":"0","26":"1"},{"1":"8","2":"NA","3":"Sophie","4":"Summers","5":"8888888888","6":"email18@email.com","7":"1","8":"8","9":"8","10":"0","11":"1","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"1","22":"0","23":"1","24":"0","25":"1","26":"1"},{"1":"9","2":"NA","3":"David","4":"Demont","5":"9999999999","6":"email19@email.com","7":"1","8":"9","9":"9","10":"1","11":"0","12":"0","13":"1","14":"1","15":"1","16":"0","17":"0","18":"0","19":"0","20":"1","21":"1","22":"1","23":"0","24":"0","25":"1","26":"1"},{"1":"10","2":"NA","3":"Jill","4":"James","5":"1010101010","6":"email20@email.com","7":"1","8":"10","9":"10","10":"0","11":"1","12":"0","13":"0","14":"0","15":"0","16":"1","17":"1","18":"0","19":"1","20":"0","21":"1","22":"1","23":"1","24":"1","25":"0","26":"0"}],"options":{"columns":{"min":{},"max":[10],"total":{}},"rows":{"min":[10],"max":[10],"total":{}},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="find-students-for-quinn" class="section level3">
+<h3>Find Students for Quinn</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBRdWlubidzIElELlxudHV0b3JfaWQgPC0gJzEnO1xuXG4jIFF1ZXJ5IHRvIGZpbmQgdHV0b3Igc2NoZWR1bGUuXG50dXRvcl9zY2hlZHVsZSA8LSBkYkdldFF1ZXJ5KGRiY29uLCBnbHVlKFwiU0VMRUNUIGRheSwgc3RhcnRfdGltZSwgZW5kX3RpbWUgRlJPTSB0dXRvcl9hdmFpbGFiaWxpdHkgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9O1wiKSlcblxuIyBRdWVyeSB0byBmaW5kIHR1dG9yIHByZWZlcmVuY2VzLlxudHV0b3JfcHJlZmVyZW5jZXMgPC0gZGJHZXRRdWVyeShkYmNvbiwgZ2x1ZShcIlNFTEVDVCBjb252ZXJzYXRpb24sIGVzbF9ub3ZpY2UsIGVzbF9iZWdpbm5lciwgZXNsX2ludGVybWVkaWF0ZSwgY2l0aXplbnNoaXAsIHNwZWRfZWxhLCBiYXNpY19tYXRoLCBoaXNldF9tYXRoLCBiYXNpY19yZWFkaW5nLCBoaXNldF9yZWFkaW5nLCBiYXNpY193cml0aW5nLCBoaXNldF93cml0aW5nIEZST00gcHJlZmVyZW5jZXMgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9O1wiKSlcblxuZGF5cyA8LSB0dXRvcl9zY2hlZHVsZSRkYXlcbnN0YXJ0X3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJHN0YXJ0X3RpbWVcbmVuZF90aW1lcyA8LSB0dXRvcl9zY2hlZHVsZSRlbmRfdGltZVxuXG4jIExpc3Qgb2YgcHJlZmVyZW5jZXMuXG5wcmVmZXJlbmNlX25hbWVzIDwtIGMoXCJjb252ZXJzYXRpb25cIiwgXCJlc2xfbm92aWNlXCIsIFwiZXNsX2JlZ2lubmVyXCIsIFwiZXNsX2ludGVybWVkaWF0ZVwiLCBcImNpdGl6ZW5zaGlwXCIsIFwic3BlZF9lbGFcIiwgXCJiYXNpY19tYXRoXCIsIFwiaGlzZXRfbWF0aFwiLCBcImJhc2ljX3JlYWRpbmdcIiwgXCJoaXNldF9yZWFkaW5nXCIsIFwiYmFzaWNfd3JpdGluZ1wiLCBcImhpc2V0X3dyaXRpbmdcIilcblxuIyBDcmVhdGUgZW1wdHkgcHJlZmVyZW5jZSBzdHJpbmcuXG5wcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBcIlwiO1xuXG5mb3IgKGkgaW4gMTpsZW5ndGgocHJlZmVyZW5jZV9uYW1lcykpIHtcbiAgaWYgKHR1dG9yX3ByZWZlcmVuY2VzW2ldID09ICcxJykge1xuICAgIHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtIGdsdWUoXCJ7cHJlZmVyZW5jZV9xdWVyeV9zdHJpbmd9LCAne3ByZWZlcmVuY2VfbmFtZXNbaV19J1wiKVxuICB9XG59XG5wcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBzdWJzdHIocHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcsIDMsIG5jaGFyKHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nKSlcblxuIyBDcmVhdGUgZGF0YWZyYW1lIHRvIHNhdmUgbWF0Y2hlcy5cbm1hdGNoZXMgPC0gZGF0YS5mcmFtZShmaXJzdF9uYW1lID0gY2hhcmFjdGVyKCksXG4gICAgICAgICAgICAgICAgICAgICAgbGFzdF9pbml0aWFsID0gY2hhcmFjdGVyKCksXG4gICAgICAgICAgICAgICAgICAgICAgbGV2ZWwgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBkYXkgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBzdGFydF90aW1lID0gY2hhcmFjdGVyKCksXG4gICAgICAgICAgICAgICAgICAgICAgZW5kX3RpbWUgPSBjaGFyYWN0ZXIoKSlcblxuZm9yIChpIGluIDE6bGVuZ3RoKGRheXMpKSB7XG4gIG1hdGNoX3F1ZXJ5IDwtIChnbHVlKFwiU0VMRUNUXG4gICAgICBsLmZpcnN0X25hbWUsIHN1YnN0cihsLmxhc3RfbmFtZSwgMSwgMSkgQVMgbGFzdF9uYW1lLCBsLmxldmVsLCBsYS5kYXksIGxhLnN0YXJ0X3RpbWUsIGxhLmVuZF90aW1lXG4gIEZST01cbiAgICAgIGxlYXJuZXJzIGxcbiAgSk9JTlxuICAgICAgbGVhcm5lcl9hdmFpbGFiaWxpdHkgbGEgT04gbC5sZWFybmVyX2lkID0gbGEubGVhcm5lcl9pZFxuICBXSEVSRVxuICAgICAgbC5hdmFpbGFibGUgQU5EXG4gICAgICBsLmxldmVsIElOICh7cHJlZmVyZW5jZV9xdWVyeV9zdHJpbmd9KSBBTkRcbiAgICAgIGxhLmRheSA9ICd7ZGF5c1tpXX0nIEFORFxuICAgICAgbGEuc3RhcnRfdGltZSA8ICd7ZW5kX3RpbWVzW2ldfScgQU5EXG4gICAgICBsYS5lbmRfdGltZSA+ICd7c3RhcnRfdGltZXNbaV19JztcIikpXG4gIFxuICByZXN1bHQgPC0gZGJHZXRRdWVyeShkYmNvbiwgbWF0Y2hfcXVlcnkpXG5cbiAgbWF0Y2hlcyA8LSByYmluZChtYXRjaGVzLCByZXN1bHQpXG59XG5cbnByaW50KG1hdGNoZXMpXG5gYGAifQ== -->
+<pre class="r"><code># Quinn&#39;s ID.
+tutor_id &lt;- &#39;1&#39;;
+
+# Query to find tutor schedule.
+tutor_schedule &lt;- dbGetQuery(dbcon, glue(&quot;SELECT day, start_time, end_time FROM tutor_availability WHERE tutor_id = {tutor_id};&quot;))
+
+# Query to find tutor preferences.
+tutor_preferences &lt;- dbGetQuery(dbcon, glue(&quot;SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing FROM preferences WHERE tutor_id = {tutor_id};&quot;))
+
+days &lt;- tutor_schedule$day
+start_times &lt;- tutor_schedule$start_time
+end_times &lt;- tutor_schedule$end_time
+
+# List of preferences.
+preference_names &lt;- c(&quot;conversation&quot;, &quot;esl_novice&quot;, &quot;esl_beginner&quot;, &quot;esl_intermediate&quot;, &quot;citizenship&quot;, &quot;sped_ela&quot;, &quot;basic_math&quot;, &quot;hiset_math&quot;, &quot;basic_reading&quot;, &quot;hiset_reading&quot;, &quot;basic_writing&quot;, &quot;hiset_writing&quot;)
+
+# Create empty preference string.
+preference_query_string &lt;- &quot;&quot;;
+
+for (i in 1:length(preference_names)) {
+  if (tutor_preferences[i] == &#39;1&#39;) {
+    preference_query_string &lt;- glue(&quot;{preference_query_string}, &#39;{preference_names[i]}&#39;&quot;)
+  }
+}
+preference_query_string &lt;- substr(preference_query_string, 3, nchar(preference_query_string))
+
+# Create dataframe to save matches.
+matches &lt;- data.frame(first_name = character(),
+                      last_initial = character(),
+                      level = character(),
+                      day = character(),
+                      start_time = character(),
+                      end_time = character())
+
+for (i in 1:length(days)) {
+  match_query &lt;- (glue(&quot;SELECT
+      l.first_name, substr(l.last_name, 1, 1) AS last_name, l.level, la.day, la.start_time, la.end_time
+  FROM
+      learners l
+  JOIN
+      learner_availability la ON l.learner_id = la.learner_id
   WHERE
-      CASE 
-          WHEN Students.Level = &#39;ESL&#39; THEN Preferences.ESL
-          WHEN Students.Level = &#39;Conversation&#39; THEN Preferences.Conversation
-          WHEN Students.Level = &#39;Citizenship&#39; THEN Preferences.Citizenship
-          WHEN Students.Level = &#39;HiSET&#39; THEN Preferences.HiSET
-          WHEN Students.Level = &#39;Elementary_Math&#39; THEN Preferences.Elementary_Math
-          WHEN Students.Level = &#39;Secondary_Math&#39; THEN Preferences.Secondary_Math
-          WHEN Students.Level = &#39;Elementary_Reading&#39; THEN Preferences.Elementary_Reading
-          WHEN Students.Level = &#39;Secondary_Reading&#39; THEN Preferences.Secondary_Reading
-          WHEN Students.Level = &#39;Elementary_Writing&#39; THEN Preferences.Elementary_Writing
-          WHEN Students.Level = &#39;Secondary_Writing&#39; THEN Preferences.Secondary_Writing
-      END = true
-  AND Tutors.Student_ID IS NULL;</code></pre>
+      l.available AND
+      l.level IN ({preference_query_string}) AND
+      la.day = &#39;{days[i]}&#39; AND
+      la.start_time &lt; &#39;{end_times[i]}&#39; AND
+      la.end_time &gt; &#39;{start_times[i]}&#39;;&quot;))
+  
+  result &lt;- dbGetQuery(dbcon, match_query)
+
+  matches &lt;- rbind(matches, result)
+}
+
+print(matches)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6OSwibmNvbCI6Niwic3VtbWFyeSI6W119LCJyZGYiOiJINHNJQUFBQUFBQUFBNlZVWFUrRE1CU3QyOEJCbkRIUnYrRXlOVWJqbzFsNDBnY1ZvMitrMEt0cnd0cWw3Wng3ODVlckYwYlo2R1l5bGFSd3o3bm5mbkJwdVI4K240WFBJU0drVFRwdHZIdG9FdTh4am80dkNlbTBFT3lRRGdtSzV6dTZEOUh3Y1IzZ0NpcUg5MER6ZkY0QlB4N0pNZFhXZFMzVHRIYmRVak9DMmNhb1NBRmo4eTJpaGxTSXVkUEF6b00xWW10Y1crTjJUUlA5ckJrNmlVUFFlU0xrRzgrZ1lycDZBaXlCbkZhNGwxTE5zMFFCWlZ5OE5zbVo0bVpKcnVjS1IxeURTY2I0ZnIvT3RsZGtTK0dWQ3dISzZYbzNub0ptZFA0WEdEd0JFLzhrdXZGb3FrcnM3Sk9UMDZ2Qm9BWW5xMkR3STJqSXpyZUxLZXM0eFU4YmlvczErU2F3WmN3R1dmUG9lSUtPUVZjZCtmYnp2M0NsVFZLNDdDUnoyaVM4SE40Z3IwQjdPZUZRRzZwTVluaXQ3SUpnQzl5c0hDZzU2OXZxUFZ5dEQxSmVnZHRpaHNWdGk1WU1HVFcwLzZLS2pnajVkRUoyNWNSd0tUQ290ZnBicVA4WHlpR09JaTdZRFZDRlcxWkhVdDFOY2ZjNkdvK2xtU3pJc0NRWFY2K3lneFhiWHpUVCtuS202b1BBUTdFY0lFM3JBWWFZV1VCVzlGd3gremlkY2pqOWllTENXQjJ5dW0ra29TdVJ1V1hLT1pEUGIvbkFoc0k1QlFBQSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["first_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["last_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["level"],"name":[3],"type":["chr"],"align":["left"]},{"label":["day"],"name":[4],"type":["chr"],"align":["left"]},{"label":["start_time"],"name":[5],"type":["chr"],"align":["left"]},{"label":["end_time"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"Sally","2":"S","3":"esl_novice","4":"Tuesday","5":"12:00","6":"20:00"},{"1":"Thomas","2":"T","3":"sped_ela","4":"Tuesday","5":"11:00","6":"17:00"},{"1":"Bobby","2":"B","3":"basic_reading","4":"Tuesday","5":"10:00","6":"12:00"},{"1":"Mathew","2":"M","3":"basic_writing","4":"Tuesday","5":"10:00","6":"12:00"},{"1":"Sally","2":"S","3":"esl_novice","4":"Wednesday","5":"11:00","6":"20:00"},{"1":"Freddy","2":"F","3":"hiset_math","4":"Wednesday","5":"15:00","6":"17:00"},{"1":"Bobby","2":"B","3":"basic_reading","4":"Wednesday","5":"10:00","6":"12:00"},{"1":"Mathew","2":"M","3":"basic_writing","4":"Wednesday","5":"10:00","6":"20:00"},{"1":"Danny","2":"D","3":"esl_beginner","4":"Thursday","5":"12:00","6":"17:00"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[9]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="tutors-for-danny-dogg" class="section level4">
-<h4>Tutors for Danny Dogg</h4>
-<p>Tutors who have a preference for ‘Citizenship’.</p>
+<div id="find-students-for-wally" class="section level3">
+<h3>Find Students for Wally</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG4gIFNFTEVDVCBESVNUSU5DVCBUdXRvcnMuTmFtZVxuICBGUk9NIFR1dG9yc1xuICBKT0lOIFByZWZlcmVuY2VzIE9OIFR1dG9ycy5UdXRvcl9JRCA9IFByZWZlcmVuY2VzLlR1dG9yX0lEXG4gIEpPSU4gU3R1ZGVudHMgT04gU3R1ZGVudHMuTmFtZSA9ICdEYW5ueSBEb2dnJ1xuICBXSEVSRVxuICAgICAgQ0FTRSBcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VTTCcgVEhFTiBQcmVmZXJlbmNlcy5FU0xcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NvbnZlcnNhdGlvbicgVEhFTiBQcmVmZXJlbmNlcy5Db252ZXJzYXRpb25cbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NpdGl6ZW5zaGlwJyBUSEVOIFByZWZlcmVuY2VzLkNpdGl6ZW5zaGlwXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdIaVNFVCcgVEhFTiBQcmVmZXJlbmNlcy5IaVNFVFxuICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnRWxlbWVudGFyeV9NYXRoJyBUSEVOIFByZWZlcmVuY2VzLkVsZW1lbnRhcnlfTWF0aFxuICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnU2Vjb25kYXJ5X01hdGgnIFRIRU4gUHJlZmVyZW5jZXMuU2Vjb25kYXJ5X01hdGhcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VsZW1lbnRhcnlfUmVhZGluZycgVEhFTiBQcmVmZXJlbmNlcy5FbGVtZW50YXJ5X1JlYWRpbmdcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ1NlY29uZGFyeV9SZWFkaW5nJyBUSEVOIFByZWZlcmVuY2VzLlNlY29uZGFyeV9SZWFkaW5nXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFbGVtZW50YXJ5X1dyaXRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuRWxlbWVudGFyeV9Xcml0aW5nXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdTZWNvbmRhcnlfV3JpdGluZycgVEhFTiBQcmVmZXJlbmNlcy5TZWNvbmRhcnlfV3JpdGluZ1xuICAgICAgRU5EID0gdHJ1ZVxuICBBTkQgVHV0b3JzLlN0dWRlbnRfSUQgSVMgTlVMTDtcbmBgYCJ9 -->
-<pre class="sql"><code>  SELECT DISTINCT Tutors.Name
-  FROM Tutors
-  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
-  JOIN Students ON Students.Name = &#39;Danny Dogg&#39;
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXYWxseSdzIElELlxudHV0b3JfaWQgPC0gJzInO1xuXG4jIFF1ZXJ5IHRvIGZpbmQgdHV0b3Igc2NoZWR1bGUuXG50dXRvcl9zY2hlZHVsZSA8LSBkYkdldFF1ZXJ5KGRiY29uLCBnbHVlKFwiU0VMRUNUIGRheSwgc3RhcnRfdGltZSwgZW5kX3RpbWUgRlJPTSB0dXRvcl9hdmFpbGFiaWxpdHkgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9O1wiKSlcblxuIyBRdWVyeSB0byBmaW5kIHR1dG9yIHByZWZlcmVuY2VzLlxudHV0b3JfcHJlZmVyZW5jZXMgPC0gZGJHZXRRdWVyeShkYmNvbiwgZ2x1ZShcIlNFTEVDVCBjb252ZXJzYXRpb24sIGVzbF9ub3ZpY2UsIGVzbF9iZWdpbm5lciwgZXNsX2ludGVybWVkaWF0ZSwgY2l0aXplbnNoaXAsIHNwZWRfZWxhLCBiYXNpY19tYXRoLCBoaXNldF9tYXRoLCBiYXNpY19yZWFkaW5nLCBoaXNldF9yZWFkaW5nLCBiYXNpY193cml0aW5nLCBoaXNldF93cml0aW5nIEZST00gcHJlZmVyZW5jZXMgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9O1wiKSlcblxuZGF5cyA8LSB0dXRvcl9zY2hlZHVsZSRkYXlcbnN0YXJ0X3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJHN0YXJ0X3RpbWVcbmVuZF90aW1lcyA8LSB0dXRvcl9zY2hlZHVsZSRlbmRfdGltZVxuXG4jIExpc3Qgb2YgcHJlZmVyZW5jZXMuXG5wcmVmZXJlbmNlX25hbWVzIDwtIGMoXCJjb252ZXJzYXRpb25cIiwgXCJlc2xfbm92aWNlXCIsIFwiZXNsX2JlZ2lubmVyXCIsIFwiZXNsX2ludGVybWVkaWF0ZVwiLCBcImNpdGl6ZW5zaGlwXCIsIFwic3BlZF9lbGFcIiwgXCJiYXNpY19tYXRoXCIsIFwiaGlzZXRfbWF0aFwiLCBcImJhc2ljX3JlYWRpbmdcIiwgXCJoaXNldF9yZWFkaW5nXCIsIFwiYmFzaWNfd3JpdGluZ1wiLCBcImhpc2V0X3dyaXRpbmdcIilcblxuIyBDcmVhdGUgZW1wdHkgcHJlZmVyZW5jZSBzdHJpbmcuXG5wcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBcIlwiO1xuXG5mb3IgKGkgaW4gMTpsZW5ndGgocHJlZmVyZW5jZV9uYW1lcykpIHtcbiAgaWYgKHR1dG9yX3ByZWZlcmVuY2VzW2ldID09ICcxJykge1xuICAgIHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtIGdsdWUoXCJ7cHJlZmVyZW5jZV9xdWVyeV9zdHJpbmd9LCAne3ByZWZlcmVuY2VfbmFtZXNbaV19J1wiKVxuICB9XG59XG5wcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBzdWJzdHIocHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcsIDMsIG5jaGFyKHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nKSlcblxuIyBDcmVhdGUgZGF0YWZyYW1lIHRvIHNhdmUgbWF0Y2hlcy5cbm1hdGNoZXMgPC0gZGF0YS5mcmFtZShmaXJzdF9uYW1lID0gY2hhcmFjdGVyKCksXG4gICAgICAgICAgICAgICAgICAgICAgbGFzdF9pbml0aWFsID0gY2hhcmFjdGVyKCksXG4gICAgICAgICAgICAgICAgICAgICAgbGV2ZWwgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBkYXkgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBzdGFydF90aW1lID0gY2hhcmFjdGVyKCksXG4gICAgICAgICAgICAgICAgICAgICAgZW5kX3RpbWUgPSBjaGFyYWN0ZXIoKSlcblxuZm9yIChpIGluIDE6bGVuZ3RoKGRheXMpKSB7XG4gIG1hdGNoX3F1ZXJ5IDwtIChnbHVlKFwiU0VMRUNUXG4gICAgICBsLmZpcnN0X25hbWUsIHN1YnN0cihsLmxhc3RfbmFtZSwgMSwgMSkgQVMgbGFzdF9uYW1lLCBsLmxldmVsLCBsYS5kYXksIGxhLnN0YXJ0X3RpbWUsIGxhLmVuZF90aW1lXG4gIEZST01cbiAgICAgIGxlYXJuZXJzIGxcbiAgSk9JTlxuICAgICAgbGVhcm5lcl9hdmFpbGFiaWxpdHkgbGEgT04gbC5sZWFybmVyX2lkID0gbGEubGVhcm5lcl9pZFxuICBXSEVSRVxuICAgICAgbC5hdmFpbGFibGUgQU5EXG4gICAgICBsLmxldmVsIElOICh7cHJlZmVyZW5jZV9xdWVyeV9zdHJpbmd9KSBBTkRcbiAgICAgIGxhLmRheSA9ICd7ZGF5c1tpXX0nIEFORFxuICAgICAgbGEuc3RhcnRfdGltZSA8ICd7ZW5kX3RpbWVzW2ldfScgQU5EXG4gICAgICBsYS5lbmRfdGltZSA+ICd7c3RhcnRfdGltZXNbaV19JztcIikpXG4gIFxuICByZXN1bHQgPC0gZGJHZXRRdWVyeShkYmNvbiwgbWF0Y2hfcXVlcnkpXG5cbiAgbWF0Y2hlcyA8LSByYmluZChtYXRjaGVzLCByZXN1bHQpXG59XG5cbnByaW50KG1hdGNoZXMpXG5gYGAifQ== -->
+<pre class="r"><code># Wally&#39;s ID.
+tutor_id &lt;- &#39;2&#39;;
+
+# Query to find tutor schedule.
+tutor_schedule &lt;- dbGetQuery(dbcon, glue(&quot;SELECT day, start_time, end_time FROM tutor_availability WHERE tutor_id = {tutor_id};&quot;))
+
+# Query to find tutor preferences.
+tutor_preferences &lt;- dbGetQuery(dbcon, glue(&quot;SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing FROM preferences WHERE tutor_id = {tutor_id};&quot;))
+
+days &lt;- tutor_schedule$day
+start_times &lt;- tutor_schedule$start_time
+end_times &lt;- tutor_schedule$end_time
+
+# List of preferences.
+preference_names &lt;- c(&quot;conversation&quot;, &quot;esl_novice&quot;, &quot;esl_beginner&quot;, &quot;esl_intermediate&quot;, &quot;citizenship&quot;, &quot;sped_ela&quot;, &quot;basic_math&quot;, &quot;hiset_math&quot;, &quot;basic_reading&quot;, &quot;hiset_reading&quot;, &quot;basic_writing&quot;, &quot;hiset_writing&quot;)
+
+# Create empty preference string.
+preference_query_string &lt;- &quot;&quot;;
+
+for (i in 1:length(preference_names)) {
+  if (tutor_preferences[i] == &#39;1&#39;) {
+    preference_query_string &lt;- glue(&quot;{preference_query_string}, &#39;{preference_names[i]}&#39;&quot;)
+  }
+}
+preference_query_string &lt;- substr(preference_query_string, 3, nchar(preference_query_string))
+
+# Create dataframe to save matches.
+matches &lt;- data.frame(first_name = character(),
+                      last_initial = character(),
+                      level = character(),
+                      day = character(),
+                      start_time = character(),
+                      end_time = character())
+
+for (i in 1:length(days)) {
+  match_query &lt;- (glue(&quot;SELECT
+      l.first_name, substr(l.last_name, 1, 1) AS last_name, l.level, la.day, la.start_time, la.end_time
+  FROM
+      learners l
+  JOIN
+      learner_availability la ON l.learner_id = la.learner_id
   WHERE
-      CASE 
-          WHEN Students.Level = &#39;ESL&#39; THEN Preferences.ESL
-          WHEN Students.Level = &#39;Conversation&#39; THEN Preferences.Conversation
-          WHEN Students.Level = &#39;Citizenship&#39; THEN Preferences.Citizenship
-          WHEN Students.Level = &#39;HiSET&#39; THEN Preferences.HiSET
-          WHEN Students.Level = &#39;Elementary_Math&#39; THEN Preferences.Elementary_Math
-          WHEN Students.Level = &#39;Secondary_Math&#39; THEN Preferences.Secondary_Math
-          WHEN Students.Level = &#39;Elementary_Reading&#39; THEN Preferences.Elementary_Reading
-          WHEN Students.Level = &#39;Secondary_Reading&#39; THEN Preferences.Secondary_Reading
-          WHEN Students.Level = &#39;Elementary_Writing&#39; THEN Preferences.Elementary_Writing
-          WHEN Students.Level = &#39;Secondary_Writing&#39; THEN Preferences.Secondary_Writing
-      END = true
-  AND Tutors.Student_ID IS NULL;</code></pre>
+      l.available AND
+      l.level IN ({preference_query_string}) AND
+      la.day = &#39;{days[i]}&#39; AND
+      la.start_time &lt; &#39;{end_times[i]}&#39; AND
+      la.end_time &gt; &#39;{start_times[i]}&#39;;&quot;))
+  
+  result &lt;- dbGetQuery(dbcon, match_query)
+
+  matches &lt;- rbind(matches, result)
+}
+
+print(matches)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6OCwibmNvbCI6Niwic3VtbWFyeSI6W119LCJyZGYiOiJINHNJQUFBQUFBQUFBNlZUeVU3RE1CQjFsNFEwVWhFUy9BWlJXNFJZemlnbnVGQm9lb3ZjMkcwdHBaUEt0Z3E5OGVXQXM3aU5zMVJJV0hJeTc3MnhaL1Jzdno3TmI5eTVpeERxb1g1UGZTMFZJdXY5emIrK1I2amZWYUNEK21pUS9qK1ZmS2tDVzgwTE5aMUNzS1k0anZjRnNIMU9DZGszU1ZaQWdiVGt6UmpBU2NrczJabnF3Szh4UVUyYU5URG1maTRWY1FqSmprVlVNMnNtcUF3M1dLN2JjeFpZc01qSXFhMGE1Z3lubURCWS9UWE43TTUrU1lEZ2ZTTWFCSlFBRmY4aWxPR3NqaXFIUEI0OWprYk5ZTnlxM0xZcWs5b0dsWG9USS8ydUJOb1ZFenljVnN6YmJRSGVVRkUwWWV0eldqSXVaSmhLMnJzWW00UVYweDJOQzlBN3V1Z0tpYmtNSlR0a091cjI1OWlzUE9ESmg2ZXJEOVhzZnFGc09OVVdJMVZjdDZoSmwyQ0p2U1ZQTzBMb3U3TGtMTmxLbG9CYTFDMi8zTU9UNWhYaXltZEFuaW5tUUxud0V4NWt6OWZNc2NnaVNpQXRuWkg1R0JheFU0cnR2Sm51VDhWVm04S0t3ZEZBdkRnWTZLcWRnVVpwendWenJ0ekp6UEcybklIVWVZb1Zua3drTHEyTU5aUDVnTDUvQVg5dUs2amNCQUFBIn0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["first_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["last_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["level"],"name":[3],"type":["chr"],"align":["left"]},{"label":["day"],"name":[4],"type":["chr"],"align":["left"]},{"label":["start_time"],"name":[5],"type":["chr"],"align":["left"]},{"label":["end_time"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"Sally","2":"S","3":"esl_novice","4":"Monday","5":"10:00","6":"20:00"},{"1":"Freddy","2":"F","3":"hiset_math","4":"Monday","5":"10:00","6":"17:00"},{"1":"Sally","2":"S","3":"esl_novice","4":"Wednesday","5":"11:00","6":"20:00"},{"1":"Wendy","2":"W","3":"basic_math","4":"Wednesday","5":"10:00","6":"17:00"},{"1":"Freddy","2":"F","3":"hiset_math","4":"Wednesday","5":"15:00","6":"17:00"},{"1":"Vinny","2":"V","3":"hiset_reading","4":"Wednesday","5":"10:00","6":"19:00"},{"1":"Freddy","2":"F","3":"hiset_math","4":"Friday","5":"12:00","6":"17:00"},{"1":"Vinny","2":"V","3":"hiset_reading","4":"Friday","5":"11:00","6":"19:00"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[8]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="tutor-for-lilly-lady" class="section level4">
-<h4>Tutor for Lilly Lady</h4>
-<p>Tutors who have a preference for ‘Elementary_Math’.</p>
+<div id="find-students-for-earl" class="section level3">
+<h3>Find Students for Earl</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgc3FsXG4gIFNFTEVDVCBESVNUSU5DVCBUdXRvcnMuTmFtZVxuICBGUk9NIFR1dG9yc1xuICBKT0lOIFByZWZlcmVuY2VzIE9OIFR1dG9ycy5UdXRvcl9JRCA9IFByZWZlcmVuY2VzLlR1dG9yX0lEXG4gIEpPSU4gU3R1ZGVudHMgT04gU3R1ZGVudHMuTmFtZSA9ICdMaWxseSBMYWR5J1xuICBXSEVSRVxuICAgICAgQ0FTRSBcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VTTCcgVEhFTiBQcmVmZXJlbmNlcy5FU0xcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NvbnZlcnNhdGlvbicgVEhFTiBQcmVmZXJlbmNlcy5Db252ZXJzYXRpb25cbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NpdGl6ZW5zaGlwJyBUSEVOIFByZWZlcmVuY2VzLkNpdGl6ZW5zaGlwXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdIaVNFVCcgVEhFTiBQcmVmZXJlbmNlcy5IaVNFVFxuICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnRWxlbWVudGFyeV9NYXRoJyBUSEVOIFByZWZlcmVuY2VzLkVsZW1lbnRhcnlfTWF0aFxuICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnU2Vjb25kYXJ5X01hdGgnIFRIRU4gUHJlZmVyZW5jZXMuU2Vjb25kYXJ5X01hdGhcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VsZW1lbnRhcnlfUmVhZGluZycgVEhFTiBQcmVmZXJlbmNlcy5FbGVtZW50YXJ5X1JlYWRpbmdcbiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ1NlY29uZGFyeV9SZWFkaW5nJyBUSEVOIFByZWZlcmVuY2VzLlNlY29uZGFyeV9SZWFkaW5nXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFbGVtZW50YXJ5X1dyaXRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuRWxlbWVudGFyeV9Xcml0aW5nXG4gICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdTZWNvbmRhcnlfV3JpdGluZycgVEhFTiBQcmVmZXJlbmNlcy5TZWNvbmRhcnlfV3JpdGluZ1xuICAgICAgRU5EID0gdHJ1ZVxuICBBTkQgVHV0b3JzLlN0dWRlbnRfSUQgSVMgTlVMTDtcbmBgYCJ9 -->
-<pre class="sql"><code>  SELECT DISTINCT Tutors.Name
-  FROM Tutors
-  JOIN Preferences ON Tutors.Tutor_ID = Preferences.Tutor_ID
-  JOIN Students ON Students.Name = &#39;Lilly Lady&#39;
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBFYXJsJ3MgSUQuXG50dXRvcl9pZCA8LSAnMyc7XG5cbiMgUXVlcnkgdG8gZmluZCB0dXRvciBzY2hlZHVsZS5cbnR1dG9yX3NjaGVkdWxlIDwtIGRiR2V0UXVlcnkoZGJjb24sIGdsdWUoXCJTRUxFQ1QgZGF5LCBzdGFydF90aW1lLCBlbmRfdGltZSBGUk9NIHR1dG9yX2F2YWlsYWJpbGl0eSBXSEVSRSB0dXRvcl9pZCA9IHt0dXRvcl9pZH07XCIpKVxuXG4jIFF1ZXJ5IHRvIGZpbmQgdHV0b3IgcHJlZmVyZW5jZXMuXG50dXRvcl9wcmVmZXJlbmNlcyA8LSBkYkdldFF1ZXJ5KGRiY29uLCBnbHVlKFwiU0VMRUNUIGNvbnZlcnNhdGlvbiwgZXNsX25vdmljZSwgZXNsX2JlZ2lubmVyLCBlc2xfaW50ZXJtZWRpYXRlLCBjaXRpemVuc2hpcCwgc3BlZF9lbGEsIGJhc2ljX21hdGgsIGhpc2V0X21hdGgsIGJhc2ljX3JlYWRpbmcsIGhpc2V0X3JlYWRpbmcsIGJhc2ljX3dyaXRpbmcsIGhpc2V0X3dyaXRpbmcgRlJPTSBwcmVmZXJlbmNlcyBXSEVSRSB0dXRvcl9pZCA9IHt0dXRvcl9pZH07XCIpKVxuXG5kYXlzIDwtIHR1dG9yX3NjaGVkdWxlJGRheVxuc3RhcnRfdGltZXMgPC0gdHV0b3Jfc2NoZWR1bGUkc3RhcnRfdGltZVxuZW5kX3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJGVuZF90aW1lXG5cbiMgTGlzdCBvZiBwcmVmZXJlbmNlcy5cbnByZWZlcmVuY2VfbmFtZXMgPC0gYyhcImNvbnZlcnNhdGlvblwiLCBcImVzbF9ub3ZpY2VcIiwgXCJlc2xfYmVnaW5uZXJcIiwgXCJlc2xfaW50ZXJtZWRpYXRlXCIsIFwiY2l0aXplbnNoaXBcIiwgXCJzcGVkX2VsYVwiLCBcImJhc2ljX21hdGhcIiwgXCJoaXNldF9tYXRoXCIsIFwiYmFzaWNfcmVhZGluZ1wiLCBcImhpc2V0X3JlYWRpbmdcIiwgXCJiYXNpY193cml0aW5nXCIsIFwiaGlzZXRfd3JpdGluZ1wiKVxuXG4jIENyZWF0ZSBlbXB0eSBwcmVmZXJlbmNlIHN0cmluZy5cbnByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtIFwiXCI7XG5cbmZvciAoaSBpbiAxOmxlbmd0aChwcmVmZXJlbmNlX25hbWVzKSkge1xuICBpZiAodHV0b3JfcHJlZmVyZW5jZXNbaV0gPT0gJzEnKSB7XG4gICAgcHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcgPC0gZ2x1ZShcIntwcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZ30sICd7cHJlZmVyZW5jZV9uYW1lc1tpXX0nXCIpXG4gIH1cbn1cbnByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtIHN1YnN0cihwcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZywgMywgbmNoYXIocHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcpKVxuXG4jIENyZWF0ZSBkYXRhZnJhbWUgdG8gc2F2ZSBtYXRjaGVzLlxubWF0Y2hlcyA8LSBkYXRhLmZyYW1lKGZpcnN0X25hbWUgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBsYXN0X2luaXRpYWwgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBsZXZlbCA9IGNoYXJhY3RlcigpLFxuICAgICAgICAgICAgICAgICAgICAgIGRheSA9IGNoYXJhY3RlcigpLFxuICAgICAgICAgICAgICAgICAgICAgIHN0YXJ0X3RpbWUgPSBjaGFyYWN0ZXIoKSxcbiAgICAgICAgICAgICAgICAgICAgICBlbmRfdGltZSA9IGNoYXJhY3RlcigpKVxuXG5mb3IgKGkgaW4gMTpsZW5ndGgoZGF5cykpIHtcbiAgbWF0Y2hfcXVlcnkgPC0gKGdsdWUoXCJTRUxFQ1RcbiAgICAgIGwuZmlyc3RfbmFtZSwgc3Vic3RyKGwubGFzdF9uYW1lLCAxLCAxKSBBUyBsYXN0X25hbWUsIGwubGV2ZWwsIGxhLmRheSwgbGEuc3RhcnRfdGltZSwgbGEuZW5kX3RpbWVcbiAgRlJPTVxuICAgICAgbGVhcm5lcnMgbFxuICBKT0lOXG4gICAgICBsZWFybmVyX2F2YWlsYWJpbGl0eSBsYSBPTiBsLmxlYXJuZXJfaWQgPSBsYS5sZWFybmVyX2lkXG4gIFdIRVJFXG4gICAgICBsLmF2YWlsYWJsZSBBTkRcbiAgICAgIGwubGV2ZWwgSU4gKHtwcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZ30pIEFORFxuICAgICAgbGEuZGF5ID0gJ3tkYXlzW2ldfScgQU5EXG4gICAgICBsYS5zdGFydF90aW1lIDwgJ3tlbmRfdGltZXNbaV19JyBBTkRcbiAgICAgIGxhLmVuZF90aW1lID4gJ3tzdGFydF90aW1lc1tpXX0nO1wiKSlcbiAgXG4gIHJlc3VsdCA8LSBkYkdldFF1ZXJ5KGRiY29uLCBtYXRjaF9xdWVyeSlcblxuICBtYXRjaGVzIDwtIHJiaW5kKG1hdGNoZXMsIHJlc3VsdClcbn1cblxucHJpbnQobWF0Y2hlcylcbmBgYCJ9 -->
+<pre class="r"><code># Earl&#39;s ID.
+tutor_id &lt;- &#39;3&#39;;
+
+# Query to find tutor schedule.
+tutor_schedule &lt;- dbGetQuery(dbcon, glue(&quot;SELECT day, start_time, end_time FROM tutor_availability WHERE tutor_id = {tutor_id};&quot;))
+
+# Query to find tutor preferences.
+tutor_preferences &lt;- dbGetQuery(dbcon, glue(&quot;SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing FROM preferences WHERE tutor_id = {tutor_id};&quot;))
+
+days &lt;- tutor_schedule$day
+start_times &lt;- tutor_schedule$start_time
+end_times &lt;- tutor_schedule$end_time
+
+# List of preferences.
+preference_names &lt;- c(&quot;conversation&quot;, &quot;esl_novice&quot;, &quot;esl_beginner&quot;, &quot;esl_intermediate&quot;, &quot;citizenship&quot;, &quot;sped_ela&quot;, &quot;basic_math&quot;, &quot;hiset_math&quot;, &quot;basic_reading&quot;, &quot;hiset_reading&quot;, &quot;basic_writing&quot;, &quot;hiset_writing&quot;)
+
+# Create empty preference string.
+preference_query_string &lt;- &quot;&quot;;
+
+for (i in 1:length(preference_names)) {
+  if (tutor_preferences[i] == &#39;1&#39;) {
+    preference_query_string &lt;- glue(&quot;{preference_query_string}, &#39;{preference_names[i]}&#39;&quot;)
+  }
+}
+preference_query_string &lt;- substr(preference_query_string, 3, nchar(preference_query_string))
+
+# Create dataframe to save matches.
+matches &lt;- data.frame(first_name = character(),
+                      last_initial = character(),
+                      level = character(),
+                      day = character(),
+                      start_time = character(),
+                      end_time = character())
+
+for (i in 1:length(days)) {
+  match_query &lt;- (glue(&quot;SELECT
+      l.first_name, substr(l.last_name, 1, 1) AS last_name, l.level, la.day, la.start_time, la.end_time
+  FROM
+      learners l
+  JOIN
+      learner_availability la ON l.learner_id = la.learner_id
   WHERE
-      CASE 
-          WHEN Students.Level = &#39;ESL&#39; THEN Preferences.ESL
-          WHEN Students.Level = &#39;Conversation&#39; THEN Preferences.Conversation
-          WHEN Students.Level = &#39;Citizenship&#39; THEN Preferences.Citizenship
-          WHEN Students.Level = &#39;HiSET&#39; THEN Preferences.HiSET
-          WHEN Students.Level = &#39;Elementary_Math&#39; THEN Preferences.Elementary_Math
-          WHEN Students.Level = &#39;Secondary_Math&#39; THEN Preferences.Secondary_Math
-          WHEN Students.Level = &#39;Elementary_Reading&#39; THEN Preferences.Elementary_Reading
-          WHEN Students.Level = &#39;Secondary_Reading&#39; THEN Preferences.Secondary_Reading
-          WHEN Students.Level = &#39;Elementary_Writing&#39; THEN Preferences.Elementary_Writing
-          WHEN Students.Level = &#39;Secondary_Writing&#39; THEN Preferences.Secondary_Writing
-      END = true
-  AND Tutors.Student_ID IS NULL;</code></pre>
+      l.available AND
+      l.level IN ({preference_query_string}) AND
+      la.day = &#39;{days[i]}&#39; AND
+      la.start_time &lt; &#39;{end_times[i]}&#39; AND
+      la.end_time &gt; &#39;{start_times[i]}&#39;;&quot;))
+  
+  result &lt;- dbGetQuery(dbcon, match_query)
+
+  matches &lt;- rbind(matches, result)
+}
+
+print(matches)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6Niwic3VtbWFyeSI6W119LCJyZGYiOiJINHNJQUFBQUFBQUFBNDFUWFcrQ01CU3RDRXhaWEV6OEhTUE9MZHV5NThtYmlkbFk0aHVwdEVvVExLU3RjKzVwdjl5dElFVmFabUtUMG52T1BmY2psL2J0ZFhIdkxUd0FRQmZZWGZsMXBBbWNqekM0ZlFiQXRpVG9BQnYwaS9OTHVrZlNjT1VlbHVmUjRjeWhFUHNLdUdHU2JTQlhhQVpGZ25mL0NlMHBRbWFRbnJjelYwYW9qRm5MTlQxcDlPanJtQWp5alNsUFNGNVJQWjVqRk9FVVZuaXdoSnpFMFk1SkpWMmZqeHRpbmthRUNzdzJHQkVvY0N1Zlh0cWRaUlRCL1FXb0Z5WmJ4aHZlZ0pFMk1zWjlOM2taajJzd3Zndzh0anhtMXFlR1lxTEZQalRCZVZucDBlK01RK0VHbS8vVld4SEdSVlM0S3FhZlFwMXdVdnlKMHdwMFR4UHh1SUJNUklMVXloNm02SWoxeW4yVzdYeFZmU0MzOVFQSzVab3R4cks0YWxHUkhvSUMraXRXZEFUQXdRaTV5bkpCTWlxRHJPWjdxQjhLTTRoUlFDaDZGMXVFcWVCQnhxYVFwWWJFUWNzNG8wWGxranl1UVdXN3VsMzBZdjJhZHc3VE5hR24rY0ZsUFQ5UFpxWTRMbHF1bUJzNW5ISTJmczdrdlZZNnlYSmZaQUkySWxQRmxHTUFoeitQMW1HNU1RUUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["first_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["last_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["level"],"name":[3],"type":["chr"],"align":["left"]},{"label":["day"],"name":[4],"type":["chr"],"align":["left"]},{"label":["start_time"],"name":[5],"type":["chr"],"align":["left"]},{"label":["end_time"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"Patty","2":"P","3":"citizenship","4":"Monday","5":"12:00","6":"17:00"},{"1":"Thomas","2":"T","3":"sped_ela","4":"Monday","5":"10:00","6":"20:00"},{"1":"Mathew","2":"M","3":"basic_writing","4":"Monday","5":"10:00","6":"14:00"},{"1":"Patty","2":"P","3":"citizenship","4":"Thursday","5":"10:00","6":"17:00"},{"1":"Eddy","2":"E","3":"esl_intermediate","4":"Friday","5":"16:00","6":"20:00"},{"1":"Thomas","2":"T","3":"sped_ela","4":"Friday","5":"10:00","6":"17:00"}],"options":{"columns":{"min":{},"max":[10],"total":[6]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -2057,7 +2430,7 @@ preferences of the provided student.</p>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiU2Vjb25kIFN0dWRlbnQvVHV0b3IgRGF0YWJhc2UiCmF1dGhvcjogIlJ1cGVydCBTaW1wc29uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBFc3RhYmxpc2ggRGF0YWJhc2U6ClRoZSBSIGNvZGUgYmVsb3cgbG9hZHMgdGhlIFJTUUxpdGUgbGlicmFyeSBhbmQgZXN0YWJsaXNoZXMgYSBjb25uZWN0aW9uIHdpdGggYSBsb2NhbGx5IHNhdmVkIGRhdGFiYXNlIG5hbWVkICJ0dXRvci5kYiIuIElmIG5vIHN1Y2ggZGF0YWJhc2UgaXMgZm91bmQgaW4gdGhlIHdvcmtpbmcgZGlyZWN0b3J5LCBSIHdpbGwgY3JlYXRlIG9uZS4KClRoZSBzdWJzZXF1ZW50IFNRTCBzdGF0ZW1lbnRzIGRyb3AgYW55IHRhYmxlcyBjcmVhdGVkIGR1cmluZyBwcmV2aW91cyBydW4gc2Vzc2lvbnMgYW5kIGNyZWF0ZSBuZXcgdGFibGVzIGZvciBzdHVkZW50cywgdHV0b3JzLCB0dXRvciBsZXZlbCBwcmVmZXJlbmNlcywgYW5kIHNjaGVkdWxlcy4gVGhlc2UgdGFibGVzIGFyZSB0aGVuIHBvcHVsYXRlZCB3aXRoIGV4YW1wbGUgZGF0YS4KCmBgYHtyfQpsaWJyYXJ5KFJTUUxpdGUpCmxpYnJhcnkoZ2x1ZSkKCmRiY29uIDwtIGRiQ29ubmVjdChSU1FMaXRlOjpTUUxpdGUoKSwgIjJuZFR1dG9yLmRiIikKYGBgCgpgYGB7c3FsIERyb3BTY2hlZHVsZXNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KRFJPUCBUQUJMRSBJRiBFWElTVFMgU2NoZWR1bGVzOwpgYGAKCmBgYHtzcWwgRHJvcFByZWZlcmVuY2VzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkRST1AgVEFCTEUgSUYgRVhJU1RTIFByZWZlcmVuY2VzOwpgYGAKCmBgYHtzcWwgRHJvcFR1dG9yc1RhYmxlLCBjb25uZWN0aW9uPWRiY29ufQpEUk9QIFRBQkxFIElGIEVYSVNUUyBUdXRvcnM7CmBgYAoKYGBge3NxbCBEcm9wU3R1ZGVudHNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KRFJPUCBUQUJMRSBJRiBFWElTVFMgU3R1ZGVudHM7CmBgYAoKYGBge3NxbCBDcmVhdGVTdHVkZW50VGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIFN0dWRlbnRzICgKICBTdHVkZW50X0lEIElOVCBQUklNQVJZIEtFWSwKICBOYW1lIFRFWFQsCiAgUGhvbmUgSU5ULAogIEVtYWlsIFRFWFQsCiAgTGV2ZWwgVEVYVAopOwpgYGAKCmBgYHtzcWwgQ3JlYXRlVHV0b3JzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIFR1dG9ycyAoCiAgVHV0b3JfSUQgSU5UIFBSSU1BUlkgS0VZLAogIFN0dWRlbnRfSUQgSU5ULAogIE5hbWUgVEVYVCwKICBQaG9uZSBJTlQsCiAgRW1haWwgVEVYVCwKICBGT1JFSUdOIEtFWSAoU3R1ZGVudF9JRCkgUkVGRVJFTkNFUyBTdHVkZW50cyhTdHVkZW50X0lEKQopOwpgYGAKCmBgYHtzcWwgQ3JlYXRlU2NoZWR1bGVzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIFNjaGVkdWxlcyAoCiAgU2NoZWR1bGVfSUQgSU5UIFBSSU1BUlkgS0VZLAogIFR1dG9yX0lEIElOVCwKICBTdHVkZW50X0lEIElOVCwKICBEYXkgVEVYVCwKICBTdGFydF9UaW1lIFRJTUUsCiAgRW5kX1RpbWUgVElNRSwKICBGT1JFSUdOIEtFWSAoVHV0b3JfSUQpIFJFRkVSRU5DRVMgVHV0b3JzKFR1dG9yX0lEKSwKICBGT1JFSUdOIEtFWSAoU3R1ZGVudF9JRCkgUkVGRVJFTkNFUyBTdHVkZW50cyhTdHVkZW50X0lEKQopOwpgYGAKCmBgYHtzcWwgQ3JlYXRlUHJlZmVyZW5jZXNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgUHJlZmVyZW5jZXMgKAogIFByZWZlcmVuY2VfSUQgSU5UIFBSSU1BUlkgS0VZLAogIFR1dG9yX0lEIElOVCwKICBFU0wgQk9PTCwKICBDb252ZXJzYXRpb24gQk9PTCwKICBDaXRpemVuc2hpcCBCT09MLAogIEhpU0VUIEJPT0wsCiAgRWxlbWVudGFyeV9NYXRoIEJPT0wsCiAgU2Vjb25kYXJ5X01hdGggQk9PTCwKICBFbGVtZW50YXJ5X1JlYWRpbmcgQk9PTCwKICBTZWNvbmRhcnlfUmVhZGluZyBCT09MLAogIEVsZW1lbnRhcnlfV3JpdGluZyBCT09MLAogIFNlY29uZGFyeV9Xcml0aW5nIEJPT0wsCiAgRk9SRUlHTiBLRVkgKFR1dG9yX0lEKSBSRUZFUkVOQ0VTIFR1dG9ycyhUdXRvcl9JRCkKKTsKYGBgCgpgYGB7c3FsIFN0dWRlbnRzVGFibGVJbnNlcnQsIGNvbm5lY3Rpb249ZGJjb259CklOU0VSVCBJTlRPIFN0dWRlbnRzIChTdHVkZW50X0lELCBOYW1lLCBQaG9uZSwgRW1haWwsIExldmVsKQpWQUxVRVMKICAoMSwgJ1NhbGx5IFNob28nLCAxMTExMTExMTExLCAnZW1haWxAZW1haWwuY29tJywgJ0VTTCcpLAogICgyLCAnRGFubnkgRG9nZycsIDIyMjIyMjIyMjIsICdlbWFpbEBlbWFpbC5jb20nLCAnQ2l0aXplbnNoaXAnKSwKICAoMywgJ0xpbGx5IExhZHknLCAzMzMzMzMzMzMzLCAnZW1haWxAZW1haWwuY29tJywgJ0VsZW1lbnRhcnlfTWF0aCcpOwpgYGAKCmBgYHtzcWwgVHV0b3JzVGFibGVJbnNlcnQsIGNvbm5lY3Rpb249ZGJjb259CklOU0VSVCBJTlRPIFR1dG9ycyAoVHV0b3JfSUQsIFN0dWRlbnRfSUQsIE5hbWUsIFBob25lLCBFbWFpbCkKVkFMVUVTCiAgKDEsIE5VTEwsICdSdXBlcnQgU2ltcHNvbicsIDQ0NDQ0NDQ0NDQsICdlbWFpbEBlbWFpbC5jb20nKSwKICAoMiwgMSwgJ0thcmVuIEdhbGUnLCA1NTU1NTU1NTU1LCAnZW1haWxAZW1haWwuY29tJyksCiAgKDMsIE5VTEwsICdLcmlzdGVuIEVub3MnLCA3Nzc3Nzc3Nzc3LCAnZW1haWxAZW1haWwuY29tJyk7CmBgYAoKYGBge3NxbCBTY2hlZHVsZXNUYWJsZUluc2VydCwgY29ubmVjdGlvbj1kYmNvbn0KSU5TRVJUIElOVE8gU2NoZWR1bGVzIChTY2hlZHVsZV9JRCwgVHV0b3JfSUQsIFN0dWRlbnRfSUQsIERheSwgU3RhcnRfVGltZSwgRW5kX1RpbWUpClZBTFVFUwogICgxLCAxLCBOVUxMLCAnTW9uZGF5JywgJzE2OjAwJywgJzIwOjAwJyksCiAgKDIsIDEsIE5VTEwsICdUdWVzZGF5JywgJzEyOjAwJywgJzE3OjAwJyksCiAgKDMsIDEsIE5VTEwsICdXZWRuZXNkYXknLCAnMTY6MDAnLCAnMjA6MDAnKSwKICAoNCwgMSwgTlVMTCwgJ1RodXJzZGF5JywgJzEyOjAwJywgJzE3OjAwJyksCiAgKDUsIDIsIE5VTEwsICdNb25kYXknLCAnOTowMCcsICcxNzowMCcpLAogICg2LCAyLCBOVUxMLCAnVHVlc2RheScsICc5OjAwJywgJzE3OjAwJyksCiAgKDcsIDMsIE5VTEwsICdXZWRuZXNkYXknLCAnOTowMCcsICcxNzowMCcpLAogICg4LCBOVUxMLCAxLCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzEyOjAwJyksCiAgKDksIE5VTEwsIDIsICdNb25kYXknLCAnMTc6MDAnLCAnMTk6MDAnKSwKICAoMTAsIE5VTEwsIDMsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMTI6MDAnKTsKYGBgCgpgYGB7c3FsIFByZWZlcmVuY2VzVGFibGVJbnNlcnQsIGNvbm5lY3Rpb249ZGJjb259CklOU0VSVCBJTlRPIFByZWZlcmVuY2VzIChQcmVmZXJlbmNlX0lELCBUdXRvcl9JRCwgRVNMLCBDb252ZXJzYXRpb24sIENpdGl6ZW5zaGlwLCBIaVNFVCwgRWxlbWVudGFyeV9NYXRoLCBTZWNvbmRhcnlfTWF0aCwgRWxlbWVudGFyeV9SZWFkaW5nLCBTZWNvbmRhcnlfUmVhZGluZywgRWxlbWVudGFyeV9Xcml0aW5nLCBTZWNvbmRhcnlfV3JpdGluZykKVkFMVUVTCiAgKDEsIDEsIHRydWUsIHRydWUsIHRydWUsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIHRydWUsIGZhbHNlKSwKICAoMiwgMiwgZmFsc2UsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgdHJ1ZSksCiAgKDMsIDMsIHRydWUsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UpOwpgYGAKCiMjIERpc3BsYXkgVGFibGVzClRoZSBjb250ZW50cyBvZiBlYWNoIHRhYmxlIGFyZSBkaXNwbGF5ZWQgYmVsb3cuIAoKIyMjIyBTdHVkZW50cyBUYWJsZQoKYGBge3NxbCBEaXNwbGF5U3R1ZGVudFRhYmxlLCBjb25uZWN0aW9uPWRiY29ufQpTRUxFQ1QgKiBGUk9NIFN0dWRlbnRzCmBgYAoKIyMjIyBUdXRvcnMgVGFibGUKCmBgYHtzcWwgRGlzcGxheVR1dG9yc1RhYmxlLCBjb25uZWN0aW9uPWRiY29ufQpTRUxFQ1QgKiBGUk9NIFR1dG9ycwpgYGAKCiMjIyMgU2NoZWR1bGVzIFRhYmxlCgpgYGB7c3FsIERpc3BsYXlTY2hlZHVsZXNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KU0VMRUNUICogRlJPTSBTY2hlZHVsZXMKYGBgCgojIyMjIFByZWZlcmVuY2VzIFRhYmxlCgpgYGB7c3FsIERpc3BsYXlQcmVmZXJlbmNlc1RhYmxlLCBjb25uZWN0aW9uPWRiY29ufQpTRUxFQ1QgKiBGUk9NIFByZWZlcmVuY2VzCmBgYAoKIyMgTWF0Y2ggU3R1ZGVudHMgV2l0aCBUdXRvcnMKVGhlIGZvbGxvd2luZyBTUUwgc3RhdGVtZW50cyBxdWVyeSB0byBmaW5kIHR1dG9ycyB3aG8gbWF0Y2ggdGhlIHByZWZlcmVuY2VzIG9mIHRoZSBwcm92aWRlZCBzdHVkZW50LgoKIyMjIyBUdXRvcnMgZm9yIFNhbGx5IFNob28KVHV0b3JzIHdobyBoYXZlIGEgcHJlZmVyZW5jZSBmb3IgJ0VTTCcuCgpgYGB7c3FsIEZpbmRUdXRvcnNGb3JTYWxseSwgY29ubmVjdGlvbj1kYmNvbn0KICBTRUxFQ1QgRElTVElOQ1QgVHV0b3JzLk5hbWUKICBGUk9NIFR1dG9ycwogIEpPSU4gUHJlZmVyZW5jZXMgT04gVHV0b3JzLlR1dG9yX0lEID0gUHJlZmVyZW5jZXMuVHV0b3JfSUQKICBKT0lOIFN0dWRlbnRzIE9OIFN0dWRlbnRzLk5hbWUgPSAnU2FsbHkgU2hvbycKICBXSEVSRQogICAgICBDQVNFIAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFU0wnIFRIRU4gUHJlZmVyZW5jZXMuRVNMCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NvbnZlcnNhdGlvbicgVEhFTiBQcmVmZXJlbmNlcy5Db252ZXJzYXRpb24KICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnQ2l0aXplbnNoaXAnIFRIRU4gUHJlZmVyZW5jZXMuQ2l0aXplbnNoaXAKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnSGlTRVQnIFRIRU4gUHJlZmVyZW5jZXMuSGlTRVQKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnRWxlbWVudGFyeV9NYXRoJyBUSEVOIFByZWZlcmVuY2VzLkVsZW1lbnRhcnlfTWF0aAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdTZWNvbmRhcnlfTWF0aCcgVEhFTiBQcmVmZXJlbmNlcy5TZWNvbmRhcnlfTWF0aAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFbGVtZW50YXJ5X1JlYWRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuRWxlbWVudGFyeV9SZWFkaW5nCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ1NlY29uZGFyeV9SZWFkaW5nJyBUSEVOIFByZWZlcmVuY2VzLlNlY29uZGFyeV9SZWFkaW5nCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VsZW1lbnRhcnlfV3JpdGluZycgVEhFTiBQcmVmZXJlbmNlcy5FbGVtZW50YXJ5X1dyaXRpbmcKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnU2Vjb25kYXJ5X1dyaXRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuU2Vjb25kYXJ5X1dyaXRpbmcKICAgICAgRU5EID0gdHJ1ZQogIEFORCBUdXRvcnMuU3R1ZGVudF9JRCBJUyBOVUxMOwpgYGAKCiMjIyMgVHV0b3JzIGZvciBEYW5ueSBEb2dnClR1dG9ycyB3aG8gaGF2ZSBhIHByZWZlcmVuY2UgZm9yICdDaXRpemVuc2hpcCcuCgpgYGB7c3FsIEZpbmRUdXRvcnNGb3JEYW5ueSwgY29ubmVjdGlvbj1kYmNvbn0KICBTRUxFQ1QgRElTVElOQ1QgVHV0b3JzLk5hbWUKICBGUk9NIFR1dG9ycwogIEpPSU4gUHJlZmVyZW5jZXMgT04gVHV0b3JzLlR1dG9yX0lEID0gUHJlZmVyZW5jZXMuVHV0b3JfSUQKICBKT0lOIFN0dWRlbnRzIE9OIFN0dWRlbnRzLk5hbWUgPSAnRGFubnkgRG9nZycKICBXSEVSRQogICAgICBDQVNFIAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFU0wnIFRIRU4gUHJlZmVyZW5jZXMuRVNMCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NvbnZlcnNhdGlvbicgVEhFTiBQcmVmZXJlbmNlcy5Db252ZXJzYXRpb24KICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnQ2l0aXplbnNoaXAnIFRIRU4gUHJlZmVyZW5jZXMuQ2l0aXplbnNoaXAKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnSGlTRVQnIFRIRU4gUHJlZmVyZW5jZXMuSGlTRVQKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnRWxlbWVudGFyeV9NYXRoJyBUSEVOIFByZWZlcmVuY2VzLkVsZW1lbnRhcnlfTWF0aAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdTZWNvbmRhcnlfTWF0aCcgVEhFTiBQcmVmZXJlbmNlcy5TZWNvbmRhcnlfTWF0aAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFbGVtZW50YXJ5X1JlYWRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuRWxlbWVudGFyeV9SZWFkaW5nCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ1NlY29uZGFyeV9SZWFkaW5nJyBUSEVOIFByZWZlcmVuY2VzLlNlY29uZGFyeV9SZWFkaW5nCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VsZW1lbnRhcnlfV3JpdGluZycgVEhFTiBQcmVmZXJlbmNlcy5FbGVtZW50YXJ5X1dyaXRpbmcKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnU2Vjb25kYXJ5X1dyaXRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuU2Vjb25kYXJ5X1dyaXRpbmcKICAgICAgRU5EID0gdHJ1ZQogIEFORCBUdXRvcnMuU3R1ZGVudF9JRCBJUyBOVUxMOwpgYGAKCiMjIyMgVHV0b3IgZm9yIExpbGx5IExhZHkKVHV0b3JzIHdobyBoYXZlIGEgcHJlZmVyZW5jZSBmb3IgJ0VsZW1lbnRhcnlfTWF0aCcuCgpgYGB7c3FsIEZpbmRUdXRvcnNGb3JMaWxseSwgY29ubmVjdGlvbj1kYmNvbn0KICBTRUxFQ1QgRElTVElOQ1QgVHV0b3JzLk5hbWUKICBGUk9NIFR1dG9ycwogIEpPSU4gUHJlZmVyZW5jZXMgT04gVHV0b3JzLlR1dG9yX0lEID0gUHJlZmVyZW5jZXMuVHV0b3JfSUQKICBKT0lOIFN0dWRlbnRzIE9OIFN0dWRlbnRzLk5hbWUgPSAnTGlsbHkgTGFkeScKICBXSEVSRQogICAgICBDQVNFIAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFU0wnIFRIRU4gUHJlZmVyZW5jZXMuRVNMCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0NvbnZlcnNhdGlvbicgVEhFTiBQcmVmZXJlbmNlcy5Db252ZXJzYXRpb24KICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnQ2l0aXplbnNoaXAnIFRIRU4gUHJlZmVyZW5jZXMuQ2l0aXplbnNoaXAKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnSGlTRVQnIFRIRU4gUHJlZmVyZW5jZXMuSGlTRVQKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnRWxlbWVudGFyeV9NYXRoJyBUSEVOIFByZWZlcmVuY2VzLkVsZW1lbnRhcnlfTWF0aAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdTZWNvbmRhcnlfTWF0aCcgVEhFTiBQcmVmZXJlbmNlcy5TZWNvbmRhcnlfTWF0aAogICAgICAgICAgV0hFTiBTdHVkZW50cy5MZXZlbCA9ICdFbGVtZW50YXJ5X1JlYWRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuRWxlbWVudGFyeV9SZWFkaW5nCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ1NlY29uZGFyeV9SZWFkaW5nJyBUSEVOIFByZWZlcmVuY2VzLlNlY29uZGFyeV9SZWFkaW5nCiAgICAgICAgICBXSEVOIFN0dWRlbnRzLkxldmVsID0gJ0VsZW1lbnRhcnlfV3JpdGluZycgVEhFTiBQcmVmZXJlbmNlcy5FbGVtZW50YXJ5X1dyaXRpbmcKICAgICAgICAgIFdIRU4gU3R1ZGVudHMuTGV2ZWwgPSAnU2Vjb25kYXJ5X1dyaXRpbmcnIFRIRU4gUHJlZmVyZW5jZXMuU2Vjb25kYXJ5X1dyaXRpbmcKICAgICAgRU5EID0gdHJ1ZQogIEFORCBUdXRvcnMuU3R1ZGVudF9JRCBJUyBOVUxMOwpgYGAKCmBgYHtyfQpkYkRpc2Nvbm5lY3QoZGJjb24pCmBgYA==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU2Vjb25kIExlYXJuZXIvVHV0b3IgRGF0YWJhc2UiCmF1dGhvcjogIlJ1cGVydCBTaW1wc29uIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIyBFc3RhYmxpc2ggRGF0YWJhc2U6ClRoZSBSIGNvZGUgYmVsb3cgbG9hZHMgdGhlIFJTUUxpdGUgbGlicmFyeSBhbmQgZXN0YWJsaXNoZXMgYSBjb25uZWN0aW9uIHdpdGggYSBsb2NhbGx5IHNhdmVkIGRhdGFiYXNlIG5hbWVkICIybmRUdXRvci5kYiIuIElmIG5vIHN1Y2ggZGF0YWJhc2UgaXMgZm91bmQgaW4gdGhlIHdvcmtpbmcgZGlyZWN0b3J5LCBSIHdpbGwgY3JlYXRlIG9uZS4KClRoZSBzdWJzZXF1ZW50IFNRTCBzdGF0ZW1lbnRzIGRyb3AgYW55IHRhYmxlcyBjcmVhdGVkIGR1cmluZyBwcmV2aW91cyBydW4gc2Vzc2lvbnMgYW5kIGNyZWF0ZSBuZXcgdGFibGVzIGZvciBzdHVkZW50cywgdHV0b3JzLCB0dXRvciBsZXZlbCBwcmVmZXJlbmNlcywgYW5kIHNjaGVkdWxlcy4gVGhlc2UgdGFibGVzIGFyZSB0aGVuIHBvcHVsYXRlZCB3aXRoIGV4YW1wbGUgZGF0YS4KCmBgYHtyfQpsaWJyYXJ5KFJTUUxpdGUpCmxpYnJhcnkoZ2x1ZSkKCmRiY29uIDwtIGRiQ29ubmVjdChSU1FMaXRlOjpTUUxpdGUoKSwgIjJuZFR1dG9yLmRiIikKYGBgCgpgYGB7c3FsIERyb3BMZWFybmVyc1RhYmxlLCBjb25uZWN0aW9uPWRiY29ufQpEUk9QIFRBQkxFIElGIEVYSVNUUyBsZWFybmVyczsKYGBgCgpgYGB7c3FsIERyb3BUdXRvcnNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KRFJPUCBUQUJMRSBJRiBFWElTVFMgdHV0b3JzOwpgYGAKCmBgYHtzcWwgRHJvcFByZWZlcmVuY2VzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkRST1AgVEFCTEUgSUYgRVhJU1RTIHByZWZlcmVuY2VzOwpgYGAKCmBgYHtzcWwgRHJvcEhvdXJzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkRST1AgVEFCTEUgSUYgRVhJU1RTIGhvdXJzOwpgYGAKCmBgYHtzcWwgRHJvcExlYXJuZXJBdmFpbGFiaWxpdHlUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KRFJPUCBUQUJMRSBJRiBFWElTVFMgbGVhcm5lcl9hdmFpbGFiaWxpdHk7CmBgYAoKYGBge3NxbCBEcm9wVHV0b3JBdmFpbGFiaWxpdHlUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KRFJPUCBUQUJMRSBJRiBFWElTVFMgdHV0b3JfYXZhaWxhYmlsaXR5OwpgYGAKCmBgYHtzcWwgRHJvcFVzZXJzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkRST1AgVEFCTEUgSUYgRVhJU1RTIHVzZXJzOwpgYGAKCmBgYHtzcWwgQ3JlYXRlVXNlcnNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgdXNlcnMgKAogIHVzZXJfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULAogIGZpcnN0X25hbWUgVEVYVCwKICBsYXN0X25hbWUgVEVYVCwKICBlbWFpbCBURVhULAogIHBhc3N3b3JkIFRFWFQKKTsKYGBgCgpgYGB7c3FsIENyZWF0ZUxlYXJuZXJzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIGxlYXJuZXJzICgKICBsZWFybmVyX2lkIElOVEVHRVIgUFJJTUFSWSBLRVkgQVVUT0lOQ1JFTUVOVCwKICBmaXJzdF9uYW1lIFRFWFQsCiAgbGFzdF9uYW1lIFRFWFQsCiAgcGhvbmUgSU5ULAogIGVtYWlsIFRFWFQsCiAgbGV2ZWwgVEVYVCwKICBhdmFpbGFibGUgQk9PTAopOwpgYGAKCmBgYHtzcWwgQ3JlYXRlVHV0b3JzVGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIHR1dG9ycyAoCiAgdHV0b3JfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULAogIGxlYXJuZXJfaWQgSU5ULAogIGZpcnN0X25hbWUgVEVYVCwKICBsYXN0X25hbWUgVEVYVCwKICBwaG9uZSBJTlQsCiAgZW1haWwgVEVYVCwKICBhdmFpbGFibGUgQk9PTCwKICBGT1JFSUdOIEtFWSAobGVhcm5lcl9pZCkgUkVGRVJFTkNFUyBsZWFybmVycyhsZWFybmVyX2lkKQopOwpgYGAKCmBgYHtzcWwgQ3JlYXRlUHJlZmVyZW5jZXNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgcHJlZmVyZW5jZXMgKAogIHByZWZlcmVuY2VfaWQgSU5URUdFUiBQUklNQVJZIEtFWSBBVVRPSU5DUkVNRU5ULAogIHR1dG9yX2lkIElOVCwKICBjb252ZXJzYXRpb24gQk9PTCwKICBlc2xfbm92aWNlIEJPT0wsCiAgZXNsX2JlZ2lubmVyIEJPT0wsCiAgZXNsX2ludGVybWVkaWF0ZSBCT09MLAogIGNpdGl6ZW5zaGlwIEJPT0wsCiAgc3BlZF9lbGEgQk9PTCwKICBiYXNpY19tYXRoIEJPT0wsCiAgaGlzZXRfbWF0aCBCT09MLAogIGJhc2ljX3JlYWRpbmcgQk9PTCwKICBoaXNldF9yZWFkaW5nIEJPT0wsCiAgYmFzaWNfd3JpdGluZyBCT09MLAogIGhpc2V0X3dyaXRpbmcgQk9PTCwKICBGT1JFSUdOIEtFWSAodHV0b3JfaWQpIFJFRkVSRU5DRVMgdHV0b3JzKHR1dG9yX2lkKQopOwpgYGAKCmBgYHtzcWwgQ3JlYXRlSG91cnNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KQ1JFQVRFIFRBQkxFIElGIE5PVCBFWElTVFMgaG91cnMgKAogIGhvdXJzX2lkIElOVEVHRVIgUFJJTUFSWSBLRVkgQVVUT0lOQ1JFTUVOVCwKICBsZWFybmVyX2lkIElOVCwKICB0dXRvcl9pZCBJTlQsCiAgZGF5IFRFWFQsCiAgbW9udGggSU5ULAogIHllYXIgSU5ULAogIHN0YXJ0X3RpbWUgVEVYVCwKICBlbmRfdGltZSBURVhULAogIEZPUkVJR04gS0VZIChsZWFybmVyX2lkKSBSRUZFUkVOQ0VTIGxlYXJuZXJzKGxlYXJuZXJfaWQpLAogIEZPUkVJR04gS0VZICh0dXRvcl9pZCkgUkVGRVJFTkNFUyB0dXRvcnModHV0b3JfaWQpCik7CmBgYAoKYGBge3NxbCBDcmVhdGVMZWFybmVyQXZhaWxhYmlsaXR5VGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIGxlYXJuZXJfYXZhaWxhYmlsaXR5ICgKICBsZWFybmVyX2F2YWlsYWJpbGl0eV9pZCBJTlRFR0VSIFBSSU1BUlkgS0VZIEFVVE9JTkNSRU1FTlQsCiAgbGVhcm5lcl9pZCBJTlQsCiAgZGF5IFRFWFQsCiAgc3RhcnRfdGltZSBUSU1FLAogIGVuZF90aW1lIFRJTUUsCiAgRk9SRUlHTiBLRVkgKGxlYXJuZXJfaWQpIFJFRkVSRU5DRVMgbGVhcm5lcnMobGVhcm5lcl9pZCkKKTsKYGBgCgpgYGB7c3FsIENyZWF0ZVR1dG9yQXZhaWxhYmlsaXR5VGFibGUsIGNvbm5lY3Rpb249ZGJjb259CkNSRUFURSBUQUJMRSBJRiBOT1QgRVhJU1RTIHR1dG9yX2F2YWlsYWJpbGl0eSAoCiAgdHV0b3JfYXZhaWxhYmlsaXR5X2lkIElOVEVHRVIgUFJJTUFSWSBLRVkgQVVUT0lOQ1JFTUVOVCwKICB0dXRvcl9pZCBJTlQsCiAgZGF5IFRFWFQsCiAgc3RhcnRfdGltZSBUSU1FLAogIGVuZF90aW1lIFRJTUUsCiAgRk9SRUlHTiBLRVkgKHR1dG9yX2lkKSBSRUZFUkVOQ0VTIHR1dG9ycyh0dXRvcl9pZCkKKTsKYGBgCgojIyBQb3B1bGF0ZSBEYXRhYmFzZSBUYWJsZXMKCmBgYHtzcWwgVXNlcnNUYWJsZUluc2VydCwgY29ubmVjdGlvbj1kYmNvbn0KSU5TRVJUIElOVE8gdXNlcnMgKGZpcnN0X25hbWUsIGxhc3RfbmFtZSwgZW1haWwsIHBhc3N3b3JkKQpWQUxVRVMKICAoJ1J1cGVydCcsICdTaW1wc29uJywgJ3J1cGVydHNpbXBzb25AcGx5bW91dGhsaXRlcmFjeS5vcmcnLCAnUlNibHVlIUAjJyksCiAgKCdLYXJlbicsICdHYWxlJywgJ2thcmVuZ2FsZUBwbHltb3V0aGxpdGVyYWN5Lm9yZycsICdSU2JsdWUhQCMnKSwKICAoJ0tyaXN0ZW4nLCAnRW5vcycsICdrcmlzdGVuZW5vc0BwbHltb3V0aGxpdGVyYWN5Lm9yZycsICdLRWJsdWUhQCMnKTsKYGBgCgpgYGB7c3FsIExlYXJuZXJzVGFibGVJbnNlcnQsIGNvbm5lY3Rpb249ZGJjb259CklOU0VSVCBJTlRPIGxlYXJuZXJzIChmaXJzdF9uYW1lLCBsYXN0X25hbWUsIHBob25lLCBlbWFpbCwgbGV2ZWwsIGF2YWlsYWJsZSkKVkFMVUVTCiAgKCdTYWxseScsICdTaG9vJywgMTExMTExMTExMSwgJ2VtYWlsMUBlbWFpbC5jb20nLCAnZXNsX25vdmljZScsIHRydWUpLAogICgnRGFubnknLCAnRG9nZycsIDIyMjIyMjIyMjIsICdlbWFpbDJAZW1haWwuY29tJywgJ2VzbF9iZWdpbm5lcicsIHRydWUpLAogICgnRWRkeScsICdFdmVyZXR0JywgMzMzMzMzMzMzMywgJ2VtYWlsM0BlbWFpbC5jb20nLCAnZXNsX2ludGVybWVkaWF0ZScsIHRydWUpLAogICgnUGF0dHknLCAnUGF0cmlja3MnLCA0NDQ0NDQ0NDQ0LCAnZW1haWw0QGVtYWlsLmNvbScsICdjaXRpemVuc2hpcCcsIHRydWUpLAogICgnVGhvbWFzJywgJ1Rob21wc29uJywgNTU1NTU1NTU1NSwgJ2VtYWlsNUBlbWFpbC5jb20nLCAnc3BlZF9lbGEnLCB0cnVlKSwKICAoJ1dlbmR5JywgJ1dpbGJ1cmcnLCA2NjY2NjY2NjY2LCAnZW1haWw2QGVtYWlsLmNvbScsICdiYXNpY19tYXRoJywgdHJ1ZSksCiAgKCdGcmVkZHknLCAnRnJhbmtzJywgNzc3Nzc3Nzc3NywgJ2VtYWlsN0BlbWFpbC5jb20nLCAnaGlzZXRfbWF0aCcsIHRydWUpLAogICgnQm9iYnknLCAnQnJvd24nLCA4ODg4ODg4ODg4LCAnZW1haWw4QGVtYWlsLmNvbScsICdiYXNpY19yZWFkaW5nJywgdHJ1ZSksCiAgKCdWaW5ueScsICdWYXVnaG4nLCA5OTk5OTk5OTk5LCAnZW1haWw5QGVtYWlsLmNvbScsICdoaXNldF9yZWFkaW5nJywgdHJ1ZSksCiAgKCdNYXRoZXcnLCAnTWF0dGVycycsIDEwMTAxMDEwMTAsICdlbWFpbDEwQGVtYWlsLmNvbScsICdiYXNpY193cml0aW5nJywgdHJ1ZSk7CmBgYAoKYGBge3NxbCBUdXRvcnNUYWJsZUluc2VydCwgY29ubmVjdGlvbj1kYmNvbn0KSU5TRVJUIElOVE8gdHV0b3JzIChmaXJzdF9uYW1lLCBsYXN0X25hbWUsIHBob25lLCBlbWFpbCwgYXZhaWxhYmxlKQpWQUxVRVMKICAoJ1F1aW5ueScsICdRdWlnbHknLCAxMTExMTExMTExLCAnZW1haWwxMUBlbWFpbC5jb20nLCB0cnVlKSwKICAoJ1dhbGx5JywgJ1dhbHRlcicsIDIyMjIyMjIyMjIsICdlbWFpbDEyQGVtYWlsLmNvbScsIHRydWUpLAogICgnRWFybCcsICdFdmFucycsIDMzMzMzMzMzMzMsICdlbWFpbDEzQGVtYWlsLmNvbScsIHRydWUpLAogICgnUnVieScsICdSb2dlcnMnLCA0NDQ0NDQ0NDQ0LCAnZW1haWwxNEBlbWFpbC5jb20nLCBmYWxzZSksCiAgKCdUaW1teScsICdUaW1iZXInLCA1NTU1NTU1NTU1LCAnZW1haWwxNUBlbWFpbC5jb20nLCB0cnVlKSwKICAoJ093ZW4nLCAnT3J3ZWxsJywgNjY2NjY2NjY2NiwgJ2VtYWlsMTZAZW1haWwuY29tJywgdHJ1ZSksCiAgKCdBc2hlbHknLCAnQWRhbXMnLCA3Nzc3Nzc3Nzc3LCAnZW1haWwxN0BlbWFpbC5jb20nLCBmYWxzZSksCiAgKCdTb3BoaWUnLCAnU3VtbWVycycsIDg4ODg4ODg4ODgsICdlbWFpbDE4QGVtYWlsLmNvbScsIHRydWUpLAogICgnRGF2aWQnLCAnRGVtb250JywgOTk5OTk5OTk5OSwgJ2VtYWlsMTlAZW1haWwuY29tJywgdHJ1ZSksCiAgKCdKaWxsJywgJ0phbWVzJywgMTAxMDEwMTAxMCwgJ2VtYWlsMjBAZW1haWwuY29tJywgdHJ1ZSk7CmBgYAoKYGBge3NxbCBQcmVmZXJlbmNlc1RhYmxlSW5zZXJ0LCBjb25uZWN0aW9uPWRiY29ufQpJTlNFUlQgSU5UTyBwcmVmZXJlbmNlcyAodHV0b3JfaWQsIGNvbnZlcnNhdGlvbiwgZXNsX25vdmljZSwgZXNsX2JlZ2lubmVyLCBlc2xfaW50ZXJtZWRpYXRlLCBjaXRpemVuc2hpcCwgc3BlZF9lbGEsIGJhc2ljX21hdGgsIGhpc2V0X21hdGgsIGJhc2ljX3JlYWRpbmcsIGhpc2V0X3JlYWRpbmcsIGJhc2ljX3dyaXRpbmcsIGhpc2V0X3dyaXRpbmcpClZBTFVFUwogICgxLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIGZhbHNlKSwKICAoMiwgZmFsc2UsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUpLAogICgzLCB0cnVlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlKSwKICAoNCwgZmFsc2UsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUpLAogICg1LCB0cnVlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlKSwKICAoNiwgZmFsc2UsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUpLAogICg3LCB0cnVlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSksCiAgKDgsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlKSwKICAoOSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCB0cnVlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSksCiAgKDEwLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIGZhbHNlLCB0cnVlLCBmYWxzZSwgdHJ1ZSk7CmBgYAoKYGBge3NxbCBMZWFybmVyQXZhaWxhYmlsaXR5VGFibGVJbnNlcnQsIGNvbm5lY3Rpb249ZGJjb259CklOU0VSVCBJTlRPIGxlYXJuZXJfYXZhaWxhYmlsaXR5IChsZWFybmVyX2lkLCBkYXksIHN0YXJ0X3RpbWUsIGVuZF90aW1lKQpWQUxVRVMKICAoMSwgJ01vbmRheScsICcxMDowMCcsICcyMDowMCcpLAogICgxLCAnVHVlc2RheScsICcxMjowMCcsICcyMDowMCcpLAogICgxLCAnV2VkbmVzZGF5JywgJzExOjAwJywgJzIwOjAwJyksCiAgKDIsICdUaHVyc2RheScsICcxMjowMCcsICcxNzowMCcpLAogICgyLCAnRnJpZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDIsICdNb25kYXknLCAnMTk6MDAnLCAnMjE6MDAnKSwKICAoMywgJ1R1ZXNkYXknLCAnMTA6MDAnLCAnMjA6MDAnKSwKICAoMywgJ1dlZG5lc2RheScsICcxMDowMCcsICcxNTowMCcpLAogICgzLCAnRnJpZGF5JywgJzE2OjAwJywgJzIwOjAwJyksCiAgKDQsICdUaHVyc2RheScsICcxMDowMCcsICcxNzowMCcpLAogICg0LCAnTW9uZGF5JywgJzEyOjAwJywgJzE3OjAwJyksCiAgKDQsICdUdWVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDUsICdNb25kYXknLCAnMTA6MDAnLCAnMjA6MDAnKSwKICAoNSwgJ0ZyaWRheScsICcxMDowMCcsICcxNzowMCcpLAogICg1LCAnVHVlc2RheScsICcxMTowMCcsICcxNzowMCcpLAogICg2LCAnVHVlc2RheScsICcxMDowMCcsICcxNzowMCcpLAogICg2LCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDYsICdUaHVyc2RheScsICcxMDowMCcsICcxNzowMCcpLAogICg3LCAnRnJpZGF5JywgJzEyOjAwJywgJzE3OjAwJyksCiAgKDcsICdXZWRuZXNkYXknLCAnMTU6MDAnLCAnMTc6MDAnKSwKICAoNywgJ01vbmRheScsICcxMDowMCcsICcxNzowMCcpLAogICg4LCAnTW9uZGF5JywgJzEyOjAwJywgJzE0OjAwJyksCiAgKDgsICdUdWVzZGF5JywgJzEwOjAwJywgJzEyOjAwJyksCiAgKDgsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMTI6MDAnKSwKICAoOSwgJ01vbmRheScsICcxNzowMCcsICcxOTowMCcpLAogICg5LCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE5OjAwJyksCiAgKDksICdGcmlkYXknLCAnMTE6MDAnLCAnMTk6MDAnKSwKICAoMTAsICdNb25kYXknLCAnMTA6MDAnLCAnMTQ6MDAnKSwKICAoMTAsICdUdWVzZGF5JywgJzEwOjAwJywgJzEyOjAwJyksCiAgKDEwLCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzIwOjAwJyk7CmBgYAoKYGBge3NxbCBUdXRvckF2YWlsYWJpbGl0eVRhYmxlSW5zZXJ0LCBjb25uZWN0aW9uPWRiY29ufQpJTlNFUlQgSU5UTyB0dXRvcl9hdmFpbGFiaWxpdHkgKHR1dG9yX2lkLCBkYXksIHN0YXJ0X3RpbWUsIGVuZF90aW1lKQpWQUxVRVMKICAoMSwgJ1R1ZXNkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSwKICAoMSwgJ1dlZG5lc2RheScsICcxMTowMCcsICcyMDowMCcpLAogICgxLCAnVGh1cnNkYXknLCAnMTI6MDAnLCAnMTc6MDAnKSwKICAoMiwgJ01vbmRheScsICcxMjowMCcsICcxNzowMCcpLAogICgyLCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDIsICdGcmlkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSwKICAoMywgJ01vbmRheScsICcxMDowMCcsICcyMDowMCcpLAogICgzLCAnVGh1cnNkYXknLCAnMTA6MDAnLCAnMTU6MDAnKSwKICAoMywgJ0ZyaWRheScsICcxNjowMCcsICcyMDowMCcpLAogICg0LCAnTW9uZGF5JywgJzEyOjAwJywgJzE3OjAwJyksCiAgKDQsICdUdWVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDQsICdXZWRuZXNkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSwKICAoNSwgJ1R1ZXNkYXknLCAnMTE6MDAnLCAnMTc6MDAnKSwKICAoNSwgJ1RodXJzZGF5JywgJzEwOjAwJywgJzIwOjAwJyksCiAgKDUsICdGcmlkYXknLCAnMTA6MDAnLCAnMTc6MDAnKSwKICAoNiwgJ01vbmRheScsICcxMDowMCcsICcxNzowMCcpLAogICg2LCAnV2VkbmVzZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDYsICdUaHVyc2RheScsICcxMDowMCcsICcxNzowMCcpLAogICg3LCAnTW9uZGF5JywgJzEwOjAwJywgJzE3OjAwJyksCiAgKDcsICdXZWRuZXNkYXknLCAnMTU6MDAnLCAnMTc6MDAnKSwKICAoNywgJ0ZyaWRheScsICcxMjowMCcsICcxNzowMCcpLAogICg4LCAnVHVlc2RheScsICcxMDowMCcsICcxMjowMCcpLAogICg4LCAnVGh1cnNkYXknLCAnMTI6MDAnLCAnMTQ6MDAnKSwKICAoOCwgJ0ZyaWRheScsICcxMDowMCcsICcxMjowMCcpLAogICg5LCAnTW9uZGF5JywgJzE3OjAwJywgJzE5OjAwJyksCiAgKDksICdUaHVyc2RheScsICcxMDowMCcsICcxOTowMCcpLAogICg5LCAnRnJpZGF5JywgJzExOjAwJywgJzE5OjAwJyksCiAgKDEwLCAnTW9uZGF5JywgJzEwOjAwJywgJzE0OjAwJyksCiAgKDEwLCAnVHVlc2RheScsICcxMDowMCcsICcxMjowMCcpLAogICgxMCwgJ1dlZG5lc2RheScsICcxMDowMCcsICcyMDowMCcpOwpgYGAKCmBgYHtzcWwgSG91cnNUYWJsZUluc2VydCwgY29ubmVjdGlvbj1kYmNvbn0KSU5TRVJUIElOVE8gaG91cnMgKHR1dG9yX2lkLCBsZWFybmVyX2lkLCBkYXksIG1vbnRoLCB5ZWFyLCBzdGFydF90aW1lLCBlbmRfdGltZSkKVkFMVUVTCiAgKDEsIDEsICdNb25kYXknLCAxMCwgMjAyNCwgJzEwOjAwJywgJzExOjAwJyksCiAgKDIsIDIsICdUdWVzZGF5JywgMTAsIDIwMjQsICcxMDowMCcsICcxMjowMCcpLAogICgzLCAzLCAnV2VkbmVzZGF5JywgMTAsIDIwMjQsICcxMDowMCcsICcxMTowMCcpLAogICg0LCA0LCAnVGh1cnNkYXknLCAxMCwgMjAyNCwgJzEwOjAwJywgJzEyOjAwJyksCiAgKDUsIDUsICdGcmlkYXknLCAxMCwgMjAyNCwgJzEwOjAwJywgJzExOjAwJyksCiAgKDYsIDYsICdNb25kYXknLCAxMCwgMjAyNCwgJzEwOjAwJywgJzEyOjAwJyksCiAgKDcsIDcsICdUdWVzZGF5JywgMTAsIDIwMjQsICcxMDowMCcsICcxMTowMCcpLAogICg4LCA4LCAnV2VkbmVzZGF5JywgMTEsIDIwMjQsICcxMDowMCcsICcxMjowMCcpLAogICg5LCA5LCAnVGh1cnNkYXknLCAxMSwgMjAyNCwgJzEwOjAwJywgJzExOjAwJyksCiAgKDEwLCAxMCwgJ0ZyaWRheScsIDExLCAyMDI0LCAnMTA6MDAnLCAnMTI6MDAnKTsKYGBgCgojIyBRdWVyaWVzCgpgYGB7c3FsIFF1ZXJ5TGVhcm5lcnNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KCQkJU0VMRUNUCgkJCQlsLiosCgkJCQlNQVgoQ0FTRSBXSEVOIGEuZGF5ID0gJ01vbmRheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIG1vbmRheSwKCQkJCU1BWChDQVNFIFdIRU4gYS5kYXkgPSAnVHVlc2RheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIHR1ZXNkYXksCgkJCQlNQVgoQ0FTRSBXSEVOIGEuZGF5ID0gJ1dlZG5lc2RheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIHdlZG5lc2RheSwKCQkJCU1BWChDQVNFIFdIRU4gYS5kYXkgPSAnVGh1cnNkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyB0aHVyc2RheSwKCQkJCU1BWChDQVNFIFdIRU4gYS5kYXkgPSAnRnJpZGF5JyBUSEVOIDEgRUxTRSAwIEVORCkgQVMgZnJpZGF5CgkJCUZST00gbGVhcm5lcnMgbAoJCQlMRUZUIEpPSU4gbGVhcm5lcl9hdmFpbGFiaWxpdHkgYSBPTiBsLmxlYXJuZXJfaWQgPSBhLmxlYXJuZXJfaWQKCQkJR1JPVVAgQlkgbC5sZWFybmVyX2lkOwpgYGAKCmBgYHtzcWwgUXVlcnlUdXRvcnNUYWJsZSwgY29ubmVjdGlvbj1kYmNvbn0KU0VMRUNUIGZpcnN0X25hbWUsIHN1YnN0cihsYXN0X25hbWUsIDEsIDEpIEFTIGxhc3RfaW5pdGlhbCBGUk9NIHR1dG9yczsKYGBgCgpgYGB7c3FsIFF1ZXJ5QXZhaWxhYmxlVHV0b3JzLCBjb25uZWN0aW9uPWRiY29ufQpTRUxFQ1QgZmlyc3RfbmFtZSBmaXJzdF9uYW1lLCBzdWJzdHIobGFzdF9uYW1lLCAxLCAxKSBBUyBsYXN0X2luaXRpYWwgRlJPTSB0dXRvcnMKV0hFUkUgYXZhaWxhYmxlOwpgYGAKCmBgYHtzcWwgUXVlcnlGb3JFbWFpbHMsIGNvbm5lY3Rpb249ZGJjb259ClNFTEVDVCBlbWFpbCBGUk9NIGxlYXJuZXJzClVOSU9OClNFTEVDVCBlbWFpbCBGUk9NIHR1dG9yczsKYGBgCgpgYGB7c3FsIFF1ZXJ5T2N0b2JlckhvdXJzLCBjb25uZWN0aW9uPWRiY29ufQpTRUxFQ1QKICAgIFNVTShTVFJGVElNRSgnJUgnLCBlbmRfdGltZSkgLSBTVFJGVElNRSgnJUgnLCBzdGFydF90aW1lKSkgQVMgb2N0b2Jlcl9ob3VycywKICAgIENPVU5UKERJU1RJTkNUIHR1dG9yX2lkKSBBUyB0dXRvcnMKRlJPTQogICAgaG91cnMKV0hFUkUKICAgIG1vbnRoID0gMTA7CmBgYAoKYGBge3NxbCBRdWVyeVNlbGVjdEFsbFR1dG9ycywgY29ubmVjdGlvbj1kYmNvbn0KU0VMRUNUIAoJdC4qLCBwLiosCglNQVgoQ0FTRSBXSEVOIGEuZGF5ID0gJ01vbmRheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIG1vbmRheSwKCU1BWChDQVNFIFdIRU4gYS5kYXkgPSAnVHVlc2RheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIHR1ZXNkYXksCglNQVgoQ0FTRSBXSEVOIGEuZGF5ID0gJ1dlZG5lc2RheScgVEhFTiAxIEVMU0UgMCBFTkQpIEFTIHdlZG5lc2RheSwKCU1BWChDQVNFIFdIRU4gYS5kYXkgPSAnVGh1cnNkYXknIFRIRU4gMSBFTFNFIDAgRU5EKSBBUyB0aHVyc2RheSwKCU1BWChDQVNFIFdIRU4gYS5kYXkgPSAnRnJpZGF5JyBUSEVOIDEgRUxTRSAwIEVORCkgQVMgZnJpZGF5CkZST00gdHV0b3JzIHQKTEVGVCBKT0lOIHByZWZlcmVuY2VzIHAgT04gdC50dXRvcl9pZCA9IHAudHV0b3JfaWQKTEVGVCBKT0lOIHR1dG9yX2F2YWlsYWJpbGl0eSBhIE9OIHQudHV0b3JfaWQgPSBhLnR1dG9yX2lkCkdST1VQIEJZIHQudHV0b3JfaWQsIHAucHJlZmVyZW5jZV9pZDsKYGBgCgojIyMgRmluZCBTdHVkZW50cyBmb3IgUXVpbm4KCmBgYHtyIEZpbmRMZWFybmVyc0ZvclF1aW5uLCBjb25uZWN0aW9uPWRiY29ufQojIFF1aW5uJ3MgSUQuCnR1dG9yX2lkIDwtICcxJzsKCiMgUXVlcnkgdG8gZmluZCB0dXRvciBzY2hlZHVsZS4KdHV0b3Jfc2NoZWR1bGUgPC0gZGJHZXRRdWVyeShkYmNvbiwgZ2x1ZSgiU0VMRUNUIGRheSwgc3RhcnRfdGltZSwgZW5kX3RpbWUgRlJPTSB0dXRvcl9hdmFpbGFiaWxpdHkgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9OyIpKQoKIyBRdWVyeSB0byBmaW5kIHR1dG9yIHByZWZlcmVuY2VzLgp0dXRvcl9wcmVmZXJlbmNlcyA8LSBkYkdldFF1ZXJ5KGRiY29uLCBnbHVlKCJTRUxFQ1QgY29udmVyc2F0aW9uLCBlc2xfbm92aWNlLCBlc2xfYmVnaW5uZXIsIGVzbF9pbnRlcm1lZGlhdGUsIGNpdGl6ZW5zaGlwLCBzcGVkX2VsYSwgYmFzaWNfbWF0aCwgaGlzZXRfbWF0aCwgYmFzaWNfcmVhZGluZywgaGlzZXRfcmVhZGluZywgYmFzaWNfd3JpdGluZywgaGlzZXRfd3JpdGluZyBGUk9NIHByZWZlcmVuY2VzIFdIRVJFIHR1dG9yX2lkID0ge3R1dG9yX2lkfTsiKSkKCmRheXMgPC0gdHV0b3Jfc2NoZWR1bGUkZGF5CnN0YXJ0X3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJHN0YXJ0X3RpbWUKZW5kX3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJGVuZF90aW1lCgojIExpc3Qgb2YgcHJlZmVyZW5jZXMuCnByZWZlcmVuY2VfbmFtZXMgPC0gYygiY29udmVyc2F0aW9uIiwgImVzbF9ub3ZpY2UiLCAiZXNsX2JlZ2lubmVyIiwgImVzbF9pbnRlcm1lZGlhdGUiLCAiY2l0aXplbnNoaXAiLCAic3BlZF9lbGEiLCAiYmFzaWNfbWF0aCIsICJoaXNldF9tYXRoIiwgImJhc2ljX3JlYWRpbmciLCAiaGlzZXRfcmVhZGluZyIsICJiYXNpY193cml0aW5nIiwgImhpc2V0X3dyaXRpbmciKQoKIyBDcmVhdGUgZW1wdHkgcHJlZmVyZW5jZSBzdHJpbmcuCnByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtICIiOwoKZm9yIChpIGluIDE6bGVuZ3RoKHByZWZlcmVuY2VfbmFtZXMpKSB7CiAgaWYgKHR1dG9yX3ByZWZlcmVuY2VzW2ldID09ICcxJykgewogICAgcHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcgPC0gZ2x1ZSgie3ByZWZlcmVuY2VfcXVlcnlfc3RyaW5nfSwgJ3twcmVmZXJlbmNlX25hbWVzW2ldfSciKQogIH0KfQpwcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBzdWJzdHIocHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcsIDMsIG5jaGFyKHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nKSkKCiMgQ3JlYXRlIGRhdGFmcmFtZSB0byBzYXZlIG1hdGNoZXMuCm1hdGNoZXMgPC0gZGF0YS5mcmFtZShmaXJzdF9uYW1lID0gY2hhcmFjdGVyKCksCiAgICAgICAgICAgICAgICAgICAgICBsYXN0X2luaXRpYWwgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIGxldmVsID0gY2hhcmFjdGVyKCksCiAgICAgICAgICAgICAgICAgICAgICBkYXkgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIHN0YXJ0X3RpbWUgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIGVuZF90aW1lID0gY2hhcmFjdGVyKCkpCgpmb3IgKGkgaW4gMTpsZW5ndGgoZGF5cykpIHsKICBtYXRjaF9xdWVyeSA8LSAoZ2x1ZSgiU0VMRUNUCiAgICAgIGwuZmlyc3RfbmFtZSwgc3Vic3RyKGwubGFzdF9uYW1lLCAxLCAxKSBBUyBsYXN0X25hbWUsIGwubGV2ZWwsIGxhLmRheSwgbGEuc3RhcnRfdGltZSwgbGEuZW5kX3RpbWUKICBGUk9NCiAgICAgIGxlYXJuZXJzIGwKICBKT0lOCiAgICAgIGxlYXJuZXJfYXZhaWxhYmlsaXR5IGxhIE9OIGwubGVhcm5lcl9pZCA9IGxhLmxlYXJuZXJfaWQKICBXSEVSRQogICAgICBsLmF2YWlsYWJsZSBBTkQKICAgICAgbC5sZXZlbCBJTiAoe3ByZWZlcmVuY2VfcXVlcnlfc3RyaW5nfSkgQU5ECiAgICAgIGxhLmRheSA9ICd7ZGF5c1tpXX0nIEFORAogICAgICBsYS5zdGFydF90aW1lIDwgJ3tlbmRfdGltZXNbaV19JyBBTkQKICAgICAgbGEuZW5kX3RpbWUgPiAne3N0YXJ0X3RpbWVzW2ldfSc7IikpCiAgCiAgcmVzdWx0IDwtIGRiR2V0UXVlcnkoZGJjb24sIG1hdGNoX3F1ZXJ5KQoKICBtYXRjaGVzIDwtIHJiaW5kKG1hdGNoZXMsIHJlc3VsdCkKfQoKcHJpbnQobWF0Y2hlcykKYGBgCgojIyMgRmluZCBTdHVkZW50cyBmb3IgV2FsbHkKCmBgYHtyIEZpbmRMZWFybmVyc0ZvcldhbGx5LCBjb25uZWN0aW9uPWRiY29ufQojIFdhbGx5J3MgSUQuCnR1dG9yX2lkIDwtICcyJzsKCiMgUXVlcnkgdG8gZmluZCB0dXRvciBzY2hlZHVsZS4KdHV0b3Jfc2NoZWR1bGUgPC0gZGJHZXRRdWVyeShkYmNvbiwgZ2x1ZSgiU0VMRUNUIGRheSwgc3RhcnRfdGltZSwgZW5kX3RpbWUgRlJPTSB0dXRvcl9hdmFpbGFiaWxpdHkgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9OyIpKQoKIyBRdWVyeSB0byBmaW5kIHR1dG9yIHByZWZlcmVuY2VzLgp0dXRvcl9wcmVmZXJlbmNlcyA8LSBkYkdldFF1ZXJ5KGRiY29uLCBnbHVlKCJTRUxFQ1QgY29udmVyc2F0aW9uLCBlc2xfbm92aWNlLCBlc2xfYmVnaW5uZXIsIGVzbF9pbnRlcm1lZGlhdGUsIGNpdGl6ZW5zaGlwLCBzcGVkX2VsYSwgYmFzaWNfbWF0aCwgaGlzZXRfbWF0aCwgYmFzaWNfcmVhZGluZywgaGlzZXRfcmVhZGluZywgYmFzaWNfd3JpdGluZywgaGlzZXRfd3JpdGluZyBGUk9NIHByZWZlcmVuY2VzIFdIRVJFIHR1dG9yX2lkID0ge3R1dG9yX2lkfTsiKSkKCmRheXMgPC0gdHV0b3Jfc2NoZWR1bGUkZGF5CnN0YXJ0X3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJHN0YXJ0X3RpbWUKZW5kX3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJGVuZF90aW1lCgojIExpc3Qgb2YgcHJlZmVyZW5jZXMuCnByZWZlcmVuY2VfbmFtZXMgPC0gYygiY29udmVyc2F0aW9uIiwgImVzbF9ub3ZpY2UiLCAiZXNsX2JlZ2lubmVyIiwgImVzbF9pbnRlcm1lZGlhdGUiLCAiY2l0aXplbnNoaXAiLCAic3BlZF9lbGEiLCAiYmFzaWNfbWF0aCIsICJoaXNldF9tYXRoIiwgImJhc2ljX3JlYWRpbmciLCAiaGlzZXRfcmVhZGluZyIsICJiYXNpY193cml0aW5nIiwgImhpc2V0X3dyaXRpbmciKQoKIyBDcmVhdGUgZW1wdHkgcHJlZmVyZW5jZSBzdHJpbmcuCnByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtICIiOwoKZm9yIChpIGluIDE6bGVuZ3RoKHByZWZlcmVuY2VfbmFtZXMpKSB7CiAgaWYgKHR1dG9yX3ByZWZlcmVuY2VzW2ldID09ICcxJykgewogICAgcHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcgPC0gZ2x1ZSgie3ByZWZlcmVuY2VfcXVlcnlfc3RyaW5nfSwgJ3twcmVmZXJlbmNlX25hbWVzW2ldfSciKQogIH0KfQpwcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBzdWJzdHIocHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcsIDMsIG5jaGFyKHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nKSkKCiMgQ3JlYXRlIGRhdGFmcmFtZSB0byBzYXZlIG1hdGNoZXMuCm1hdGNoZXMgPC0gZGF0YS5mcmFtZShmaXJzdF9uYW1lID0gY2hhcmFjdGVyKCksCiAgICAgICAgICAgICAgICAgICAgICBsYXN0X2luaXRpYWwgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIGxldmVsID0gY2hhcmFjdGVyKCksCiAgICAgICAgICAgICAgICAgICAgICBkYXkgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIHN0YXJ0X3RpbWUgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIGVuZF90aW1lID0gY2hhcmFjdGVyKCkpCgpmb3IgKGkgaW4gMTpsZW5ndGgoZGF5cykpIHsKICBtYXRjaF9xdWVyeSA8LSAoZ2x1ZSgiU0VMRUNUCiAgICAgIGwuZmlyc3RfbmFtZSwgc3Vic3RyKGwubGFzdF9uYW1lLCAxLCAxKSBBUyBsYXN0X25hbWUsIGwubGV2ZWwsIGxhLmRheSwgbGEuc3RhcnRfdGltZSwgbGEuZW5kX3RpbWUKICBGUk9NCiAgICAgIGxlYXJuZXJzIGwKICBKT0lOCiAgICAgIGxlYXJuZXJfYXZhaWxhYmlsaXR5IGxhIE9OIGwubGVhcm5lcl9pZCA9IGxhLmxlYXJuZXJfaWQKICBXSEVSRQogICAgICBsLmF2YWlsYWJsZSBBTkQKICAgICAgbC5sZXZlbCBJTiAoe3ByZWZlcmVuY2VfcXVlcnlfc3RyaW5nfSkgQU5ECiAgICAgIGxhLmRheSA9ICd7ZGF5c1tpXX0nIEFORAogICAgICBsYS5zdGFydF90aW1lIDwgJ3tlbmRfdGltZXNbaV19JyBBTkQKICAgICAgbGEuZW5kX3RpbWUgPiAne3N0YXJ0X3RpbWVzW2ldfSc7IikpCiAgCiAgcmVzdWx0IDwtIGRiR2V0UXVlcnkoZGJjb24sIG1hdGNoX3F1ZXJ5KQoKICBtYXRjaGVzIDwtIHJiaW5kKG1hdGNoZXMsIHJlc3VsdCkKfQoKcHJpbnQobWF0Y2hlcykKYGBgCgojIyMgRmluZCBTdHVkZW50cyBmb3IgRWFybAoKYGBge3IgRmluZFN0dWRlbnRzRm9yRWFybCwgY29ubmVjdGlvbj1kYmNvbn0KIyBFYXJsJ3MgSUQuCnR1dG9yX2lkIDwtICczJzsKCiMgUXVlcnkgdG8gZmluZCB0dXRvciBzY2hlZHVsZS4KdHV0b3Jfc2NoZWR1bGUgPC0gZGJHZXRRdWVyeShkYmNvbiwgZ2x1ZSgiU0VMRUNUIGRheSwgc3RhcnRfdGltZSwgZW5kX3RpbWUgRlJPTSB0dXRvcl9hdmFpbGFiaWxpdHkgV0hFUkUgdHV0b3JfaWQgPSB7dHV0b3JfaWR9OyIpKQoKIyBRdWVyeSB0byBmaW5kIHR1dG9yIHByZWZlcmVuY2VzLgp0dXRvcl9wcmVmZXJlbmNlcyA8LSBkYkdldFF1ZXJ5KGRiY29uLCBnbHVlKCJTRUxFQ1QgY29udmVyc2F0aW9uLCBlc2xfbm92aWNlLCBlc2xfYmVnaW5uZXIsIGVzbF9pbnRlcm1lZGlhdGUsIGNpdGl6ZW5zaGlwLCBzcGVkX2VsYSwgYmFzaWNfbWF0aCwgaGlzZXRfbWF0aCwgYmFzaWNfcmVhZGluZywgaGlzZXRfcmVhZGluZywgYmFzaWNfd3JpdGluZywgaGlzZXRfd3JpdGluZyBGUk9NIHByZWZlcmVuY2VzIFdIRVJFIHR1dG9yX2lkID0ge3R1dG9yX2lkfTsiKSkKCmRheXMgPC0gdHV0b3Jfc2NoZWR1bGUkZGF5CnN0YXJ0X3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJHN0YXJ0X3RpbWUKZW5kX3RpbWVzIDwtIHR1dG9yX3NjaGVkdWxlJGVuZF90aW1lCgojIExpc3Qgb2YgcHJlZmVyZW5jZXMuCnByZWZlcmVuY2VfbmFtZXMgPC0gYygiY29udmVyc2F0aW9uIiwgImVzbF9ub3ZpY2UiLCAiZXNsX2JlZ2lubmVyIiwgImVzbF9pbnRlcm1lZGlhdGUiLCAiY2l0aXplbnNoaXAiLCAic3BlZF9lbGEiLCAiYmFzaWNfbWF0aCIsICJoaXNldF9tYXRoIiwgImJhc2ljX3JlYWRpbmciLCAiaGlzZXRfcmVhZGluZyIsICJiYXNpY193cml0aW5nIiwgImhpc2V0X3dyaXRpbmciKQoKIyBDcmVhdGUgZW1wdHkgcHJlZmVyZW5jZSBzdHJpbmcuCnByZWZlcmVuY2VfcXVlcnlfc3RyaW5nIDwtICIiOwoKZm9yIChpIGluIDE6bGVuZ3RoKHByZWZlcmVuY2VfbmFtZXMpKSB7CiAgaWYgKHR1dG9yX3ByZWZlcmVuY2VzW2ldID09ICcxJykgewogICAgcHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcgPC0gZ2x1ZSgie3ByZWZlcmVuY2VfcXVlcnlfc3RyaW5nfSwgJ3twcmVmZXJlbmNlX25hbWVzW2ldfSciKQogIH0KfQpwcmVmZXJlbmNlX3F1ZXJ5X3N0cmluZyA8LSBzdWJzdHIocHJlZmVyZW5jZV9xdWVyeV9zdHJpbmcsIDMsIG5jaGFyKHByZWZlcmVuY2VfcXVlcnlfc3RyaW5nKSkKCiMgQ3JlYXRlIGRhdGFmcmFtZSB0byBzYXZlIG1hdGNoZXMuCm1hdGNoZXMgPC0gZGF0YS5mcmFtZShmaXJzdF9uYW1lID0gY2hhcmFjdGVyKCksCiAgICAgICAgICAgICAgICAgICAgICBsYXN0X2luaXRpYWwgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIGxldmVsID0gY2hhcmFjdGVyKCksCiAgICAgICAgICAgICAgICAgICAgICBkYXkgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIHN0YXJ0X3RpbWUgPSBjaGFyYWN0ZXIoKSwKICAgICAgICAgICAgICAgICAgICAgIGVuZF90aW1lID0gY2hhcmFjdGVyKCkpCgpmb3IgKGkgaW4gMTpsZW5ndGgoZGF5cykpIHsKICBtYXRjaF9xdWVyeSA8LSAoZ2x1ZSgiU0VMRUNUCiAgICAgIGwuZmlyc3RfbmFtZSwgc3Vic3RyKGwubGFzdF9uYW1lLCAxLCAxKSBBUyBsYXN0X25hbWUsIGwubGV2ZWwsIGxhLmRheSwgbGEuc3RhcnRfdGltZSwgbGEuZW5kX3RpbWUKICBGUk9NCiAgICAgIGxlYXJuZXJzIGwKICBKT0lOCiAgICAgIGxlYXJuZXJfYXZhaWxhYmlsaXR5IGxhIE9OIGwubGVhcm5lcl9pZCA9IGxhLmxlYXJuZXJfaWQKICBXSEVSRQogICAgICBsLmF2YWlsYWJsZSBBTkQKICAgICAgbC5sZXZlbCBJTiAoe3ByZWZlcmVuY2VfcXVlcnlfc3RyaW5nfSkgQU5ECiAgICAgIGxhLmRheSA9ICd7ZGF5c1tpXX0nIEFORAogICAgICBsYS5zdGFydF90aW1lIDwgJ3tlbmRfdGltZXNbaV19JyBBTkQKICAgICAgbGEuZW5kX3RpbWUgPiAne3N0YXJ0X3RpbWVzW2ldfSc7IikpCiAgCiAgcmVzdWx0IDwtIGRiR2V0UXVlcnkoZGJjb24sIG1hdGNoX3F1ZXJ5KQoKICBtYXRjaGVzIDwtIHJiaW5kKG1hdGNoZXMsIHJlc3VsdCkKfQoKcHJpbnQobWF0Y2hlcykKYGBgCgpgYGB7cn0KZGJEaXNjb25uZWN0KGRiY29uKQpgYGA=</div>
 
 
 

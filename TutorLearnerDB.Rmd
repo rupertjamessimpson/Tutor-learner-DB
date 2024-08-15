@@ -1,11 +1,11 @@
 ---
-title: "Second Learner/Tutor Database"
+title: "Tutor Learner Database"
 author: "Rupert Simpson"
 output: html_notebook
 ---
 
 ## Establish Database:
-The R code below loads the RSQLite library and establishes a connection with a locally saved database named "2ndTutor.db". If no such database is found in the working directory, R will create one.
+The R code below loads the RSQLite library and establishes a connection with a locally saved database named "Tutor.db". If no such database is found in the working directory, R will create one.
 
 The subsequent SQL statements drop any tables created during previous run sessions and create new tables for students, tutors, tutor level preferences, and schedules. These tables are then populated with example data.
 
@@ -13,7 +13,7 @@ The subsequent SQL statements drop any tables created during previous run sessio
 library(RSQLite)
 library(glue)
 
-dbcon <- dbConnect(RSQLite::SQLite(), "2ndTutor.db")
+dbcon <- dbConnect(RSQLite::SQLite(), "Tutor.db")
 ```
 
 ```{sql DropLearnersTable, connection=dbcon}
@@ -28,10 +28,6 @@ DROP TABLE IF EXISTS tutors;
 DROP TABLE IF EXISTS preferences;
 ```
 
-```{sql DropHoursTable, connection=dbcon}
-DROP TABLE IF EXISTS hours;
-```
-
 ```{sql DropLearnerAvailabilityTable, connection=dbcon}
 DROP TABLE IF EXISTS learner_availability;
 ```
@@ -42,6 +38,10 @@ DROP TABLE IF EXISTS tutor_availability;
 
 ```{sql DropUsersTable, connection=dbcon}
 DROP TABLE IF EXISTS users;
+```
+
+```{sql DropMatchesTable, connection=dbcon}
+DROP TABLE IF EXISTS matches;
 ```
 
 ```{sql CreateUsersTable, connection=dbcon}
@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS learners (
   phone INT,
   email TEXT,
   level TEXT,
+  conversation INT,
   available BOOL
 );
 ```
@@ -69,13 +70,24 @@ CREATE TABLE IF NOT EXISTS learners (
 ```{sql CreateTutorsTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS tutors (
   tutor_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  learner_id INT,
   first_name TEXT,
   last_name TEXT,
   phone INT,
   email TEXT,
-  available BOOL,
-  FOREIGN KEY (learner_id) REFERENCES learners(learner_id)
+  available BOOL
+);
+```
+
+```{sql CreateHoursTable, connection=dbcon}
+CREATE TABLE IF NOT EXISTS hours (
+  hours_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tutor_name TEXT,
+  learner_name TEXT,
+  day TEXT,
+  month INT,
+  year INT,
+  start_time TEXT,
+  end_time TEXT
 );
 ```
 
@@ -90,27 +102,9 @@ CREATE TABLE IF NOT EXISTS preferences (
   citizenship BOOL,
   sped_ela BOOL,
   basic_math BOOL,
-  hiset_math BOOL,
   basic_reading BOOL,
-  hiset_reading BOOL,
   basic_writing BOOL,
-  hiset_writing BOOL,
-  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id)
-);
-```
-
-```{sql CreateHoursTable, connection=dbcon}
-CREATE TABLE IF NOT EXISTS hours (
-  hours_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  learner_id INT,
-  tutor_id INT,
-  day TEXT,
-  month INT,
-  year INT,
-  start_time TEXT,
-  end_time TEXT,
-  FOREIGN KEY (learner_id) REFERENCES learners(learner_id),
-  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id)
+  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id) ON DELETE CASCADE
 );
 ```
 
@@ -121,7 +115,7 @@ CREATE TABLE IF NOT EXISTS learner_availability (
   day TEXT,
   start_time TIME,
   end_time TIME,
-  FOREIGN KEY (learner_id) REFERENCES learners(learner_id)
+  FOREIGN KEY (learner_id) REFERENCES learners(learner_id) ON DELETE CASCADE
 );
 ```
 
@@ -132,7 +126,17 @@ CREATE TABLE IF NOT EXISTS tutor_availability (
   day TEXT,
   start_time TIME,
   end_time TIME,
-  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id)
+  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id) ON DELETE CASCADE
+);
+```
+
+```{sql CreateMatchesTable, connection=dbcon}
+CREATE TABLE IF NOT EXISTS matches (
+  match_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tutor_id INT,
+  learner_id INT,
+  FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id) ON DELETE CASCADE,
+  FOREIGN KEY (learner_id) REFERENCES tutors(learner_id) ON DELETE CASCADE
 );
 ```
 
@@ -147,28 +151,28 @@ VALUES
 ```
 
 ```{sql LearnersTableInsert, connection=dbcon}
-INSERT INTO learners (first_name, last_name, phone, email, level, available)
+INSERT INTO learners (first_name, last_name, phone, email, level, conversation, available)
 VALUES
-  ('Sally', 'Shoo', 1111111111, 'email1@email.com', 'esl_novice', true),
-  ('Danny', 'Dogg', 2222222222, 'email2@email.com', 'esl_beginner', true),
-  ('Eddy', 'Everett', 3333333333, 'email3@email.com', 'esl_intermediate', true),
-  ('Patty', 'Patricks', 4444444444, 'email4@email.com', 'citizenship', true),
-  ('Thomas', 'Thompson', 5555555555, 'email5@email.com', 'sped_ela', true),
-  ('Wendy', 'Wilburg', 6666666666, 'email6@email.com', 'basic_math', true),
-  ('Freddy', 'Franks', 7777777777, 'email7@email.com', 'hiset_math', true),
-  ('Bobby', 'Brown', 8888888888, 'email8@email.com', 'basic_reading', true),
-  ('Vinny', 'Vaughn', 9999999999, 'email9@email.com', 'hiset_reading', true),
-  ('Mathew', 'Matters', 1010101010, 'email10@email.com', 'basic_writing', true);
+  ('Sally', 'Shoo', 1111111111, 'email1@email.com', 'esl_novice', 1, false),
+  ('Danny', 'Dogg', 2222222222, 'email2@email.com', 'esl_beginner', 2, false),
+  ('Eddy', 'Everett', 3333333333, 'email3@email.com', 'esl_intermediate', 3, false),
+  ('Patty', 'Patricks', 4444444444, 'email4@email.com', 'citizenship', 4, false),
+  ('Thomas', 'Thompson', 5555555555, 'email5@email.com', 'sped_ela', 1, false),
+  ('Wendy', 'Wilburg', 6666666666, 'email6@email.com', 'basic_math', 2, true),
+  ('Freddy', 'Franks', 7777777777, 'email7@email.com', 'basic_math', 3, true),
+  ('Bobby', 'Brown', 8888888888, 'email8@email.com', 'basic_reading', 4, true),
+  ('Vinny', 'Vaughn', 9999999999, 'email9@email.com', 'basic_reading', 1, true),
+  ('Mathew', 'Matters', 1010101010, 'email10@email.com', 'basic_writing', 2, true);
 ```
 
 ```{sql TutorsTableInsert, connection=dbcon}
 INSERT INTO tutors (first_name, last_name, phone, email, available)
 VALUES
-  ('Quinny', 'Quigly', 1111111111, 'email11@email.com', true),
-  ('Wally', 'Walter', 2222222222, 'email12@email.com', true),
-  ('Earl', 'Evans', 3333333333, 'email13@email.com', true),
+  ('Quinny', 'Quigly', 1111111111, 'email11@email.com', false),
+  ('Wally', 'Walter', 2222222222, 'email12@email.com', false),
+  ('Earl', 'Evans', 3333333333, 'email13@email.com', false),
   ('Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
-  ('Timmy', 'Timber', 5555555555, 'email15@email.com', true),
+  ('Timmy', 'Timber', 5555555555, 'email15@email.com', false),
   ('Owen', 'Orwell', 6666666666, 'email16@email.com', true),
   ('Ashely', 'Adams', 7777777777, 'email17@email.com', false),
   ('Sophie', 'Summers', 8888888888, 'email18@email.com', true),
@@ -177,18 +181,18 @@ VALUES
 ```
 
 ```{sql PreferencesTableInsert, connection=dbcon}
-INSERT INTO preferences (tutor_id, conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing)
+INSERT INTO preferences (tutor_id, conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, basic_reading, basic_writing)
 VALUES
-  (1, false, true, true, false, false, true, false, true, true, false, true, false),
-  (2, false, true, false, false, false, false, true, true, false, true, false, true),
-  (3, true, false, false, true, true, true, false, false, false, false, true, true),
-  (4, false, true, false, false, false, false, true, true, false, true, false, true),
-  (5, true, false, false, true, true, true, false, false, false, false, true, true),
-  (6, false, true, false, false, false, false, true, true, false, true, false, true),
-  (7, true, false, false, true, true, false, false, false, false, false, true, true),
-  (8, false, true, false, false, false, false, true, true, false, true, false, true),
-  (9, true, false, false, true, true, true, false, false, false, false, true, true),
-  (10, false, true, false, false, false, false, true, true, false, true, false, true);
+  (1, false, true, true, false, false, true, false, true, true),
+  (2, false, true, false, false, false, false, true, true, false),
+  (3, true, false, false, true, true, true, false, false, false),
+  (4, false, true, false, false, false, false, true, true, false),
+  (5, true, false, false, true, true, true, false, false, false),
+  (6, false, true, false, false, false, false, true, true, false),
+  (7, true, false, false, true, true, false, false, false, false),
+  (8, false, true, false, false, false, false, true, true, false),
+  (9, true, false, false, true, true, true, false, false, false),
+  (10, false, true, false, false, false, false, true, true, true);
 ```
 
 ```{sql LearnerAvailabilityTableInsert, connection=dbcon}
@@ -261,34 +265,20 @@ VALUES
   (10, 'Wednesday', '10:00', '20:00');
 ```
 
-```{sql HoursTableInsert, connection=dbcon}
-INSERT INTO hours (tutor_id, learner_id, day, month, year, start_time, end_time)
+```{sql MatchesTableInsert, connection=dbcon}
+INSERT INTO matches (tutor_id, learner_id)
 VALUES
-  (1, 1, 'Monday', 10, 2024, '10:00', '11:00'),
-  (2, 2, 'Tuesday', 10, 2024, '10:00', '12:00'),
-  (3, 3, 'Wednesday', 10, 2024, '10:00', '11:00'),
-  (4, 4, 'Thursday', 10, 2024, '10:00', '12:00'),
-  (5, 5, 'Friday', 10, 2024, '10:00', '11:00'),
-  (6, 6, 'Monday', 10, 2024, '10:00', '12:00'),
-  (7, 7, 'Tuesday', 10, 2024, '10:00', '11:00'),
-  (8, 8, 'Wednesday', 11, 2024, '10:00', '12:00'),
-  (9, 9, 'Thursday', 11, 2024, '10:00', '11:00'),
-  (10, 10, 'Friday', 11, 2024, '10:00', '12:00');
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (4, 4),
+  (5, 5);
 ```
 
 ## Queries
 
 ```{sql QueryLearnersTable, connection=dbcon}
-			SELECT
-				l.*,
-				MAX(CASE WHEN a.day = 'Monday' THEN 1 ELSE 0 END) AS monday,
-				MAX(CASE WHEN a.day = 'Tuesday' THEN 1 ELSE 0 END) AS tuesday,
-				MAX(CASE WHEN a.day = 'Wednesday' THEN 1 ELSE 0 END) AS wednesday,
-				MAX(CASE WHEN a.day = 'Thursday' THEN 1 ELSE 0 END) AS thursday,
-				MAX(CASE WHEN a.day = 'Friday' THEN 1 ELSE 0 END) AS friday
-			FROM learners l
-			LEFT JOIN learner_availability a ON l.learner_id = a.learner_id
-			GROUP BY l.learner_id;
+SELECT first_name, substr(last_name, 1, 1) AS last_initial FROM learners;
 ```
 
 ```{sql QueryTutorsTable, connection=dbcon}
@@ -306,30 +296,6 @@ UNION
 SELECT email FROM tutors;
 ```
 
-```{sql QueryOctoberHours, connection=dbcon}
-SELECT
-    SUM(STRFTIME('%H', end_time) - STRFTIME('%H', start_time)) AS october_hours,
-    COUNT(DISTINCT tutor_id) AS tutors
-FROM
-    hours
-WHERE
-    month = 10;
-```
-
-```{sql QuerySelectAllTutors, connection=dbcon}
-SELECT 
-	t.*, p.*,
-	MAX(CASE WHEN a.day = 'Monday' THEN 1 ELSE 0 END) AS monday,
-	MAX(CASE WHEN a.day = 'Tuesday' THEN 1 ELSE 0 END) AS tuesday,
-	MAX(CASE WHEN a.day = 'Wednesday' THEN 1 ELSE 0 END) AS wednesday,
-	MAX(CASE WHEN a.day = 'Thursday' THEN 1 ELSE 0 END) AS thursday,
-	MAX(CASE WHEN a.day = 'Friday' THEN 1 ELSE 0 END) AS friday
-FROM tutors t
-LEFT JOIN preferences p ON t.tutor_id = p.tutor_id
-LEFT JOIN tutor_availability a ON t.tutor_id = a.tutor_id
-GROUP BY t.tutor_id, p.preference_id;
-```
-
 ### Find Students for Quinn
 
 ```{r FindLearnersForQuinn, connection=dbcon}
@@ -340,14 +306,14 @@ tutor_id <- '1';
 tutor_schedule <- dbGetQuery(dbcon, glue("SELECT day, start_time, end_time FROM tutor_availability WHERE tutor_id = {tutor_id};"))
 
 # Query to find tutor preferences.
-tutor_preferences <- dbGetQuery(dbcon, glue("SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing FROM preferences WHERE tutor_id = {tutor_id};"))
+tutor_preferences <- dbGetQuery(dbcon, glue("SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, basic_reading, basic_writing FROM preferences WHERE tutor_id = {tutor_id};"))
 
 days <- tutor_schedule$day
 start_times <- tutor_schedule$start_time
 end_times <- tutor_schedule$end_time
 
 # List of preferences.
-preference_names <- c("conversation", "esl_novice", "esl_beginner", "esl_intermediate", "citizenship", "sped_ela", "basic_math", "hiset_math", "basic_reading", "hiset_reading", "basic_writing", "hiset_writing")
+preference_names <- c("conversation", "esl_novice", "esl_beginner", "esl_intermediate", "citizenship", "sped_ela", "basic_math", "basic_reading", "basic_writing")
 
 # Create empty preference string.
 preference_query_string <- "";
@@ -389,7 +355,7 @@ for (i in 1:length(days)) {
 print(matches)
 ```
 
-### Find Students for Wally
+### Find Matches
 
 ```{r FindLearnersForWally, connection=dbcon}
 # Wally's ID.
@@ -399,14 +365,14 @@ tutor_id <- '2';
 tutor_schedule <- dbGetQuery(dbcon, glue("SELECT day, start_time, end_time FROM tutor_availability WHERE tutor_id = {tutor_id};"))
 
 # Query to find tutor preferences.
-tutor_preferences <- dbGetQuery(dbcon, glue("SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing FROM preferences WHERE tutor_id = {tutor_id};"))
+tutor_preferences <- dbGetQuery(dbcon, glue("SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, basic_reading, basic_writing FROM preferences WHERE tutor_id = {tutor_id};"))
 
 days <- tutor_schedule$day
 start_times <- tutor_schedule$start_time
 end_times <- tutor_schedule$end_time
 
 # List of preferences.
-preference_names <- c("conversation", "esl_novice", "esl_beginner", "esl_intermediate", "citizenship", "sped_ela", "basic_math", "hiset_math", "basic_reading", "hiset_reading", "basic_writing", "hiset_writing")
+preference_names <- c("conversation", "esl_novice", "esl_beginner", "esl_intermediate", "citizenship", "sped_ela", "basic_math", "basic_reading", "basic_writing")
 
 # Create empty preference string.
 preference_query_string <- "";
@@ -448,8 +414,6 @@ for (i in 1:length(days)) {
 print(matches)
 ```
 
-### Find Students for Earl
-
 ```{r FindStudentsForEarl, connection=dbcon}
 # Earl's ID.
 tutor_id <- '3';
@@ -458,14 +422,14 @@ tutor_id <- '3';
 tutor_schedule <- dbGetQuery(dbcon, glue("SELECT day, start_time, end_time FROM tutor_availability WHERE tutor_id = {tutor_id};"))
 
 # Query to find tutor preferences.
-tutor_preferences <- dbGetQuery(dbcon, glue("SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing FROM preferences WHERE tutor_id = {tutor_id};"))
+tutor_preferences <- dbGetQuery(dbcon, glue("SELECT conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, basic_reading, basic_writing FROM preferences WHERE tutor_id = {tutor_id};"))
 
 days <- tutor_schedule$day
 start_times <- tutor_schedule$start_time
 end_times <- tutor_schedule$end_time
 
 # List of preferences.
-preference_names <- c("conversation", "esl_novice", "esl_beginner", "esl_intermediate", "citizenship", "sped_ela", "basic_math", "hiset_math", "basic_reading", "hiset_reading", "basic_writing", "hiset_writing")
+preference_names <- c("conversation", "esl_novice", "esl_beginner", "esl_intermediate", "citizenship", "sped_ela", "basic_math", "basic_reading", "basic_writing")
 
 # Create empty preference string.
 preference_query_string <- "";

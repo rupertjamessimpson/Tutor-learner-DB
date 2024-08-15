@@ -5,7 +5,7 @@ output: html_notebook
 ---
 
 ## Establish Database:
-The R code below loads the RSQLite library and establishes a connection with a locally saved database named "tutor.db". If no such database is found in the working directory, R will create one.
+The R code below loads the RSQLite library and establishes a connection with a locally saved database named "1stTutor.db". If no such database is found in the working directory, R will create one.
 
 The subsequent SQL statements drop any tables created during previous run sessions and create new tables for students, tutors, tutor level preferences, and schedules. These tables are then populated with example data.
 
