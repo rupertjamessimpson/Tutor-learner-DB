@@ -141,33 +141,53 @@ VALUES
 ```
 
 ```{sql LearnersTableInsert, connection=dbcon}
-INSERT INTO learners (first_name, last_name, phone, email, level, available, conversation)
+INSERT INTO learners (learner_id, first_name, last_name, phone, email, level, available, conversation)
 VALUES
-  ('Sally', 'Shoo', 1111111111, 'email1@email.com', 'esl_novice', false, 1),
-  ('Danny', 'Dogg', 2222222222, 'email2@email.com', 'esl_beginner', false, 2),
-  ('Eddy', 'Everett', 3333333333, 'email3@email.com', 'esl_intermediate', false, 3),
-  ('Patty', 'Patricks', 4444444444, 'email4@email.com', 'citizenship', false, 4),
-  ('Thomas', 'Thompson', 5555555555, 'email5@email.com', 'sped_ela', false, 1),
-  ('Wendy', 'Wilburg', 6666666666, 'email6@email.com', 'basic_math', true, 2),
-  ('Freddy', 'Franks', 7777777777, 'email7@email.com', 'basic_math', true, 3),
-  ('Bobby', 'Brown', 8888888888, 'email8@email.com', 'basic_reading', true, 4),
-  ('Vinny', 'Vaughn', 9999999999, 'email9@email.com', 'basic_reading', true, null),
-  ('Mathew', 'Matters', 1010101010, 'email10@email.com', 'basic_writing', true, null);
+  (1, 'Sally', 'Shoo', 1111111111, 'email1@email.com', 'esl_novice', true, 1),
+  (2, 'Danny', 'Dogg', 2222222222, 'email2@email.com', 'esl_beginner', true, 2),
+  (3, 'Eddy', 'Everett', 3333333333, 'email3@email.com', 'esl_intermediate', true, 3),
+  (4, 'Patty', 'Patricks', 4444444444, 'email4@email.com', 'citizenship', true, 4),
+  (5, 'Thomas', 'Thompson', 5555555555, 'email5@email.com', 'sped_ela', true, 1),
+  (6, 'Wendy', 'Wilburg', 6666666666, 'email6@email.com', 'basic_math', true, 2),
+  (7, 'Freddy', 'Franks', 7777777777, 'email7@email.com', 'esl_novice', true, 3),
+  (8, 'Bobby', 'Brown', 8888888888, 'email8@email.com', 'basic_reading', true, 4),
+  (9, 'Vinny', 'Vaughn', 9999999999, 'email9@email.com', 'basic_reading', true, null),
+  (10, 'Mathew', 'Matters', 1010101010, 'email10@email.com', 'basic_writing', true, null),
+  (11, 'Sammy', 'Summers', 1111111111, 'email1@email.com', 'esl_novice', true, 1),
+  (12, 'Dolly', 'Dobie', 2222222222, 'email2@email.com', 'esl_beginner', true, 2),
+  (13, 'Evan', 'Eckle', 3333333333, 'email3@email.com', 'esl_novice', true, 3),
+  (14, 'Pam', 'Pammy', 4444444444, 'email4@email.com', 'basic_math', true, 4),
+  (15, 'Timmy', 'Timson', 5555555555, 'email5@email.com', 'sped_ela', true, 1),
+  (16, 'Wolly', 'Wobert', 6666666666, 'email6@email.com', 'basic_reading', true, 2),
+  (17, 'Frank', 'Franie', 7777777777, 'email7@email.com', 'basic_writing', true, 3),
+  (18, 'Billy', 'Big', 8888888888, 'email8@email.com', 'basic_reading', true, 4),
+  (19, 'Vastie', 'Vast', 9999999999, 'email9@email.com', 'sped_ela', true, null),
+  (20, 'Mark', 'Markie', 1010101010, 'email10@email.com', 'basic_writing', true, null);
 ```
 
 ```{sql TutorsTableInsert, connection=dbcon}
-INSERT INTO tutors (first_name, last_name, phone, email, available)
+INSERT INTO tutors (tutor_id, first_name, last_name, phone, email, available)
 VALUES
-  ('Quinny', 'Quigly', 1111111111, 'email11@email.com', false),
-  ('Wally', 'Walter', 2222222222, 'email12@email.com', false),
-  ('Earl', 'Evans', 3333333333, 'email13@email.com', false),
-  ('Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
-  ('Timmy', 'Timber', 5555555555, 'email15@email.com', false),
-  ('Owen', 'Orwell', 6666666666, 'email16@email.com', true),
-  ('Ashely', 'Adams', 7777777777, 'email17@email.com', true),
-  ('Sophie', 'Summers', 8888888888, 'email18@email.com', true),
-  ('David', 'Demont', 9999999999, 'email19@email.com', true),
-  ('Jill', 'James', 1010101010, 'email20@email.com', true);
+  (1, 'Quinny', 'Quigly', 1111111111, 'email11@email.com', false),
+  (2, 'Wally', 'Walter', 2222222222, 'email12@email.com', false),
+  (3, 'Earl', 'Evans', 3333333333, 'email13@email.com', false),
+  (4, 'Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
+  (5, 'Timmy', 'Timber', 5555555555, 'email15@email.com', false),
+  (6, 'Owen', 'Orwell', 6666666666, 'email16@email.com', true),
+  (7, 'Ashely', 'Adams', 7777777777, 'email17@email.com', true),
+  (8, 'Sophie', 'Summers', 8888888888, 'email18@email.com', true),
+  (9, 'David', 'Demont', 9999999999, 'email19@email.com', true),
+  (10, 'Jill', 'James', 1010101010, 'email20@email.com', true),
+  (11, 'Quinny', 'Quigly', 1111111111, 'email11@email.com', false),
+  (12, 'Wally', 'Walter', 2222222222, 'email12@email.com', false),
+  (13, 'Earl', 'Evans', 3333333333, 'email13@email.com', false),
+  (14, 'Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
+  (15, 'Timmy', 'Timber', 5555555555, 'email15@email.com', false),
+  (16, 'Owen', 'Orwell', 6666666666, 'email16@email.com', true),
+  (17, 'Ashely', 'Adams', 7777777777, 'email17@email.com', true),
+  (18, 'Sophie', 'Summers', 8888888888, 'email18@email.com', true),
+  (19, 'David', 'Demont', 9999999999, 'email19@email.com', true),
+  (20, 'Jill', 'James', 1010101010, 'email20@email.com', true);
 ```
 
 ```{sql PreferencesTableInsert, connection=dbcon}
@@ -182,7 +202,17 @@ VALUES
   (7, true, false, false, true, true, false, false, false, false, true, true, true),
   (8, false, true, false, false, false, false, true, true, false, false, false, false),
   (9, true, false, false, true, true, true, false, false, false, true, true, true),
-  (10, false, true, false, false, false, false, true, true, true, false, true, true);
+  (10, false, true, false, false, false, false, true, true, true, false, true, true),
+  (11, false, true, true, false, false, true, false, true, true, false, true, true),
+  (12, false, true, false, false, false, false, true, true, false, true, true, true),
+  (13, true, false, false, true, true, true, false, false, false, false, true, false),
+  (14, false, true, false, false, false, false, true, true, false, true, false, true),
+  (15, true, false, false, true, true, true, false, false, false, false, true, true),
+  (16, false, true, false, false, false, false, true, true, false, false, false, false),
+  (17, true, false, false, true, true, false, false, false, false, true, true, true),
+  (18, false, true, false, false, false, false, true, true, false, false, false, false),
+  (19, true, false, false, true, true, true, false, false, false, true, true, true),
+  (20, false, true, false, false, false, false, true, true, true, false, true, true);
 ```
 
 ```{sql LearnerAvailabilityTableInsert, connection=dbcon}
@@ -196,7 +226,7 @@ VALUES
   (2, 'friday', '10:00', '17:00'),
   (3, 'tuesday', '10:00', '20:00'),
   (3, 'wednesday', '10:00', '15:00'),
-  (3, 'friday', '16:00', '20:00'),
+  (3, 'friday', '16:00', '17:30'),
   (4, 'monday', '12:00', '17:00'),
   (4, 'tuesday', '10:00', '17:00'),
   (4, 'thursday', '10:00', '17:00'),
@@ -214,10 +244,41 @@ VALUES
   (8, 'wednesday', '10:00', '12:00'),
   (9, 'monday', '17:00', '19:00'),
   (9, 'wednesday', '10:00', '19:00'),
-  (9, 'friday', '11:00', '19:00'),
+  (9, 'friday', '11:00', '17:30'),
   (10, 'monday', '10:00', '14:00'),
   (10, 'tuesday', '10:00', '12:00'),
-  (10, 'wednesday', '10:00', '20:00');
+  (10, 'wednesday', '10:00', '20:00'),
+  (11, 'monday', '10:00', '20:00'),
+  (11, 'tuesday', '12:00', '20:00'),
+  (11, 'wednesday', '11:00', '20:00'),
+  (12, 'monday', '19:00', '21:00'),
+  (12, 'thursday', '12:00', '17:00'),
+  (12, 'friday', '10:00', '17:00'),
+  (13, 'tuesday', '10:00', '20:00'),
+  (13, 'wednesday', '10:00', '15:00'),
+  (13, 'friday', '16:00', '17:30'),
+  (14, 'monday', '12:00', '17:00'),
+  (14, 'tuesday', '10:00', '17:00'),
+  (14, 'thursday', '10:00', '17:00'),
+  (15, 'monday', '10:00', '20:00'),
+  (15, 'tuesday', '11:00', '17:00'),
+  (15, 'friday', '10:00', '17:00'),
+  (16, 'tuesday', '10:00', '17:00'),
+  (16, 'wednesday', '10:00', '17:00'),
+  (16, 'thursday', '10:00', '17:00'),
+  (17, 'monday', '10:00', '17:00'),
+  (17, 'wednesday', '15:00', '17:00'),
+  (17, 'friday', '12:00', '17:00'),
+  (18, 'monday', '12:00', '14:00'),
+  (18, 'tuesday', '10:00', '12:00'),
+  (18, 'wednesday', '10:00', '12:00'),
+  (19, 'monday', '17:00', '19:00'),
+  (19, 'wednesday', '10:00', '19:00'),
+  (19, 'friday', '11:00', '17:30'),
+  (20, 'monday', '10:00', '14:00'),
+  (20, 'tuesday', '10:00', '12:00'),
+  (20, 'wednesday', '10:00', '20:00');
+
 ```
 
 ```{sql TutorAvailabilityTableInsert, connection=dbcon}
@@ -231,12 +292,12 @@ VALUES
   (2, 'friday', '10:00', '17:00'),
   (3, 'monday', '10:00', '20:00'),
   (3, 'thursday', '10:00', '15:00'),
-  (3, 'friday', '16:00', '20:00'),
+  (3, 'friday', '16:00', '17:30'),
   (4, 'monday', '12:00', '17:00'),
   (4, 'tuesday', '10:00', '17:00'),
   (4, 'wednesday', '10:00', '17:00'),
   (5, 'tuesday', '11:00', '17:00'),
-  (5, 'thursday', '10:00', '20:00'),
+  (5, 'thursday', '10:00', '17:00'),
   (5, 'friday', '10:00', '17:00'),
   (6, 'monday', '10:00', '17:00'),
   (6, 'wednesday', '10:00', '17:00'),
@@ -248,27 +309,47 @@ VALUES
   (8, 'thursday', '12:00', '14:00'),
   (8, 'friday', '10:00', '12:00'),
   (9, 'monday', '17:00', '19:00'),
-  (9, 'thursday', '10:00', '19:00'),
-  (9, 'friday', '11:00', '19:00'),
+  (9, 'thursday', '10:00', '17:00'),
+  (9, 'friday', '11:00', '17:30'),
   (10, 'monday', '10:00', '14:00'),
   (10, 'tuesday', '10:00', '12:00'),
-  (10, 'wednesday', '10:00', '20:00');
-```
-
-```{sql MatchesTableInsert, connection=dbcon}
-INSERT INTO matches (tutor_id, learner_id)
-VALUES
-  (1, 1),
-  (2, 2),
-  (3, 3),
-  (4, 4),
-  (5, 5);
+  (10, 'wednesday', '10:00', '20:00'),
+  (11, 'tuesday', '10:00', '17:00'),
+  (11, 'wednesday', '11:00', '20:00'),
+  (11, 'thursday', '12:00', '17:00'),
+  (12, 'monday', '12:00', '17:00'),
+  (12, 'wednesday', '10:00', '17:00'),
+  (12, 'friday', '10:00', '17:00'),
+  (13, 'monday', '10:00', '20:00'),
+  (13, 'thursday', '10:00', '15:00'),
+  (13, 'friday', '16:00', '17:30'),
+  (14, 'monday', '12:00', '17:00'),
+  (14, 'tuesday', '10:00', '17:00'),
+  (14, 'wednesday', '10:00', '17:00'),
+  (15, 'tuesday', '11:00', '17:00'),
+  (15, 'thursday', '10:00', '17:00'),
+  (15, 'friday', '10:00', '17:00'),
+  (16, 'monday', '10:00', '17:00'),
+  (16, 'wednesday', '10:00', '17:00'),
+  (16, 'thursday', '10:00', '17:00'),
+  (17, 'monday', '10:00', '17:00'),
+  (17, 'wednesday', '15:00', '17:00'),
+  (17, 'friday', '12:00', '17:00'),
+  (18, 'tuesday', '10:00', '12:00'),
+  (18, 'thursday', '12:00', '14:00'),
+  (18, 'friday', '10:00', '12:00'),
+  (19, 'monday', '17:00', '19:00'),
+  (19, 'thursday', '10:00', '17:00'),
+  (19, 'friday', '11:00', '17:30'),
+  (20, 'monday', '10:00', '14:00'),
+  (20, 'tuesday', '10:00', '12:00'),
+  (20, 'wednesday', '10:00', '20:00');
 ```
 
 ## Queries
 
 ```{sql QueryLearnersTable, connection=dbcon}
-SELECT first_name, substr(last_name, 1, 1) AS last_initial FROM learners;
+SELECT * FROM learners;
 ```
 
 ```{sql QueryTutorsTable, connection=dbcon}
@@ -281,9 +362,10 @@ WHERE available;
 ```
 
 ```{sql QueryForEmails, connection=dbcon}
-SELECT email FROM learners
-UNION
-SELECT email FROM tutors;
+SELECT 
+  a.*, l.first_name, l.last_name, l.level
+FROM learner_availability a
+LEFT JOIN learners l ON l.learner_id = a.learner_id;
 ```
 
 ### Find Students for Quinn
