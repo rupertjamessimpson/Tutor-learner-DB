@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS matches;
 
 ```{sql CreateUsersTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS users (
-  user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id SERIAL PRIMARY KEY,
   first_name TEXT,
   last_name TEXT,
   email TEXT,
@@ -56,44 +56,31 @@ CREATE TABLE IF NOT EXISTS users (
 
 ```{sql CreateLearnersTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS learners (
-  learner_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  learner_id SERIAL PRIMARY KEY,
   first_name TEXT,
   last_name TEXT,
-  phone INT,
+  phone TEXT,
   email TEXT,
   level TEXT,
-  conversation INT,
-  available BOOL
+  available BOOL,
+  conversation INT
 );
 ```
 
 ```{sql CreateTutorsTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS tutors (
-  tutor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tutor_id SERIAL PRIMARY KEY,
   first_name TEXT,
   last_name TEXT,
-  phone INT,
+  phone TEXT,
   email TEXT,
   available BOOL
 );
 ```
 
-```{sql CreateHoursTable, connection=dbcon}
-CREATE TABLE IF NOT EXISTS hours (
-  hours_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  tutor_name TEXT,
-  learner_name TEXT,
-  day TEXT,
-  month INT,
-  year INT,
-  start_time TEXT,
-  end_time TEXT
-);
-```
-
 ```{sql CreatePreferencesTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS preferences (
-  preference_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  preference_id SERIAL PRIMARY KEY,
   tutor_id INT,
   conversation BOOL,
   esl_novice BOOL,
@@ -102,15 +89,18 @@ CREATE TABLE IF NOT EXISTS preferences (
   citizenship BOOL,
   sped_ela BOOL,
   basic_math BOOL,
+  hiset_math BOOL,
   basic_reading BOOL,
+  hiset_reading BOOL,
   basic_writing BOOL,
+  hiset_writing BOOL,
   FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id) ON DELETE CASCADE
 );
 ```
 
 ```{sql CreateLearnerAvailabilityTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS learner_availability (
-  learner_availability_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  learner_availability_id SERIAL PRIMARY KEY,
   learner_id INT,
   day TEXT,
   start_time TIME,
@@ -121,7 +111,7 @@ CREATE TABLE IF NOT EXISTS learner_availability (
 
 ```{sql CreateTutorAvailabilityTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS tutor_availability (
-  tutor_availability_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tutor_availability_id SERIAL PRIMARY KEY,
   tutor_id INT,
   day TEXT,
   start_time TIME,
@@ -132,11 +122,11 @@ CREATE TABLE IF NOT EXISTS tutor_availability (
 
 ```{sql CreateMatchesTable, connection=dbcon}
 CREATE TABLE IF NOT EXISTS matches (
-  match_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  match_id SERIAL PRIMARY KEY,
   tutor_id INT,
   learner_id INT,
   FOREIGN KEY (tutor_id) REFERENCES tutors(tutor_id) ON DELETE CASCADE,
-  FOREIGN KEY (learner_id) REFERENCES tutors(learner_id) ON DELETE CASCADE
+  FOREIGN KEY (learner_id) REFERENCES learners(learner_id) ON DELETE CASCADE
 );
 ```
 
@@ -146,23 +136,23 @@ CREATE TABLE IF NOT EXISTS matches (
 INSERT INTO users (first_name, last_name, email, password)
 VALUES
   ('Rupert', 'Simpson', 'rupertsimpson@plymouthliteracy.org', 'RSblue!@#'),
-  ('Karen', 'Gale', 'karengale@plymouthliteracy.org', 'RSblue!@#'),
+  ('Karen', 'Gale', 'karengale@plymouthliteracy.org', 'KGblue!@#'),
   ('Kristen', 'Enos', 'kristenenos@plymouthliteracy.org', 'KEblue!@#');
 ```
 
 ```{sql LearnersTableInsert, connection=dbcon}
-INSERT INTO learners (first_name, last_name, phone, email, level, conversation, available)
+INSERT INTO learners (first_name, last_name, phone, email, level, available, conversation)
 VALUES
-  ('Sally', 'Shoo', 1111111111, 'email1@email.com', 'esl_novice', 1, false),
-  ('Danny', 'Dogg', 2222222222, 'email2@email.com', 'esl_beginner', 2, false),
-  ('Eddy', 'Everett', 3333333333, 'email3@email.com', 'esl_intermediate', 3, false),
-  ('Patty', 'Patricks', 4444444444, 'email4@email.com', 'citizenship', 4, false),
-  ('Thomas', 'Thompson', 5555555555, 'email5@email.com', 'sped_ela', 1, false),
-  ('Wendy', 'Wilburg', 6666666666, 'email6@email.com', 'basic_math', 2, true),
-  ('Freddy', 'Franks', 7777777777, 'email7@email.com', 'basic_math', 3, true),
-  ('Bobby', 'Brown', 8888888888, 'email8@email.com', 'basic_reading', 4, true),
-  ('Vinny', 'Vaughn', 9999999999, 'email9@email.com', 'basic_reading', 1, true),
-  ('Mathew', 'Matters', 1010101010, 'email10@email.com', 'basic_writing', 2, true);
+  ('Sally', 'Shoo', 1111111111, 'email1@email.com', 'esl_novice', false, 1),
+  ('Danny', 'Dogg', 2222222222, 'email2@email.com', 'esl_beginner', false, 2),
+  ('Eddy', 'Everett', 3333333333, 'email3@email.com', 'esl_intermediate', false, 3),
+  ('Patty', 'Patricks', 4444444444, 'email4@email.com', 'citizenship', false, 4),
+  ('Thomas', 'Thompson', 5555555555, 'email5@email.com', 'sped_ela', false, 1),
+  ('Wendy', 'Wilburg', 6666666666, 'email6@email.com', 'basic_math', true, 2),
+  ('Freddy', 'Franks', 7777777777, 'email7@email.com', 'basic_math', true, 3),
+  ('Bobby', 'Brown', 8888888888, 'email8@email.com', 'basic_reading', true, 4),
+  ('Vinny', 'Vaughn', 9999999999, 'email9@email.com', 'basic_reading', true, null),
+  ('Mathew', 'Matters', 1010101010, 'email10@email.com', 'basic_writing', true, null);
 ```
 
 ```{sql TutorsTableInsert, connection=dbcon}
@@ -174,95 +164,95 @@ VALUES
   ('Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
   ('Timmy', 'Timber', 5555555555, 'email15@email.com', false),
   ('Owen', 'Orwell', 6666666666, 'email16@email.com', true),
-  ('Ashely', 'Adams', 7777777777, 'email17@email.com', false),
+  ('Ashely', 'Adams', 7777777777, 'email17@email.com', true),
   ('Sophie', 'Summers', 8888888888, 'email18@email.com', true),
   ('David', 'Demont', 9999999999, 'email19@email.com', true),
   ('Jill', 'James', 1010101010, 'email20@email.com', true);
 ```
 
 ```{sql PreferencesTableInsert, connection=dbcon}
-INSERT INTO preferences (tutor_id, conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, basic_reading, basic_writing)
+INSERT INTO preferences (tutor_id, conversation, esl_novice, esl_beginner, esl_intermediate, citizenship, sped_ela, basic_math, hiset_math, basic_reading, hiset_reading, basic_writing, hiset_writing)
 VALUES
-  (1, false, true, true, false, false, true, false, true, true),
-  (2, false, true, false, false, false, false, true, true, false),
-  (3, true, false, false, true, true, true, false, false, false),
-  (4, false, true, false, false, false, false, true, true, false),
-  (5, true, false, false, true, true, true, false, false, false),
-  (6, false, true, false, false, false, false, true, true, false),
-  (7, true, false, false, true, true, false, false, false, false),
-  (8, false, true, false, false, false, false, true, true, false),
-  (9, true, false, false, true, true, true, false, false, false),
-  (10, false, true, false, false, false, false, true, true, true);
+  (1, false, true, true, false, false, true, false, true, true, false, true, true),
+  (2, false, true, false, false, false, false, true, true, false, true, true, true),
+  (3, true, false, false, true, true, true, false, false, false, false, true, false),
+  (4, false, true, false, false, false, false, true, true, false, true, false, true),
+  (5, true, false, false, true, true, true, false, false, false, false, true, true),
+  (6, false, true, false, false, false, false, true, true, false, false, false, false),
+  (7, true, false, false, true, true, false, false, false, false, true, true, true),
+  (8, false, true, false, false, false, false, true, true, false, false, false, false),
+  (9, true, false, false, true, true, true, false, false, false, true, true, true),
+  (10, false, true, false, false, false, false, true, true, true, false, true, true);
 ```
 
 ```{sql LearnerAvailabilityTableInsert, connection=dbcon}
 INSERT INTO learner_availability (learner_id, day, start_time, end_time)
 VALUES
-  (1, 'Monday', '10:00', '20:00'),
-  (1, 'Tuesday', '12:00', '20:00'),
-  (1, 'Wednesday', '11:00', '20:00'),
-  (2, 'Thursday', '12:00', '17:00'),
-  (2, 'Friday', '10:00', '17:00'),
-  (2, 'Monday', '19:00', '21:00'),
-  (3, 'Tuesday', '10:00', '20:00'),
-  (3, 'Wednesday', '10:00', '15:00'),
-  (3, 'Friday', '16:00', '20:00'),
-  (4, 'Thursday', '10:00', '17:00'),
-  (4, 'Monday', '12:00', '17:00'),
-  (4, 'Tuesday', '10:00', '17:00'),
-  (5, 'Monday', '10:00', '20:00'),
-  (5, 'Friday', '10:00', '17:00'),
-  (5, 'Tuesday', '11:00', '17:00'),
-  (6, 'Tuesday', '10:00', '17:00'),
-  (6, 'Wednesday', '10:00', '17:00'),
-  (6, 'Thursday', '10:00', '17:00'),
-  (7, 'Friday', '12:00', '17:00'),
-  (7, 'Wednesday', '15:00', '17:00'),
-  (7, 'Monday', '10:00', '17:00'),
-  (8, 'Monday', '12:00', '14:00'),
-  (8, 'Tuesday', '10:00', '12:00'),
-  (8, 'Wednesday', '10:00', '12:00'),
-  (9, 'Monday', '17:00', '19:00'),
-  (9, 'Wednesday', '10:00', '19:00'),
-  (9, 'Friday', '11:00', '19:00'),
-  (10, 'Monday', '10:00', '14:00'),
-  (10, 'Tuesday', '10:00', '12:00'),
-  (10, 'Wednesday', '10:00', '20:00');
+  (1, 'monday', '10:00', '20:00'),
+  (1, 'tuesday', '12:00', '20:00'),
+  (1, 'wednesday', '11:00', '20:00'),
+  (2, 'monday', '19:00', '21:00'),
+  (2, 'thursday', '12:00', '17:00'),
+  (2, 'friday', '10:00', '17:00'),
+  (3, 'tuesday', '10:00', '20:00'),
+  (3, 'wednesday', '10:00', '15:00'),
+  (3, 'friday', '16:00', '20:00'),
+  (4, 'monday', '12:00', '17:00'),
+  (4, 'tuesday', '10:00', '17:00'),
+  (4, 'thursday', '10:00', '17:00'),
+  (5, 'monday', '10:00', '20:00'),
+  (5, 'tuesday', '11:00', '17:00'),
+  (5, 'friday', '10:00', '17:00'),
+  (6, 'tuesday', '10:00', '17:00'),
+  (6, 'wednesday', '10:00', '17:00'),
+  (6, 'thursday', '10:00', '17:00'),
+  (7, 'monday', '10:00', '17:00'),
+  (7, 'wednesday', '15:00', '17:00'),
+  (7, 'friday', '12:00', '17:00'),
+  (8, 'monday', '12:00', '14:00'),
+  (8, 'tuesday', '10:00', '12:00'),
+  (8, 'wednesday', '10:00', '12:00'),
+  (9, 'monday', '17:00', '19:00'),
+  (9, 'wednesday', '10:00', '19:00'),
+  (9, 'friday', '11:00', '19:00'),
+  (10, 'monday', '10:00', '14:00'),
+  (10, 'tuesday', '10:00', '12:00'),
+  (10, 'wednesday', '10:00', '20:00');
 ```
 
 ```{sql TutorAvailabilityTableInsert, connection=dbcon}
 INSERT INTO tutor_availability (tutor_id, day, start_time, end_time)
 VALUES
-  (1, 'Tuesday', '10:00', '17:00'),
-  (1, 'Wednesday', '11:00', '20:00'),
-  (1, 'Thursday', '12:00', '17:00'),
-  (2, 'Monday', '12:00', '17:00'),
-  (2, 'Wednesday', '10:00', '17:00'),
-  (2, 'Friday', '10:00', '17:00'),
-  (3, 'Monday', '10:00', '20:00'),
-  (3, 'Thursday', '10:00', '15:00'),
-  (3, 'Friday', '16:00', '20:00'),
-  (4, 'Monday', '12:00', '17:00'),
-  (4, 'Tuesday', '10:00', '17:00'),
-  (4, 'Wednesday', '10:00', '17:00'),
-  (5, 'Tuesday', '11:00', '17:00'),
-  (5, 'Thursday', '10:00', '20:00'),
-  (5, 'Friday', '10:00', '17:00'),
-  (6, 'Monday', '10:00', '17:00'),
-  (6, 'Wednesday', '10:00', '17:00'),
-  (6, 'Thursday', '10:00', '17:00'),
-  (7, 'Monday', '10:00', '17:00'),
-  (7, 'Wednesday', '15:00', '17:00'),
-  (7, 'Friday', '12:00', '17:00'),
-  (8, 'Tuesday', '10:00', '12:00'),
-  (8, 'Thursday', '12:00', '14:00'),
-  (8, 'Friday', '10:00', '12:00'),
-  (9, 'Monday', '17:00', '19:00'),
-  (9, 'Thursday', '10:00', '19:00'),
-  (9, 'Friday', '11:00', '19:00'),
-  (10, 'Monday', '10:00', '14:00'),
-  (10, 'Tuesday', '10:00', '12:00'),
-  (10, 'Wednesday', '10:00', '20:00');
+  (1, 'tuesday', '10:00', '17:00'),
+  (1, 'wednesday', '11:00', '20:00'),
+  (1, 'thursday', '12:00', '17:00'),
+  (2, 'monday', '12:00', '17:00'),
+  (2, 'wednesday', '10:00', '17:00'),
+  (2, 'friday', '10:00', '17:00'),
+  (3, 'monday', '10:00', '20:00'),
+  (3, 'thursday', '10:00', '15:00'),
+  (3, 'friday', '16:00', '20:00'),
+  (4, 'monday', '12:00', '17:00'),
+  (4, 'tuesday', '10:00', '17:00'),
+  (4, 'wednesday', '10:00', '17:00'),
+  (5, 'tuesday', '11:00', '17:00'),
+  (5, 'thursday', '10:00', '20:00'),
+  (5, 'friday', '10:00', '17:00'),
+  (6, 'monday', '10:00', '17:00'),
+  (6, 'wednesday', '10:00', '17:00'),
+  (6, 'thursday', '10:00', '17:00'),
+  (7, 'monday', '10:00', '17:00'),
+  (7, 'wednesday', '15:00', '17:00'),
+  (7, 'friday', '12:00', '17:00'),
+  (8, 'tuesday', '10:00', '12:00'),
+  (8, 'thursday', '12:00', '14:00'),
+  (8, 'friday', '10:00', '12:00'),
+  (9, 'monday', '17:00', '19:00'),
+  (9, 'thursday', '10:00', '19:00'),
+  (9, 'friday', '11:00', '19:00'),
+  (10, 'monday', '10:00', '14:00'),
+  (10, 'tuesday', '10:00', '12:00'),
+  (10, 'wednesday', '10:00', '20:00');
 ```
 
 ```{sql MatchesTableInsert, connection=dbcon}
