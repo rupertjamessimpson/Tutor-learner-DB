@@ -168,26 +168,26 @@ VALUES
 ```{sql TutorsTableInsert, connection=dbcon}
 INSERT INTO tutors (tutor_id, first_name, last_name, phone, email, available)
 VALUES
-  (1, 'Quinny', 'Quigly', 1111111111, 'email11@email.com', false),
-  (2, 'Wally', 'Walter', 2222222222, 'email12@email.com', false),
-  (3, 'Earl', 'Evans', 3333333333, 'email13@email.com', false),
-  (4, 'Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
-  (5, 'Timmy', 'Timber', 5555555555, 'email15@email.com', false),
+  (1, 'Quinny', 'Quigly', 1111111111, 'email11@email.com', true),
+  (2, 'Wally', 'Walter', 2222222222, 'email12@email.com', true),
+  (3, 'Earl', 'Evans', 3333333333, 'email13@email.com', true),
+  (4, 'Ruby', 'Rogers', 4444444444, 'email14@email.com', true),
+  (5, 'Timmy', 'Timber', 5555555555, 'email15@email.com', true),
   (6, 'Owen', 'Orwell', 6666666666, 'email16@email.com', true),
   (7, 'Ashely', 'Adams', 7777777777, 'email17@email.com', true),
   (8, 'Sophie', 'Summers', 8888888888, 'email18@email.com', true),
   (9, 'David', 'Demont', 9999999999, 'email19@email.com', true),
   (10, 'Jill', 'James', 1010101010, 'email20@email.com', true),
-  (11, 'Quinny', 'Quigly', 1111111111, 'email11@email.com', false),
-  (12, 'Wally', 'Walter', 2222222222, 'email12@email.com', false),
-  (13, 'Earl', 'Evans', 3333333333, 'email13@email.com', false),
-  (14, 'Ruby', 'Rogers', 4444444444, 'email14@email.com', false),
-  (15, 'Timmy', 'Timber', 5555555555, 'email15@email.com', false),
-  (16, 'Owen', 'Orwell', 6666666666, 'email16@email.com', true),
-  (17, 'Ashely', 'Adams', 7777777777, 'email17@email.com', true),
-  (18, 'Sophie', 'Summers', 8888888888, 'email18@email.com', true),
-  (19, 'David', 'Demont', 9999999999, 'email19@email.com', true),
-  (20, 'Jill', 'James', 1010101010, 'email20@email.com', true);
+  (11, 'Quackie', 'Quill', 1111111111, 'email11@email.com', true),
+  (12, 'Wiggly', 'Wombo', 2222222222, 'email12@email.com', true),
+  (13, 'Emmy', 'Ermmy', 3333333333, 'email13@email.com', true),
+  (14, 'Ruggles', 'Raggy', 4444444444, 'email14@email.com', true),
+  (15, 'Tartus', 'Tarkus', 5555555555, 'email15@email.com', true),
+  (16, 'Oober', 'Oobie', 6666666666, 'email16@email.com', true),
+  (17, 'Allie', 'Allor', 7777777777, 'email17@email.com', true),
+  (18, 'Soupy', 'Susie', 8888888888, 'email18@email.com', true),
+  (19, 'Dilly', 'Dally', 9999999999, 'email19@email.com', true),
+  (20, 'Jackie', 'Johnny', 1010101010, 'email20@email.com', true);
 ```
 
 ```{sql PreferencesTableInsert, connection=dbcon}
@@ -278,7 +278,6 @@ VALUES
   (20, 'monday', '10:00', '14:00'),
   (20, 'tuesday', '10:00', '12:00'),
   (20, 'wednesday', '10:00', '20:00');
-
 ```
 
 ```{sql TutorAvailabilityTableInsert, connection=dbcon}
